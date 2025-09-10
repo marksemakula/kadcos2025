@@ -83,7 +83,7 @@ function App() {
               element={
                 <>
                   <Navbar />
-                  <div className="pt-16"> {/* Add padding to account for fixed navbar */}
+                  <div className="pt-0"> {/* REMOVED: pt-16 padding that was creating the gap */}
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/about" element={<About />} />
