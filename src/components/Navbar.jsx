@@ -24,15 +24,15 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-28"> {/* Increased height to h-28 */}
           <Link to="/" className="flex items-center space-x-3">
             <img 
               src="/images/KADCOS 4-04.svg" 
               alt="KADCOS Logo" 
-              className="h-12 w-auto"
+              className="h-20 w-auto" // Increased by 35% from h-16 to h-20
             />
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-secondary font-marcellus">KADCOS</span>
+              <span className="text-2xl font-bold text-secondary font-marcellus">KADCOS</span>
               <span className="text-sm text-gray-600 font-marcellus">Lubaga Cooperative Society</span>
             </div>
           </Link>
