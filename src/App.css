@@ -1,0 +1,26 @@
+.app-container {
+  min-height: 100vh;
+  background-color: #ffffff00;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #FFB100 0%, 100%);
+}
+
+.card-hover {
+  transition: all 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure Marcellus font is applied globally */
+* {
+  font-family: 'Marcellus', serif;
+}
+
+body, html {
+  font-family: 'Marcellus', serif !important;
+}
