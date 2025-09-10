@@ -26,6 +26,8 @@ const useAuth = () => {
 
 function App() {
   const [debugInfo, setDebugInfo] = useState('App starting...')
+  // Moved useAuth to the top level - must be called unconditionally
+  const { user, loading } = useAuth()
   
   useEffect(() => {
     setDebugInfo('App mounted successfully')
@@ -33,10 +35,6 @@ function App() {
   }, [])
   
   try {
-    // Temporarily use mock auth instead of the real hook
-    // const { user, loading } = useAuth()
-    const { user, loading } = useAuth() // Using our mock
-
     if (loading) {
       console.log('Auth loading...')
       return (
