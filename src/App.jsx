@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast'
 // import { useAuth } from './hooks/useAuth' - Temporarily comment out
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import WhatsAppButton from './components/WhatsAppButton'
 import AdminLogin from './components/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import Home from './pages/Home'
@@ -96,6 +97,7 @@ function App() {
                     </Routes>
                   </div>
                   <Footer />
+                  <WhatsAppButton />
                 </>
               } 
             />
