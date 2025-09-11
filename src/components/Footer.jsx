@@ -136,6 +136,28 @@ const Footer = () => {
                 </motion.a>
               </div>
             </div>
+
+            {/* ISO Certification Section */}
+            <div className="pt-6 mt-4 border-t border-gray-700">
+              <div className="flex justify-center space-x-6">
+                <div className="flex flex-col items-center">
+                  <img 
+                    src="/images/ISO-27001.png" 
+                    alt="ISO 27001 Certified" 
+                    className="h-14 w-auto mb-1" 
+                  />
+                  <span className="text-gray-400 text-xs font-marcellus">ISO 27001</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <img 
+                    src="/images/ISO22301.png" 
+                    alt="ISO 22301 Certified" 
+                    className="h-14 w-auto mb-1" 
+                  />
+                  <span className="text-gray-400 text-xs font-marcellus">ISO 22301</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

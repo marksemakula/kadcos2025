@@ -29,3 +29,31 @@ body {
 h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, label {
   font-family: 'Marcellus', serif !important;
 }
+
+/* Smart invert for ISO certification logos - No background */
+.iso-logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.iso-logo-container img {
+  filter: 
+    brightness(0) 
+    invert(1) 
+    sepia(1) 
+    saturate(0) 
+    hue-rotate(0deg)
+    contrast(1000%);
+  transition: all 0.3s ease;
+}
+
+.iso-logo-container:hover img {
+  filter: 
+    brightness(0) 
+    invert(1) 
+    sepia(1) 
+    saturate(5) 
+    hue-rotate(0deg)
+    contrast(1000%);
+  transform: scale(1.05);
+}
