@@ -8,14 +8,14 @@ const WorkWithUs = () => {
       id: 1,
       title: "Office Supplies Procurement",
       description: "Supply of stationery and office materials for 2024",
-      deadline: "2024-12-15",
+      deadline: "2025-12-15",
       status: "Open"
     },
     {
       id: 2,
-      title: "IT Infrastructure Upgrade",
-      description: "Upgrade of computer systems and network infrastructure",
-      deadline: "2024-11-30",
+      title: "Workload & Staffing Norms Assessment Consultancy",
+      description: "Work load and staffing norms assessment for KADCOS",
+      deadline: "2025-12-10",
       status: "Open"
     }
   ];
@@ -116,14 +116,10 @@ const WorkWithUs = () => {
                 CMS Integration Note
               </h3>
               <p className="text-blue-700 font-marcellus">
-                This section will be managed through a CMS. To connect:
-                1. Create a content model for "Tenders" with fields: title, description, deadline, status
-                2. Use environment variables to store API endpoints
-                3. Implement fetch logic in a useEffect hook to retrieve data
-                4. Add loading states and error handling
+                No Tenders or Contracts available, Check again soon
               </p>
               <pre className="bg-gray-800 text-green-400 p-4 rounded mt-4 text-sm">
-{`// Example API fetch implementation
+{`// API fetch implementation
 useEffect(() => {
   const fetchTenders = async () => {
     try {

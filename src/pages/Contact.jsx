@@ -282,8 +282,8 @@ const Contact = () => {
                     <SafeIcon icon={FiUser} className="text-primary text-xl" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-dark font-marcellus">Dumba Patrick</h4>
-                    <p className="text-gray-600 font-marcellus">Society Manager</p>
+                    <h4 className="text-lg font-semibold text-dark font-marcellus">Ddumba Patrick</h4>
+                    <p className="text-gray-600 font-marcellus">Manager</p>
                   </div>
                 </div>
                 <div className="space-y-3">

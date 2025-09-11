@@ -62,12 +62,12 @@ const About = () => {
               className="flex justify-center"
             >
               <img 
-                src="/images/jakub-zerdzicki-ip7GFn5JqX8-unsplash.jpg" 
+                src="/images/ryan-jussel-688IIZUKnuU-unsplash.jpg" 
                 alt="Community Meeting" 
                 className="rounded-lg shadow-lg w-full h-96 object-cover"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80";
+                  e.target.src = "/images/kadcos_lubaga_co_operative_society_cover.jpeg";
                 }}
               />
             </motion.div>
