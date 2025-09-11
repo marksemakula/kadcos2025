@@ -14,6 +14,7 @@ import Membership from './pages/Membership'
 import Contact from './pages/Contact'
 import Blog from './pages/Blog'
 import ScrollToTop from './components/ScrollToTop'
+import WorkWithUs from './pages/WorkWithUs';
 import './App.css'
 
 // Temporary mock auth hook since we're commenting out the real one
@@ -91,6 +92,7 @@ function App() {
                       <Route path="/membership" element={<Membership />} />
                       <Route path="/contact" element={<Contact />} />
                       <Route path="/blog" element={<Blog />} />
+                      <Route path="/work-with-us" element={<WorkWithUs />} />
                     </Routes>
                   </div>
                   <Footer />
