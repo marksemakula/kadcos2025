@@ -2,24 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const WorkWithUs = () => {
-  // Sample data - to be replaced with CMS content
-  const tenders = [
-    {
-      id: 1,
-      title: "Office Supplies Procurement",
-      description: "Supply of stationery and office materials for 2024",
-      deadline: "2025-12-15",
-      status: "Open"
-    },
-    {
-      id: 2,
-      title: "Workload & Staffing Norms Assessment Consultancy",
-      description: "Work load and staffing norms assessment for KADCOS",
-      deadline: "2025-12-10",
-      status: "Open"
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -76,38 +58,16 @@ const WorkWithUs = () => {
               Tenders & Contracts
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {tenders.map((tender) => (
-                <motion.div
-                  key={tender.id}
-                  whileHover={{ y: -5 }}
-                  className="bg-white rounded-lg shadow-lg p-6 card-hover"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-xl font-semibold text-secondary font-marcellus">
-                      {tender.title}
-                    </h3>
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      tender.status === 'Open' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
-                    }`}>
-                      {tender.status}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 mb-4 font-marcellus">
-                    {tender.description}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500 font-marcellus">
-                      Deadline: {new Date(tender.deadline).toLocaleDateString()}
-                    </span>
-                    <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors font-marcellus">
-                      View Details
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="text-center py-12">
+              <div className="bg-white rounded-lg shadow-md p-8 max-w-2xl mx-auto">
+                <h3 className="text-2xl font-semibold text-gray-700 mb-4 font-marcellus">
+                  No Running Tenders/Contracts
+                </h3>
+                <p className="text-gray-600 font-marcellus">
+                  Currently there are no active tenders or contracts. Please check again soon 
+                  for new opportunities to work with KADCOS.
+                </p>
+              </div>
             </div>
 
             {/* CMS Integration Documentation */}
@@ -116,14 +76,14 @@ const WorkWithUs = () => {
                 CMS Integration Note
               </h3>
               <p className="text-blue-700 font-marcellus">
-                No Tenders or Contracts available, Check again soon
+            
               </p>
               <pre className="bg-gray-800 text-green-400 p-4 rounded mt-4 text-sm">
 {`// API fetch implementation
 useEffect(() => {
   const fetchTenders = async () => {
     try {
-      const response = await fetch(process.env.REACT_APP_CMS_API + '/tenders');
+      const response = await fetch(process.env.VITE_CMS_API_URL + '/tenders');
       const data = await response.json();
       setTenders(data);
     } catch (error) {
