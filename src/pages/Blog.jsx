@@ -22,7 +22,7 @@ const Blog = () => {
       excerpt: 'Discover how faith-based savings groups are transforming lives in Kampala Archdiocese through collective financial empowerment.',
       author: 'KADCOS Team',
       date: '2024-01-10',
-      image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/images/jonathan-velasquez-c1ZN57GfDB0-unsplash.jpg',
       content: 'Building a savings culture within faith communities requires dedication and proper guidance...'
     },
     {
@@ -40,7 +40,7 @@ const Blog = () => {
       excerpt: 'Read inspiring stories of KADCOS members who have achieved their financial goals through our cooperative services.',
       author: 'Community Relations',
       date: '2023-12-28',
-      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/images/peter-thomas-OUfn4MNUGA4-unsplash.jpg',
       content: 'Meet some of our successful members who have transformed their lives through KADCOS...'
     },
     {
@@ -58,7 +58,7 @@ const Blog = () => {
       excerpt: 'Exploring how cooperative principles strengthen community bonds and promote collective prosperity.',
       author: 'KADCOS Leadership',
       date: '2023-12-15',
-      image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/images/1731587403135.jpeg',
       content: 'The cooperative movement is built on values that promote community development and mutual support...'
     }
   ]);

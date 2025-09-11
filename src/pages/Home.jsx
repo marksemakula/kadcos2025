@@ -66,7 +66,7 @@ const Home = () => {
                 Your Trusted <span className="text-white">Financial Partner</span>
               </h1>
               <p className="text-xl text-gray-800 mb-8 font-marcellus leading-relaxed">
-                Financially empowering people of God in Kampala Archdiocese through cooperative effort and savings culture since 2007.
+                Financially empowering people through cooperative effort and savings culture since 2007.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
