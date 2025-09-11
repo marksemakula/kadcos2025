@@ -13,7 +13,7 @@ const Blog = () => {
       excerpt: 'Learn about the role of cooperative societies in Uganda\'s financial sector and how they contribute to economic development.',
       author: 'Dumba Patrick',
       date: '2024-01-15',
-      image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/images/mohammadreza-charkhgard-L5Hdw0o6cKg-unsplash.jpg',
       content: 'Cooperative banking has been a cornerstone of Uganda\'s financial inclusion strategy...'
     },
     {
