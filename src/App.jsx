@@ -15,6 +15,7 @@ import Membership from './pages/Membership'
 import Contact from './pages/Contact'
 import Blog from './pages/Blog'
 import ScrollToTop from './components/ScrollToTop'
+import Leadership from './pages/Leadership'
 import WorkWithUs from './pages/WorkWithUs';
 import './App.css'
 
@@ -94,6 +95,7 @@ function App() {
                       <Route path="/contact" element={<Contact />} />
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/work-with-us" element={<WorkWithUs />} />
+                      <Route path="/leadership" element={<Leadership />} />
                     </Routes>
                   </div>
                   <Footer />

@@ -46,7 +46,7 @@ const Footer = () => {
                 </div>
               </div>
               <p className="text-gray-400 mb-3 font-marcellus leading-relaxed text-justify">
-                Financially empowering people of God in Kampala Archdiocese through cooperative effort and savings culture since 2007.
+                Financially empowering people through cooperative effort and savings culture since 2007.
               </p>
               <p className="text-sm text-gray-500 font-marcellus text-justify">ACTS 2:45-47</p>
             </div>

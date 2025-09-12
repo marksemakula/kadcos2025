@@ -1,36 +1,75 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMenu, FiX, FiSettings } = FiIcons
+const { FiMenu, FiX, FiSettings, FiChevronDown } = FiIcons
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [isAboutOpen, setIsAboutOpen] = useState(false)
+  const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false)
   const location = useLocation()
+  const dropdownRef = useRef(null)
+  const timeoutRef = useRef(null)
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
+    { 
+      name: 'About', 
+      hasDropdown: true,
+      items: [
+        { name: 'About Us', path: '/about' },
+        { name: 'Leadership', path: '/leadership' }
+      ]
+    },
     { name: 'Services', path: '/services' },
     { name: 'Membership', path: '/membership' },
     { name: 'Blog', path: '/blog' },
-    { name: 'Work with us', path: '/work-with-us' }, // Add this line
+    { name: 'Work with us', path: '/work-with-us' },
     { name: 'Contact', path: '/contact' },
   ];
 
   const isActive = (path) => location.pathname === path
 
+  // Handle hover with delay for better UX
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+    setIsAboutOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsAboutOpen(false)
+    }, 300) // 300ms delay before closing
+  }
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsAboutOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-28"> {/* Increased height to h-28 */}
+        <div className="flex justify-between items-center h-28">
           <Link to="/" className="flex items-center space-x-3">
             <img 
               src="/images/KADCOS 4-04.svg" 
               alt="KADCOS Logo" 
-              className="h-20 w-auto" // Increased by 35% from h-16 to h-20
+              className="h-20 w-auto"
             />
             <div className="flex flex-col">
               <span className="text-2xl font-bold text-secondary font-marcellus">KADCOS</span>
@@ -41,17 +80,65 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`font-marcellus transition-colors duration-300 ${
-                  isActive(item.path)
-                    ? 'text-primary border-b-2 border-primary'
-                    : 'text-gray-700 hover:text-primary'
-                }`}
-              >
-                {item.name}
-              </Link>
+              item.hasDropdown ? (
+                <div 
+                  key={item.name}
+                  className="relative group"
+                  ref={dropdownRef}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <button className={`flex items-center font-marcellus transition-colors duration-300 ${
+                    (isActive('/about') || isActive('/leadership')) 
+                      ? 'text-primary border-b-2 border-primary' 
+                      : 'text-gray-700 hover:text-primary'
+                  }`}>
+                    {item.name}
+                    <FiChevronDown className="ml-1" />
+                  </button>
+                  
+                  <AnimatePresence>
+                    {isAboutOpen && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        {item.items.map((dropdownItem) => (
+                          <Link
+                            key={dropdownItem.name}
+                            to={dropdownItem.path}
+                            className={`block px-4 py-2 text-sm font-marcellus ${
+                              isActive(dropdownItem.path)
+                                ? 'text-primary bg-orange-50'
+                                : 'text-gray-700 hover:bg-gray-50'
+                            }`}
+                            onClick={() => setIsAboutOpen(false)}
+                          >
+                            {dropdownItem.name}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  className={`font-marcellus transition-colors duration-300 ${
+                    isActive(item.path)
+                      ? 'text-primary border-b-2 border-primary'
+                      : 'text-gray-700 hover:text-primary'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
             
             <Link
@@ -91,18 +178,55 @@ const Navbar = () => {
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2 font-marcellus ${
-                    isActive(item.path)
-                      ? 'text-primary bg-orange-50'
-                      : 'text-gray-700 hover:text-primary hover:bg-gray-50'
-                  }`}
-                >
-                  {item.name}
-                </Link>
+                item.hasDropdown ? (
+                  <div key={item.name}>
+                    <button
+                      onClick={() => setIsMobileAboutOpen(!isMobileAboutOpen)}
+                      className={`flex items-center justify-between w-full px-3 py-2 font-marcellus ${
+                        (isActive('/about') || isActive('/leadership'))
+                          ? 'text-primary bg-orange-50'
+                          : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                      }`}
+                    >
+                      <span>{item.name}</span>
+                      <FiChevronDown className={`transform transition-transform ${isMobileAboutOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {isMobileAboutOpen && (
+                      <div className="pl-6">
+                        {item.items.map((dropdownItem) => (
+                          <Link
+                            key={dropdownItem.name}
+                            to={dropdownItem.path}
+                            onClick={() => {
+                              setIsOpen(false)
+                              setIsMobileAboutOpen(false)
+                            }}
+                            className={`block px-3 py-2 font-marcellus ${
+                              isActive(dropdownItem.path)
+                                ? 'text-primary bg-orange-50'
+                                : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                            }`}
+                          >
+                            {dropdownItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    onClick={() => setIsOpen(false)}
+                    className={`block px-3 py-2 font-marcellus ${
+                      isActive(item.path)
+                        ? 'text-primary bg-orange-50'
+                        : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                )
               ))}
               <Link
                 to="/membership"

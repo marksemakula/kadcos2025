@@ -17,21 +17,40 @@ const About = () => {
 
   return (
     <div className="min-h-screen pt-20">
-      {/* Hero Section */}
+      {/* Hero Section - Updated with Patrick Ddumba image on left */}
       <section className="bg-primary py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl lg:text-5xl font-bold text-secondary mb-6 font-marcellus">
-              About KADCOS
-            </h1>
-            <p className="text-xl text-gray-700 font-marcellus max-w-3xl mx-auto">
-              Kampala Archdiocese Development Cooperative Society - Empowering communities through faith-based financial services
-            </p>
-          </motion.div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="flex justify-center"
+            >
+              <img 
+                src="/images/PatrickDdumba1.png" 
+                alt="Patrick Ddumba - KADCOS Manager" 
+                className="rounded-lg shadow-lg w-full max-w-md h-auto object-cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/images/kadcos_lubaga_co_operative_society_cover.jpeg";
+                }}
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-center lg:text-left"
+            >
+              <h1 className="text-4xl lg:text-5xl font-bold text-secondary mb-6 font-marcellus">
+                Message from our Manager
+              </h1>
+              <p className="text-xl text-gray-700 font-marcellus">
+                Kampala Archdiocese Development Cooperative Society - Empowering communities through faith-based financial services
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
