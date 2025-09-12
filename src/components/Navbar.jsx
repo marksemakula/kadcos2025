@@ -32,7 +32,7 @@ const Navbar = () => {
       name: 'Services', 
       hasDropdown: true,
       items: [
-        { name: 'Products & Services', path: '/products-services' },
+        { name: 'Our Services', path: '/services' },
         { name: 'Resources/e-Lib', path: '/resources-e-lib' }
       ]
     },
@@ -125,7 +125,7 @@ const Navbar = () => {
                 >
                   <button className={`flex items-center font-marcellus transition-colors duration-300 ${
                     (item.name === 'About' && (isActive('/about') || isActive('/leadership'))) || 
-                    (item.name === 'Services' && (isActive('/products-services') || isActive('/resources-e-lib')))
+                    (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
                       ? 'text-primary border-b-2 border-primary' 
                       : 'text-gray-700 hover:text-primary'
                   }`}>
@@ -231,7 +231,7 @@ const Navbar = () => {
                       }}
                       className={`flex items-center justify-between w-full px-3 py-2 font-marcellus ${
                         (item.name === 'About' && (isActive('/about') || isActive('/leadership'))) ||
-                        (item.name === 'Services' && (isActive('/products-services') || isActive('/resources-e-lib')))
+                        (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
                           ? 'text-primary bg-orange-50'
                           : 'text-gray-700 hover:text-primary hover:bg-gray-50'
                       }`}

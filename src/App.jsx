@@ -16,6 +16,7 @@ import Contact from './pages/Contact'
 import Blog from './pages/Blog'
 import ScrollToTop from './components/ScrollToTop'
 import Leadership from './pages/Leadership'
+import ResourcesELib from './pages/ResourcesELib'
 import WorkWithUs from './pages/WorkWithUs';
 import './App.css'
 
@@ -96,6 +97,7 @@ function App() {
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/work-with-us" element={<WorkWithUs />} />
                       <Route path="/leadership" element={<Leadership />} />
+                      <Route path="/resources-e-lib" element={<ResourcesELib />} />
                     </Routes>
                   </div>
                   <Footer />
