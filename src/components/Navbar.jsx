@@ -9,10 +9,14 @@ const { FiMenu, FiX, FiSettings, FiChevronDown } = FiIcons
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isAboutOpen, setIsAboutOpen] = useState(false)
+  const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false)
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
   const location = useLocation()
-  const dropdownRef = useRef(null)
-  const timeoutRef = useRef(null)
+  const aboutDropdownRef = useRef(null)
+  const servicesDropdownRef = useRef(null)
+  const aboutTimeoutRef = useRef(null)
+  const servicesTimeoutRef = useRef(null)
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -24,40 +28,71 @@ const Navbar = () => {
         { name: 'Leadership', path: '/leadership' }
       ]
     },
-    { name: 'Services', path: '/services' },
+    { 
+      name: 'Services', 
+      hasDropdown: true,
+      items: [
+        { name: 'Products & Services', path: '/products-services' },
+        { name: 'Resources/e-Lib', path: '/resources-e-lib' }
+      ]
+    },
     { name: 'Membership', path: '/membership' },
     { name: 'Blog', path: '/blog' },
     { name: 'Work with us', path: '/work-with-us' },
     { name: 'Contact', path: '/contact' },
   ];
 
-  const isActive = (path) => location.pathname === path
+  const isActive = (path) => {
+    if (path === '/') {
+      return location.pathname === path;
+    }
+    return location.pathname.startsWith(path);
+  }
 
-  // Handle hover with delay for better UX
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
+  // Handle hover with delay for better UX - About
+  const handleAboutMouseEnter = () => {
+    if (aboutTimeoutRef.current) {
+      clearTimeout(aboutTimeoutRef.current)
     }
     setIsAboutOpen(true)
   }
 
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
+  const handleAboutMouseLeave = () => {
+    aboutTimeoutRef.current = setTimeout(() => {
       setIsAboutOpen(false)
-    }, 300) // 300ms delay before closing
+    }, 300)
   }
 
-  // Close dropdown when clicking outside
+  // Handle hover with delay for better UX - Services
+  const handleServicesMouseEnter = () => {
+    if (servicesTimeoutRef.current) {
+      clearTimeout(servicesTimeoutRef.current)
+    }
+    setIsServicesOpen(true)
+  }
+
+  const handleServicesMouseLeave = () => {
+    servicesTimeoutRef.current = setTimeout(() => {
+      setIsServicesOpen(false)
+    }, 300)
+  }
+
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target)) {
         setIsAboutOpen(false)
+      }
+      if (servicesDropdownRef.current && !servicesDropdownRef.current.contains(event.target)) {
+        setIsServicesOpen(false)
       }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
+      if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current)
+      if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current)
     }
   }, [])
 
@@ -84,12 +119,13 @@ const Navbar = () => {
                 <div 
                   key={item.name}
                   className="relative group"
-                  ref={dropdownRef}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
+                  ref={item.name === 'About' ? aboutDropdownRef : servicesDropdownRef}
+                  onMouseEnter={item.name === 'About' ? handleAboutMouseEnter : handleServicesMouseEnter}
+                  onMouseLeave={item.name === 'About' ? handleAboutMouseLeave : handleServicesMouseLeave}
                 >
                   <button className={`flex items-center font-marcellus transition-colors duration-300 ${
-                    (isActive('/about') || isActive('/leadership')) 
+                    (item.name === 'About' && (isActive('/about') || isActive('/leadership'))) || 
+                    (item.name === 'Services' && (isActive('/products-services') || isActive('/resources-e-lib')))
                       ? 'text-primary border-b-2 border-primary' 
                       : 'text-gray-700 hover:text-primary'
                   }`}>
@@ -98,15 +134,15 @@ const Navbar = () => {
                   </button>
                   
                   <AnimatePresence>
-                    {isAboutOpen && (
+                    {(item.name === 'About' && isAboutOpen) || (item.name === 'Services' && isServicesOpen) ? (
                       <motion.div 
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
                         transition={{ duration: 0.2 }}
                         className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
+                        onMouseEnter={item.name === 'About' ? handleAboutMouseEnter : handleServicesMouseEnter}
+                        onMouseLeave={item.name === 'About' ? handleAboutMouseLeave : handleServicesMouseLeave}
                       >
                         {item.items.map((dropdownItem) => (
                           <Link
@@ -117,13 +153,16 @@ const Navbar = () => {
                                 ? 'text-primary bg-orange-50'
                                 : 'text-gray-700 hover:bg-gray-50'
                             }`}
-                            onClick={() => setIsAboutOpen(false)}
+                            onClick={() => {
+                              if (item.name === 'About') setIsAboutOpen(false)
+                              if (item.name === 'Services') setIsServicesOpen(false)
+                            }}
                           >
                             {dropdownItem.name}
                           </Link>
                         ))}
                       </motion.div>
-                    )}
+                    ) : null}
                   </AnimatePresence>
                 </div>
               ) : (
@@ -181,17 +220,29 @@ const Navbar = () => {
                 item.hasDropdown ? (
                   <div key={item.name}>
                     <button
-                      onClick={() => setIsMobileAboutOpen(!isMobileAboutOpen)}
+                      onClick={() => {
+                        if (item.name === 'About') {
+                          setIsMobileAboutOpen(!isMobileAboutOpen)
+                          setIsMobileServicesOpen(false)
+                        } else if (item.name === 'Services') {
+                          setIsMobileServicesOpen(!isMobileServicesOpen)
+                          setIsMobileAboutOpen(false)
+                        }
+                      }}
                       className={`flex items-center justify-between w-full px-3 py-2 font-marcellus ${
-                        (isActive('/about') || isActive('/leadership'))
+                        (item.name === 'About' && (isActive('/about') || isActive('/leadership'))) ||
+                        (item.name === 'Services' && (isActive('/products-services') || isActive('/resources-e-lib')))
                           ? 'text-primary bg-orange-50'
                           : 'text-gray-700 hover:text-primary hover:bg-gray-50'
                       }`}
                     >
                       <span>{item.name}</span>
-                      <FiChevronDown className={`transform transition-transform ${isMobileAboutOpen ? 'rotate-180' : ''}`} />
+                      <FiChevronDown className={`transform transition-transform ${
+                        (item.name === 'About' && isMobileAboutOpen) || 
+                        (item.name === 'Services' && isMobileServicesOpen) ? 'rotate-180' : ''
+                      }`} />
                     </button>
-                    {isMobileAboutOpen && (
+                    {(item.name === 'About' && isMobileAboutOpen) || (item.name === 'Services' && isMobileServicesOpen) ? (
                       <div className="pl-6">
                         {item.items.map((dropdownItem) => (
                           <Link
@@ -200,6 +251,7 @@ const Navbar = () => {
                             onClick={() => {
                               setIsOpen(false)
                               setIsMobileAboutOpen(false)
+                              setIsMobileServicesOpen(false)
                             }}
                             className={`block px-3 py-2 font-marcellus ${
                               isActive(dropdownItem.path)
@@ -211,7 +263,7 @@ const Navbar = () => {
                           </Link>
                         ))}
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 ) : (
                   <Link
