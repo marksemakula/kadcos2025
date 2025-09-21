@@ -39,7 +39,7 @@ const ManagersMessage = () => {
               />
               <div>
                 <h2 className="text-2xl font-bold text-secondary mb-2 font-marcellus">
-                  Mr. Ddumba Patrick
+                  Mr. Ddumba Patrick, CFIP
                 </h2>
                 <p className="text-gray-600 font-marcellus mb-2">Manager</p>
                 <p className="text-gray-500 font-marcellus">KADCOS Lubaga Cooperative Society Ltd</p>
@@ -52,21 +52,16 @@ const ManagersMessage = () => {
               </p>
               
               <p className="text-gray-700 mb-6 font-marcellus leading-relaxed">
-                It is with great pleasure that I address you as the Manager of KADCOS Lubaga Cooperative Society Ltd. 
-                Since our establishment in 2007, we have been committed to financially empowering our community through 
-                cooperative effort and a strong savings culture.
+                Welcome to KADCOS Lubaga Co-operative Society Ltd. We are dedicated to promoting financial empowerment, 
+                sustainable growth and shared prosperity for all our members. Guided with integrity and good governance, 
+                we remain committed to providing reliable services that create lasting value for our community members 
+                through cooperative effort and a strong savings culture.
               </p>
               
               <p className="text-gray-700 mb-6 font-marcellus leading-relaxed">
                 Our journey has been remarkable, growing from a small initiative to a thriving cooperative with over 
                 1,700 members. This growth is a testament to your trust in our services and the dedication of our team 
                 to provide exceptional financial solutions.
-              </p>
-              
-              <p className="text-gray-700 mb-6 font-marcellus leading-relaxed">
-                We take pride in offering competitive 2% monthly interest on savings, various loan products tailored to 
-                meet your needs, and a secure environment for your investments. Our commitment extends beyond financial 
-                services to community development and empowerment.
               </p>
               
               <p className="text-gray-700 mb-6 font-marcellus leading-relaxed">
@@ -85,7 +80,7 @@ const ManagersMessage = () => {
               
               <p className="text-gray-700 mt-8 font-marcellus leading-relaxed">
                 Sincerely,<br />
-                <strong>Patrick Ddumba</strong><br />
+                <strong>Patrick Ddumba, CFIP</strong><br />
                 Manager<br />
                 KADCOS Lubaga Cooperative Society Ltd
               </p>
