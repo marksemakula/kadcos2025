@@ -36,7 +36,7 @@ const Footer = () => {
             <div className="flex flex-col items-start mb-4">
               <div className="flex items-center space-x-4 mb-3">
                 <img 
-                  src="/images/KADCOS  1-01.svg"
+                  src="/images/KADCOS-02.png"
                   alt="KADCOS Logo" 
                   className="h-40 w-auto"
                 />
