@@ -57,3 +57,10 @@ h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, label 
     contrast(1000%);
   transform: scale(1.05);
 }
+
+/* Vertical text for the widget */
+.writing-mode-vertical {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+}

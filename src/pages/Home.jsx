@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
+import InterestWidget from '../components/InterestWidget';
 
 const { FiUsers, FiDollarSign, FiTrendingUp, FiShield, FiArrowRight, FiCheckCircle } = FiIcons;
 
@@ -53,6 +54,8 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
+      <InterestWidget />
+      
       {/* Hero Section - Modified for consistent yellow and no gap */}
       <section className="bg-[#FFB100] py-16 -mt-4"> {/* Changed to solid yellow and negative margin */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
