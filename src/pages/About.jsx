@@ -44,7 +44,7 @@ const About = () => {
               className="text-center lg:text-left"
             >
               <h1 className="text-4xl lg:text-5xl font-bold text-secondary mb-6 font-marcellus">
-                Message from our Manager
+                
               </h1>
               <p className="text-xl text-gray-700 font-marcellus">
                 Kampala Archdiocese Development Cooperative Society - Empowering communities through faith-based financial services
