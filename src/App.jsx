@@ -29,12 +29,10 @@ const useAuth = () => {
 }
 
 function App() {
-  const [debugInfo, setDebugInfo] = useState('App starting...')
   // Moved useAuth to the top level - must be called unconditionally
   const { user, loading } = useAuth()
   
   useEffect(() => {
-    setDebugInfo('App mounted successfully')
     console.log('App component mounted')
   }, [])
   
@@ -66,11 +64,6 @@ function App() {
               }
             }}
           />
-          
-          {/* Debug info overlay - remove in production */}
-          <div className="fixed bottom-4 right-4 bg-secondary text-white p-2 rounded text-xs z-50">
-            {debugInfo}
-          </div>
           
           <Routes>
             {/* Admin Routes */}
