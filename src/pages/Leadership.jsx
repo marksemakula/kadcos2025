@@ -2,57 +2,132 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const Leadership = () => {
-  const boardMembers = [
+  const executiveCommittee = [
     {
-      name: "Rev. Fr. Paul Ssemwogerere",
-      position: "Patron",
-      image: "/images/Fr.PaulSsemwogere.png",
-      bio: "Spiritual guide and advisor with over 15 years of experience in community development."
+      name: "Mrs. Nseerikomawa Josephine",
+      position: "Board Chairperson",
+      image: "/images/Nseerikomawa_Josephine.jpg",
+      bio: "Experienced leader providing strategic direction and oversight."
     },
     {
-      name: "Mrs. Bako Margaret",
-      position: "Chairperson",
-      image: "/images/Margaret-Bako.jpg",
-      bio: "Experienced leader with 10+ years in cooperative management and financial oversight."
-    },
-    {
-      name: "Monica Byarugaba",
+      name: "Council Jude Mbabaali",
       position: "Vice Chairperson",
-      image: "/images/Monica_Byarugaba.jpg",
-      bio: "Dedicated to member empowerment and financial growth with a background in microfinance."
+      image: "/images/Jude_Mbabaali.jpg",
+      bio: "Supports the chairperson in governance and strategic planning."
     },
     {
-      name: "Rev. Fr. Raphael Mpony Wokorach",
-      position: "Board Member",
-      image: "/images/RevRaphaelMponyWokorach.jpg",
-      bio: "Financial expert with extensive experience in accounting and fund management."
+      name: "Ms. Namaganda Justine",
+      position: "Secretary",
+      image: "/images/Namaganda_Justine.jpg",
+      bio: "Responsible for documentation and official communications."
     },
     {
-      name: "Fr. Anthony Kimbowa Kibira",
-      position: "Board Member",
-      image: "/images/Fr. Anthony Kimbowa Kibira Mccj.png",
-      bio: "Organized administrator with excellent record-keeping and communication skills."
+      name: "Mr. Tenywa Herman Musisi",
+      position: "Treasurer",
+      image: "/images/Tenywa_Herman.jpg",
+      bio: "Manages financial oversight and fiscal responsibility."
+    },
+    {
+      name: "Mr. Budde Harry Dominic",
+      position: "Member",
+      image: "/images/Budde_Harry.jpg",
+      bio: "Committee member contributing to strategic decisions."
+    },
+    {
+      name: "Mrs. Kalanda Annette Kizza",
+      position: "Member",
+      image: "/images/Kalanda_Annette.jpg",
+      bio: "Committee member with focus on member welfare."
+    },
+    {
+      name: "Mr. Ssekamatte Patrick",
+      position: "Member",
+      image: "/images/Ssekamatte_Patrick.jpg",
+      bio: "Committee member providing operational insights."
+    },
+    {
+      name: "Mr. Mutebi Emmanuel",
+      position: "Member",
+      image: "/images/Mutebi_Emmanuel.jpg",
+      bio: "Committee member with community development expertise."
+    },
+    {
+      name: "Mr. Mukalazi Vienny",
+      position: "Member",
+      image: "/images/Mukalazi_Vienny.jpg",
+      bio: "Committee member focused on growth initiatives."
     }
   ];
 
-  const teamMembers = [
+  const supervisoryCommittee = [
     {
-      name: "Patrick Ddumba",
+      name: "Mr. Gerald Katusabe",
+      position: "Supervisory Committee",
+      image: "/images/Gerald_Katusabe.jpg",
+      bio: "Oversees compliance and operational integrity."
+    },
+    {
+      name: "Mrs. Josephine Sekatuba",
+      position: "Supervisory Committee",
+      image: "/images/Josephine_Sekatuba.jpg",
+      bio: "Ensures regulatory compliance and best practices."
+    },
+    {
+      name: "Mrs. Rose Ssali",
+      position: "Supervisory Committee",
+      image: "/images/Rose_Ssali.jpg",
+      bio: "Monitors operational efficiency and member satisfaction."
+    }
+  ];
+
+  const managementStaff = [
+    {
+      name: "Mr. Dumba Patrick",
       position: "Manager",
       image: "/images/PatrickDdumba.png",
       bio: "Business development specialist focused on expanding cooperative services."
     },
     {
-      name: "Victoria Nabagereka",
-      position: "Administrative Assistant",
-      image: "/images/nabagerekavictoria.jpeg",
-      bio: "Dedicated to providing exceptional service and support to our members."
+      name: "Ms. Nyago Mary Goretti",
+      position: "Accountant",
+      image: "/images/Mary_Goretti.jpg",
+      bio: "Manages financial records and reporting."
     },
     {
-      name: "Phillip Kizito",
-      position: "Financial Advisor",
-      image: "/images/Phillip_Kizito.jpg",
-      bio: "Expert in financial planning with a focus on sustainable growth strategies."
+      name: "Ms. Namukasa Proscovia",
+      position: "Credit Officer",
+      image: "/images/Proscovia_Namukasa.jpg",
+      bio: "Handles credit assessments and loan management."
+    },
+    {
+      name: "Ms. Kansiime Anna",
+      position: "Assistant Credit Officer",
+      image: "/images/Anna_Kansiime.jpg",
+      bio: "Supports credit operations and member services."
+    },
+    {
+      name: "Ms. Namugga Maria",
+      position: "Cashier",
+      image: "/images/Maria_Namugga.jpg",
+      bio: "Manages daily transactions and member accounts."
+    },
+    {
+      name: "Ms. Nanyonga Gladys",
+      position: "Cashier",
+      image: "/images/Gladys_Nanyonga.jpg",
+      bio: "Handles financial transactions and customer service."
+    },
+    {
+      name: "Ms. Nyago Grace",
+      position: "Support Staff",
+      image: "/images/Grace_Nyago.jpg",
+      bio: "Provides operational support and maintenance."
+    },
+    {
+      name: "Ms. Nabagereka Victoria",
+      position: "Office Attendant/Receptionist",
+      image: "/images/nabagerekavictoria.jpeg",
+      bio: "Dedicated to providing exceptional service and support to our members."
     }
   ];
 
@@ -70,7 +145,7 @@ const Leadership = () => {
           </h1>
         </motion.div>
 
-        {/* Board of Directors Section */}
+        {/* Executive Committee Section */}
         <section className="mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -79,15 +154,15 @@ const Leadership = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl font-bold text-secondary mb-4 font-marcellus">
-              Board of Directors
+              Executive Committee
             </h2>
             <p className="text-lg text-gray-600 font-marcellus max-w-3xl mx-auto">
-              Our board provides strategic guidance and oversight to ensure KADCOS remains focused on our mission of member financial empowerment.
+              Our executive committee provides strategic guidance and oversight to ensure KADCOS remains focused on our mission of member financial empowerment.
             </p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {boardMembers.map((member, index) => (
+            {executiveCommittee.map((member, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -118,8 +193,8 @@ const Leadership = () => {
           </div>
         </section>
 
-        {/* The Team Section */}
-        <section>
+        {/* Supervisory Committee Section */}
+        <section className="mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -127,20 +202,68 @@ const Leadership = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl font-bold text-secondary mb-4 font-marcellus">
-              The Team
+              Supervisory Committee
             </h2>
             <p className="text-lg text-gray-600 font-marcellus max-w-3xl mx-auto">
-              Our dedicated team works daily to serve our members and implement the vision set by our board of directors.
+              Our supervisory committee ensures compliance with regulations and maintains operational integrity.
             </p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
+            {supervisoryCommittee.map((member, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 + 0.4 }}
+                className="bg-white rounded-lg shadow-lg overflow-hidden card-hover text-center"
+              >
+                <div className="h-64 bg-gray-200 overflow-hidden">
+                  <img 
+                    src={member.image} 
+                    alt={member.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-secondary mb-2 font-marcellus">
+                    {member.name}
+                  </h3>
+                  <p className="text-primary font-medium mb-4 font-marcellus">
+                    {member.position}
+                  </p>
+                  <p className="text-gray-600 font-marcellus">
+                    {member.bio}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Management and Staff Section */}
+        <section>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl font-bold text-secondary mb-4 font-marcellus">
+              Management and Staff
+            </h2>
+            <p className="text-lg text-gray-600 font-marcellus max-w-3xl mx-auto">
+              Our dedicated team works daily to serve our members and implement the vision set by our executive committee.
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {managementStaff.map((member, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 + 0.6 }}
                 className="bg-white rounded-lg shadow-lg overflow-hidden card-hover text-center"
               >
                 <div className="h-64 bg-gray-200 overflow-hidden">
