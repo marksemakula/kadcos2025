@@ -1,4 +1,4 @@
-// App.jsx (Debug Version)
+// App.jsx
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
@@ -17,7 +17,8 @@ import Blog from './pages/Blog'
 import ScrollToTop from './components/ScrollToTop'
 import Leadership from './pages/Leadership'
 import ResourcesELib from './pages/ResourcesELib'
-import WorkWithUs from './pages/WorkWithUs';
+import WorkWithUs from './pages/WorkWithUs'
+import ManagersMessage from './pages/ManagersMessage' // Add this import
 import './App.css'
 
 // Temporary mock auth hook since we're commenting out the real one
@@ -91,6 +92,7 @@ function App() {
                       <Route path="/work-with-us" element={<WorkWithUs />} />
                       <Route path="/leadership" element={<Leadership />} />
                       <Route path="/resources-e-lib" element={<ResourcesELib />} />
+                      <Route path="/managers-message" element={<ManagersMessage />} /> {/* Add this route */}
                     </Routes>
                   </div>
                   <Footer />
