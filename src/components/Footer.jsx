@@ -95,7 +95,7 @@ const Footer = () => {
             <div className="space-y-3 mb-4">
               <div className="flex items-center space-x-3">
                 <SafeIcon icon={FiMail} className="text-primary" />
-                <span className="text-gray-400 font-marcellus text-justify text-sm">admin@kadcos.org</span>
+                <span className="text-gray-400 font-marcellus text-justify text-sm">admin@kadcoslubaga.co.ug</span>
               </div>
               <div className="flex items-start space-x-3">
                 <SafeIcon icon={FiClock} className="text-primary mt-1" />
