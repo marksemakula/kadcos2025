@@ -293,7 +293,7 @@ const Contact = () => {
                   </div>
                   <div className="flex items-center space-x-3">
                     <SafeIcon icon={FiMail} className="text-primary" />
-                    <span className="text-gray-600 font-marcellus">ddumba.patrik@kadcoslubaga.co.ug</span>
+                    <span className="text-gray-600 font-marcellus">patrik.dumba@kadcoslubaga.co.ug</span>
                   </div>
                 </div>
               </div>
