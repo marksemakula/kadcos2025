@@ -19,6 +19,7 @@ import Leadership from './pages/Leadership'
 import ResourcesELib from './pages/ResourcesELib'
 import WorkWithUs from './pages/WorkWithUs'
 import ManagersMessage from './pages/ManagersMessage'
+import BoardChairMessage from './pages/BoardChairMessage'
 import './App.css'
 
 // Temporary mock auth hook since we're commenting out the real one
@@ -44,7 +45,7 @@ function App() {
         <div className="min-h-screen bg-white flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-gray-600 font-urbanist">Loading...</p>
+            <p className="text-gray-600 font-marcellus">Loading...</p>
           </div>
         </div>
       )
@@ -54,14 +55,14 @@ function App() {
 
     return (
       <Router>
-        <div className="min-h-screen bg-white font-urbanist">
+        <div className="min-h-screen bg-white font-marcellus">
           <ScrollToTop />
           <Toaster 
             position="top-right"
             toastOptions={{
               duration: 4000,
               style: {
-                fontFamily: 'Urbanist, sans-serif'
+                fontFamily: 'Marcellus, serif'
               }
             }}
           />
@@ -81,7 +82,7 @@ function App() {
               element={
                 <>
                   <Navbar />
-                  <div className="pt-0"> {/* REMOVED: pt-16 padding that was creating the gap */}
+                  <div className="pt-0"> {/* No padding top since navbar is reduced */}
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/about" element={<About />} />
@@ -93,6 +94,7 @@ function App() {
                       <Route path="/leadership" element={<Leadership />} />
                       <Route path="/resources-e-lib" element={<ResourcesELib />} />
                       <Route path="/managers-message" element={<ManagersMessage />} />
+                      <Route path="/board-chair-message" element={<BoardChairMessage />} />
                     </Routes>
                   </div>
                   <Footer />

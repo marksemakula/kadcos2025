@@ -16,11 +16,16 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* Ensure Urbanist font is applied globally */
+/* Ensure Marcellus font is applied globally */
 * {
-  font-family: 'Urbanist', sans-serif;
+  font-family: 'Marcellus', serif;
 }
 
 body, html {
-  font-family: 'Urbanist', sans-serif !important;
+  font-family: 'Marcellus', serif !important;
+}
+
+/* Adjust main content to account for reduced navbar height */
+.main-content {
+  margin-top: 0;
 }
