@@ -1,223 +1,246 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { FiX, FiUsers, FiCheckCircle, FiClock, FiPause } from 'react-icons/fi'
 import SafeIcon from '../common/SafeIcon'
-import * as FiIcons from 'react-icons/fi'
 import toast from 'react-hot-toast'
 
-const { FiMail, FiMessageSquare, FiDownload, FiSend, FiX } = FiIcons
+const BulkActions = ({ selectedMembers, members, onClose, onBulkStatusUpdate }) => {
+  const [selectedAction, setSelectedAction] = useState('')
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [customStatus, setCustomStatus] = useState('')
 
-const BulkActions = ({ selectedMembers, members, onClose }) => {
-  const [activeAction, setActiveAction] = useState(null)
-  const [emailData, setEmailData] = useState({ subject: '', message: '' })
-  const [smsMessage, setSmsMessage] = useState('')
+  const selectedMembersData = members.filter(member => 
+    selectedMembers.includes(member.id)
+  )
 
-  const selectedMembersList = members.filter(member => selectedMembers.includes(member.id))
-
-  const handleEmail = () => {
-    if (!emailData.subject || !emailData.message) {
-      toast.error('Please fill in all email fields')
-      return
+  const actionOptions = [
+    {
+      value: 'active',
+      label: 'Mark as Active',
+      description: 'Set selected members to active status',
+      icon: FiCheckCircle,
+      color: 'text-green-600'
+    },
+    {
+      value: 'pending',
+      label: 'Mark as Pending',
+      description: 'Set selected members to pending status',
+      icon: FiClock,
+      color: 'text-yellow-600'
+    },
+    {
+      value: 'inactive',
+      label: 'Mark as Inactive',
+      description: 'Set selected members to inactive status',
+      icon: FiPause,
+      color: 'text-gray-600'
+    },
+    {
+      value: 'custom',
+      label: 'Custom Status',
+      description: 'Set a custom status for selected members',
+      icon: FiUsers,
+      color: 'text-blue-600'
     }
+  ]
 
-    const emailList = selectedMembersList.map(m => m.email).join(';')
-    const mailtoLink = `mailto:${emailList}?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(emailData.message)}`
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     
-    window.open(mailtoLink, '_blank')
-    toast.success(`Email composed for ${selectedMembersList.length} members`)
-    onClose()
-  }
-
-  const handleSMS = () => {
-    if (!smsMessage) {
-      toast.error('Please enter SMS message')
+    if (!selectedAction) {
+      toast.error('Please select an action')
       return
     }
 
-    const phoneNumbers = selectedMembersList.map(m => m.phone).join(',')
-    toast.success(`SMS ready for ${selectedMembersList.length} members: ${phoneNumbers}`)
-    onClose()
-  }
+    const statusToUpdate = selectedAction === 'custom' ? customStatus : selectedAction
 
-  const handleExport = (format) => {
-    const data = selectedMembersList.map(member => ({
-      Name: member.name,
-      Email: member.email,
-      Phone: member.phone,
-      'National ID': member.national_id,
-      'Preferred Product': member.preferred_product,
-      Status: member.status || 'Pending',
-      'Join Date': new Date(member.created_at).toLocaleDateString()
-    }))
-
-    if (format === 'csv') {
-      const csv = [
-        Object.keys(data[0]).join(','),
-        ...data.map(row => Object.values(row).join(','))
-      ].join('\n')
-
-      const blob = new Blob([csv], { type: 'text/csv' })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `kadcos_members_${new Date().toISOString().split('T')[0]}.csv`
-      a.click()
-      URL.revokeObjectURL(url)
+    if (!statusToUpdate.trim()) {
+      toast.error('Please enter a status value')
+      return
     }
 
-    toast.success(`Exported ${selectedMembersList.length} members as ${format.toUpperCase()}`)
-    onClose()
+    setIsProcessing(true)
+
+    try {
+      await onBulkStatusUpdate(statusToUpdate)
+      // The toast and closing will be handled in the parent component
+    } catch (error) {
+      console.error('Error in bulk action:', error)
+      toast.error('Failed to process bulk action')
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'active': return 'text-green-600 bg-green-50'
+      case 'pending': return 'text-yellow-600 bg-yellow-50'
+      case 'inactive': return 'text-gray-600 bg-gray-50'
+      default: return 'text-blue-600 bg-blue-50'
+    }
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-    >
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-hidden"
       >
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-secondary font-marcellus">
-              Bulk Actions ({selectedMembersList.length} members)
-            </h2>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <SafeIcon icon={FiX} className="text-2xl" />
-            </button>
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div className="flex items-center space-x-3">
+            <div className="bg-primary bg-opacity-10 p-2 rounded-full">
+              <SafeIcon icon={FiUsers} className="text-primary text-xl" />
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold text-secondary font-marcellus">
+                Bulk Actions
+              </h2>
+              <p className="text-sm text-gray-600 font-marcellus">
+                {selectedMembers.length} members selected
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-lg hover:bg-gray-100"
+          >
+            <SafeIcon icon={FiX} />
+          </button>
+        </div>
+
+        {/* Selected Members Preview */}
+        <div className="p-6 border-b border-gray-200 max-h-40 overflow-y-auto">
+          <h3 className="text-sm font-semibold text-gray-700 mb-3 font-marcellus">
+            Selected Members:
+          </h3>
+          <div className="space-y-2">
+            {selectedMembersData.slice(0, 5).map(member => (
+              <div key={member.id} className="flex items-center justify-between text-sm">
+                <span className="text-gray-800 font-marcellus truncate flex-1">
+                  {member.name}
+                </span>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium font-marcellus ${getStatusColor(member.status)}`}>
+                  {member.status || 'pending'}
+                </span>
+              </div>
+            ))}
+            {selectedMembersData.length > 5 && (
+              <p className="text-xs text-gray-500 text-center font-marcellus">
+                +{selectedMembersData.length - 5} more members
+              </p>
+            )}
           </div>
         </div>
 
-        <div className="p-6">
-          {!activeAction ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <button
-                onClick={() => setActiveAction('email')}
-                className="flex flex-col items-center p-6 border border-gray-200 rounded-lg hover:border-primary hover:bg-orange-50 transition-all duration-300"
-              >
-                <SafeIcon icon={FiMail} className="text-3xl text-primary mb-3" />
-                <span className="font-marcellus font-semibold">Send Email</span>
-                <span className="text-sm text-gray-500 font-marcellus">Bulk email to members</span>
-              </button>
-
-              <button
-                onClick={() => setActiveAction('sms')}
-                className="flex flex-col items-center p-6 border border-gray-200 rounded-lg hover:border-primary hover:bg-orange-50 transition-all duration-300"
-              >
-                <SafeIcon icon={FiMessageSquare} className="text-3xl text-primary mb-3" />
-                <span className="font-marcellus font-semibold">Send SMS</span>
-                <span className="text-sm text-gray-500 font-marcellus">Bulk SMS to members</span>
-              </button>
-
-              <button
-                onClick={() => setActiveAction('export')}
-                className="flex flex-col items-center p-6 border border-gray-200 rounded-lg hover:border-primary hover:bg-orange-50 transition-all duration-300"
-              >
-                <SafeIcon icon={FiDownload} className="text-3xl text-primary mb-3" />
-                <span className="font-marcellus font-semibold">Export Data</span>
-                <span className="text-sm text-gray-500 font-marcellus">Download member data</span>
-              </button>
-            </div>
-          ) : (
+        {/* Action Form */}
+        <form onSubmit={handleSubmit} className="p-6">
+          <div className="space-y-4">
             <div>
-              <button
-                onClick={() => setActiveAction(null)}
-                className="mb-4 text-primary hover:text-orange-600 font-marcellus"
-              >
-                ← Back to actions
-              </button>
-
-              {activeAction === 'email' && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold font-marcellus">Compose Email</h3>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
-                      Subject
-                    </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-3 font-marcellus">
+                Select Action:
+              </label>
+              <div className="space-y-2">
+                {actionOptions.map((action) => (
+                  <label
+                    key={action.value}
+                    className={`flex items-start space-x-3 p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                      selectedAction === action.value
+                        ? 'border-primary bg-primary bg-opacity-5'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
                     <input
-                      type="text"
-                      value={emailData.subject}
-                      onChange={(e) => setEmailData({...emailData, subject: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                      placeholder="Enter email subject"
+                      type="radio"
+                      name="action"
+                      value={action.value}
+                      checked={selectedAction === action.value}
+                      onChange={(e) => setSelectedAction(e.target.value)}
+                      className="mt-1 text-primary focus:ring-primary"
                     />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
-                      Message
-                    </label>
-                    <textarea
-                      value={emailData.message}
-                      onChange={(e) => setEmailData({...emailData, message: e.target.value})}
-                      rows={6}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                      placeholder="Enter your message"
-                    />
-                  </div>
-                  <button
-                    onClick={handleEmail}
-                    className="w-full bg-primary text-secondary py-3 rounded-lg font-marcellus font-semibold hover:bg-orange-500 transition-colors duration-300 flex items-center justify-center space-x-2"
-                  >
-                    <SafeIcon icon={FiSend} />
-                    <span>Send Email to {selectedMembersList.length} Members</span>
-                  </button>
-                </div>
-              )}
-
-              {activeAction === 'sms' && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold font-marcellus">Compose SMS</h3>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
-                      Message (160 characters max)
-                    </label>
-                    <textarea
-                      value={smsMessage}
-                      onChange={(e) => setSmsMessage(e.target.value)}
-                      maxLength={160}
-                      rows={4}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                      placeholder="Enter your SMS message"
-                    />
-                    <p className="text-sm text-gray-500 font-marcellus mt-1">
-                      {smsMessage.length}/160 characters
-                    </p>
-                  </div>
-                  <button
-                    onClick={handleSMS}
-                    className="w-full bg-primary text-secondary py-3 rounded-lg font-marcellus font-semibold hover:bg-orange-500 transition-colors duration-300 flex items-center justify-center space-x-2"
-                  >
-                    <SafeIcon icon={FiMessageSquare} />
-                    <span>Send SMS to {selectedMembersList.length} Members</span>
-                  </button>
-                </div>
-              )}
-
-              {activeAction === 'export' && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold font-marcellus">Export Member Data</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button
-                      onClick={() => handleExport('csv')}
-                      className="p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-orange-50 transition-all duration-300"
-                    >
-                      <SafeIcon icon={FiDownload} className="text-2xl text-primary mb-2 mx-auto" />
-                      <span className="block font-marcellus font-semibold">Export as CSV</span>
-                      <span className="text-sm text-gray-500 font-marcellus">Excel compatible format</span>
-                    </button>
-                  </div>
-                </div>
-              )}
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2">
+                        <SafeIcon icon={action.icon} className={`${action.color}`} />
+                        <span className="font-semibold text-gray-800 font-marcellus">
+                          {action.label}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 mt-1 font-marcellus">
+                        {action.description}
+                      </p>
+                    </div>
+                  </label>
+                ))}
+              </div>
             </div>
-          )}
-        </div>
+
+            {/* Custom Status Input */}
+            {selectedAction === 'custom' && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                className="overflow-hidden"
+              >
+                <label className="block text-sm font-semibold text-gray-700 mb-2 font-marcellus">
+                  Custom Status:
+                </label>
+                <input
+                  type="text"
+                  value={customStatus}
+                  onChange={(e) => setCustomStatus(e.target.value)}
+                  placeholder="Enter status (e.g., verified, approved, etc.)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                />
+                <p className="text-xs text-gray-500 mt-1 font-marcellus">
+                  This will be applied to all selected members
+                </p>
+              </motion.div>
+            )}
+
+            {/* Warning Message */}
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="flex items-start space-x-3">
+                <SafeIcon icon={FiClock} className="text-yellow-600 mt-0.5" />
+                <div>
+                  <p className="text-sm text-yellow-800 font-marcellus">
+                    <strong>Note:</strong> This action will update {selectedMembers.length} member(s) in Google Sheets. 
+                    This process might take a few seconds.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex space-x-3 mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={isProcessing}
+              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-marcellus disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isProcessing || !selectedAction}
+              className="flex-1 px-4 py-2 bg-primary text-dark rounded-lg hover:bg-orange-500 transition-colors font-marcellus disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isProcessing ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-dark"></div>
+                  <span>Processing...</span>
+                </div>
+              ) : (
+                `Update ${selectedMembers.length} Members`
+              )}
+            </button>
+          </div>
+        </form>
       </motion.div>
-    </motion.div>
+    </div>
   )
 }
 

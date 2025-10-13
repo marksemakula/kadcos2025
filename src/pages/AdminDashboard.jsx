@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
@@ -8,7 +7,7 @@ import MemberCard from '../components/MemberCard'
 import BulkActions from '../components/BulkActions'
 import toast from 'react-hot-toast'
 
-const { FiUsers, FiDollarSign, FiTrendingUp, FiLogOut, FiSearch, FiFilter, FiPlus } = FiIcons
+const { FiUsers, FiDollarSign, FiTrendingUp, FiLogOut, FiSearch, FiFilter, FiPlus, FiRefreshCw } = FiIcons
 
 const AdminDashboard = () => {
   const [members, setMembers] = useState([])
@@ -17,12 +16,16 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState('all')
   const [showBulkActions, setShowBulkActions] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
   const [stats, setStats] = useState({
     totalMembers: 0,
     activeMembers: 0,
     pendingMembers: 0,
     totalSavings: 0
   })
+
+  // Replace with your Google Apps Script Web App URL
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'
 
   const { signOut } = useAuth()
 
@@ -32,20 +35,69 @@ const AdminDashboard = () => {
 
   const fetchMembers = async () => {
     try {
-      const { data, error } = await supabase
-        .from('members_kadcos2024')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-
-      setMembers(data || [])
-      calculateStats(data || [])
+      setLoading(true)
+      
+      // Fetch data from Google Apps Script
+      const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getMembers`)
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        // Transform Google Sheets data to match our expected format
+        const formattedMembers = data.members.map((member, index) => ({
+          id: index + 1, // Google Sheets doesn't have IDs, so we generate them
+          name: member.name || member['Full Name'] || '',
+          national_id: member.nationalId || member['National ID'] || '',
+          email: member.email || member['Email Address'] || '',
+          phone: member.phone || member['Phone Number'] || '',
+          preferred_product: member.preferredProduct || member['Preferred Product'] || '',
+          status: member.status || 'pending',
+          created_at: member.timestamp || member['Timestamp'] || new Date().toISOString()
+        }))
+        
+        setMembers(formattedMembers)
+        calculateStats(formattedMembers)
+        toast.success('Members data loaded successfully')
+      } else {
+        throw new Error(data.error || 'Failed to fetch members')
+      }
     } catch (error) {
       console.error('Error fetching members:', error)
-      toast.error('Failed to load members')
+      
+      // Fallback: Load sample data if Google Sheets fails
+      const sampleMembers = [
+        {
+          id: 1,
+          name: 'John Doe',
+          national_id: 'CM123456789',
+          email: 'john.doe@example.com',
+          phone: '+256712345678',
+          preferred_product: 'Regular Savings Account',
+          status: 'active',
+          created_at: '2024-01-15T10:30:00Z'
+        },
+        {
+          id: 2,
+          name: 'Jane Smith',
+          national_id: 'CM987654321',
+          email: 'jane.smith@example.com',
+          phone: '+256712345679',
+          preferred_product: 'Business Loan',
+          status: 'pending',
+          created_at: '2024-01-16T14:20:00Z'
+        }
+      ]
+      
+      setMembers(sampleMembers)
+      calculateStats(sampleMembers)
+      toast.error('Using sample data. Check Google Script configuration.')
     } finally {
       setLoading(false)
+      setRefreshing(false)
     }
   }
 
@@ -60,6 +112,11 @@ const AdminDashboard = () => {
       pendingMembers: pending,
       totalSavings: total * 10000 // Estimated based on minimum savings
     })
+  }
+
+  const handleRefresh = () => {
+    setRefreshing(true)
+    fetchMembers()
   }
 
   const handleSelectMember = (memberId) => {
@@ -82,18 +139,78 @@ const AdminDashboard = () => {
     if (!confirm('Are you sure you want to delete this member?')) return
 
     try {
-      const { error } = await supabase
-        .from('members_kadcos2024')
-        .delete()
-        .eq('id', memberId)
+      // Send delete request to Google Apps Script
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'deleteMember',
+          memberId: memberId
+        })
+      })
 
-      if (error) throw error
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
 
-      setMembers(prev => prev.filter(m => m.id !== memberId))
-      toast.success('Member deleted successfully')
+      const result = await response.json()
+      
+      if (result.success) {
+        // Remove from local state
+        setMembers(prev => prev.filter(m => m.id !== memberId))
+        setSelectedMembers(prev => prev.filter(id => id !== memberId))
+        toast.success('Member deleted successfully')
+      } else {
+        throw new Error(result.error || 'Failed to delete member')
+      }
     } catch (error) {
       console.error('Error deleting member:', error)
-      toast.error('Failed to delete member')
+      toast.error('Failed to delete member. Please try again.')
+    }
+  }
+
+  const handleBulkStatusUpdate = async (newStatus) => {
+    if (!confirm(`Are you sure you want to update ${selectedMembers.length} members to ${newStatus}?`)) return
+
+    try {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'bulkUpdateStatus',
+          memberIds: selectedMembers,
+          status: newStatus
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const result = await response.json()
+      
+      if (result.success) {
+        // Update local state
+        setMembers(prev => 
+          prev.map(member => 
+            selectedMembers.includes(member.id) 
+              ? { ...member, status: newStatus }
+              : member
+          )
+        )
+        setSelectedMembers([])
+        setShowBulkActions(false)
+        toast.success(`Updated ${selectedMembers.length} members to ${newStatus}`)
+      } else {
+        throw new Error(result.error || 'Failed to update members')
+      }
+    } catch (error) {
+      console.error('Error updating members:', error)
+      toast.error('Failed to update members. Please try again.')
     }
   }
 
@@ -142,14 +259,27 @@ const AdminDashboard = () => {
               <h1 className="text-xl font-bold text-secondary font-marcellus">
                 KADCOS Admin Dashboard
               </h1>
+              <span className="text-xs bg-primary text-dark px-2 py-1 rounded font-marcellus">
+                Google Sheets
+              </span>
             </div>
-            <button
-              onClick={handleLogout}
-              className="flex items-center space-x-2 text-gray-600 hover:text-secondary transition-colors font-marcellus"
-            >
-              <SafeIcon icon={FiLogOut} />
-              <span>Logout</span>
-            </button>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={handleRefresh}
+                disabled={refreshing}
+                className="flex items-center space-x-2 text-gray-600 hover:text-secondary transition-colors font-marcellus disabled:opacity-50"
+              >
+                <SafeIcon icon={FiRefreshCw} className={refreshing ? 'animate-spin' : ''} />
+                <span>Refresh</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 text-gray-600 hover:text-secondary transition-colors font-marcellus"
+              >
+                <SafeIcon icon={FiLogOut} />
+                <span>Logout</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -314,6 +444,7 @@ const AdminDashboard = () => {
           selectedMembers={selectedMembers}
           members={members}
           onClose={() => setShowBulkActions(false)}
+          onBulkStatusUpdate={handleBulkStatusUpdate}
         />
       )}
     </div>
