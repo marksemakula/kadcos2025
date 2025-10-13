@@ -43,11 +43,18 @@ const Services = () => {
       icon: FiDollarSign
     },
     {
-      title: 'Staff Loan',
-      description: 'Special rates for staff members',
+      title: 'Weekend Loan',
+      description: 'Special rates for members',
       maxPeriod: '12 months',
-      interestRate: '1.5% per month',
+      interestRate: '1% per week',
       icon: FiPercent
+    },
+    {
+      title: 'Loans in Kind',
+      description: 'Capital for business expansion and development',
+      maxPeriod: '12 months',
+      interestRate: '3% per month',
+      icon: FiCreditCard
     },
     {
       title: 'Emergency Loan',
