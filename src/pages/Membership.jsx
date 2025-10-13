@@ -17,15 +17,8 @@ const Membership = () => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  // Updated with your actual Google Form URL and field IDs
-  const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdoPT9QuRzQIuIgDTgLD56yI-ozIsti_C03a5C2l0w6L-vf_g/formResponse'
-  const FIELD_IDS = {
-    name: 'entry.2015379394',        // Name field
-    nationalId: 'entry.335509197',   // National ID field
-    email: 'entry.859308206',        // Email field
-    phone: 'entry.1485494441',       // Phone field
-    product: 'entry.1084949950'      // Product field
-  }
+  // Google Apps Script Web App URL
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyJeZia1hn2EgeY9wAqCCgm80mRan63aHzeD6mdHlFUhYMOs7TiKLcUPTgyROv-Osd4/exec'
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -36,37 +29,41 @@ const Membership = () => {
     setIsLoading(true)
 
     try {
-      // Prepare form data for Google Forms
-      const formPayload = new FormData()
-      formPayload.append(FIELD_IDS.name, formData.name)
-      formPayload.append(FIELD_IDS.nationalId, formData.nationalId)
-      formPayload.append(FIELD_IDS.email, formData.email)
-      formPayload.append(FIELD_IDS.phone, formData.phone)
-      formPayload.append(FIELD_IDS.product, formData.preferredProduct)
-
-      // Submit to Google Forms
-      await fetch(GOOGLE_FORM_URL, {
+      // Submit to Google Apps Script Web App
+      const response = await fetch(WEB_APP_URL, {
         method: 'POST',
-        body: formPayload,
-        mode: 'no-cors' // Google Forms doesn't return CORS headers
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          name: formData.name,
+          nationalId: formData.nationalId,
+          email: formData.email,
+          phone: formData.phone,
+          preferredProduct: formData.preferredProduct
+        })
       })
 
-      // Since we're using no-cors, we can't check response status
-      // But we assume it worked if no error was thrown
-      setIsSubmitted(true)
-      toast.success('Application submitted successfully!')
+      const result = await response.json()
 
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setIsSubmitted(false)
-        setFormData({
-          name: '',
-          nationalId: '',
-          email: '',
-          phone: '',
-          preferredProduct: ''
-        })
-      }, 3000)
+      if (result.success) {
+        setIsSubmitted(true)
+        toast.success('Application submitted successfully!')
+
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setIsSubmitted(false)
+          setFormData({
+            name: '',
+            nationalId: '',
+            email: '',
+            phone: '',
+            preferredProduct: ''
+          })
+        }, 3000)
+      } else {
+        throw new Error(result.error || 'Failed to submit application')
+      }
 
     } catch (error) {
       console.error('Error submitting application:', error)
