@@ -44,7 +44,7 @@ function App() {
         <div className="min-h-screen bg-white flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-gray-600 font-marcellus">Loading...</p>
+            <p className="text-gray-600 font-urbanist">Loading...</p>
           </div>
         </div>
       )
@@ -54,14 +54,14 @@ function App() {
 
     return (
       <Router>
-        <div className="min-h-screen bg-white font-marcellus">
+        <div className="min-h-screen bg-white font-urbanist">
           <ScrollToTop />
           <Toaster 
             position="top-right"
             toastOptions={{
               duration: 4000,
               style: {
-                fontFamily: 'Marcellus, serif'
+                fontFamily: 'Urbanist, sans-serif'
               }
             }}
           />

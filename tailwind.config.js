@@ -17,7 +17,7 @@ export default {
         },
       },
       fontFamily: {
-        'marcellus': ['Marcellus', 'serif'],
+        'urbanist': ['Urbanist', 'sans-serif'],
       },
     },
   },

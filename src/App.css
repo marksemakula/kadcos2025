@@ -16,11 +16,11 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* Ensure Marcellus font is applied globally */
+/* Ensure Urbanist font is applied globally */
 * {
-  font-family: 'Marcellus', serif;
+  font-family: 'Urbanist', sans-serif;
 }
 
 body, html {
-  font-family: 'Marcellus', serif !important;
+  font-family: 'Urbanist', sans-serif !important;
 }

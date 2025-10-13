@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Marcellus:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,11 +7,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Marcellus', serif !important;
+  font-family: 'Urbanist', sans-serif !important;
 }
 
 body {
-  font-family: 'Marcellus', serif !important;
+  font-family: 'Urbanist', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -21,13 +21,13 @@ body {
   height: 100%;
 }
 
-.font-marcellus {
-  font-family: 'Marcellus', serif !important;
+.font-urbanist {
+  font-family: 'Urbanist', sans-serif !important;
 }
 
 /* Override any conflicting font styles */
 h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, label {
-  font-family: 'Marcellus', serif !important;
+  font-family: 'Urbanist', sans-serif !important;
 }
 
 /* Smart invert for ISO certification logos - No background */
