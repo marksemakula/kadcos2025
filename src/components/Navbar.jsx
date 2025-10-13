@@ -104,7 +104,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 flex-shrink-0">
             <img 
-              src="/images/KADCOS 4-04.svg" 
+              src="/images/KADCOS-02.png" 
               alt="KADCOS Logo" 
               className="h-20 w-auto"
             />
