@@ -100,17 +100,20 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-8xl mx-auto px-6 sm:px-8 lg:px-10">
-        <div className="flex justify-between items-center h-28">
-          {/* Logo */}
+        <div className="flex justify-between items-center h-20"> {/* Reduced from h-28 to h-20 */}
+          {/* Logo with floating effect */}
           <Link to="/" className="flex items-center space-x-3 flex-shrink-0">
-            <img 
-              src="/images/KADCOS-02.png" 
-              alt="KADCOS Logo" 
-              className="h-20 w-auto"
-            />
+            <div className="relative">
+              <div className="absolute inset-0 bg-white rounded-full shadow-lg transform rotate-3 opacity-20"></div>
+              <img 
+                src="/images/KADCOS-02.png" 
+                alt="KADCOS Logo" 
+                className="h-14 w-auto relative transform hover:scale-105 transition-transform duration-300" /* Reduced from h-20 to h-14 */
+              />
+            </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-bold text-secondary font-marcellus">KADCOS</span>
-              <span className="text-sm text-gray-600 font-marcellus">Lubaga Cooperative Society</span>
+              <span className="text-xl font-bold text-secondary font-urbanist">KADCOS</span> {/* Reduced text size */}
+              <span className="text-xs text-gray-600 font-urbanist">Lubaga Cooperative Society</span> {/* Reduced text size */}
             </div>
           </Link>
 
@@ -126,11 +129,11 @@ const Navbar = () => {
                     onMouseEnter={item.name === 'About' ? handleAboutMouseEnter : handleServicesMouseEnter}
                     onMouseLeave={item.name === 'About' ? handleAboutMouseLeave : handleServicesMouseLeave}
                   >
-                    <button className={`flex items-center font-marcellus transition-colors duration-300 text-sm ${
+                    <button className={`flex items-center font-urbanist transition-colors duration-300 text-sm ${
                       (item.name === 'About' && (isActive('/about') || isActive('/leadership'))) || 
                       (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
                         ? 'text-primary border-b-2 border-primary' 
-                        : 'text-gray-700 hover:text-primary'
+                        : 'text-black hover:text-primary' /* Changed from text-gray-700 to text-black */
                     }`}>
                       {item.name}
                       <FiChevronDown className="ml-1" />
@@ -151,10 +154,10 @@ const Navbar = () => {
                             <Link
                               key={dropdownItem.name}
                               to={dropdownItem.path}
-                              className={`block px-4 py-2 text-sm font-marcellus ${
+                              className={`block px-4 py-2 text-sm font-urbanist ${
                                 isActive(dropdownItem.path)
                                   ? 'text-primary bg-orange-50'
-                                  : 'text-gray-700 hover:bg-gray-50'
+                                  : 'text-black hover:bg-gray-50' /* Changed from text-gray-700 to text-black */
                               }`}
                               onClick={() => {
                                 if (item.name === 'About') setIsAboutOpen(false)
@@ -172,10 +175,10 @@ const Navbar = () => {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`font-marcellus transition-colors duration-300 text-sm ${
+                    className={`font-urbanist transition-colors duration-300 text-sm ${
                       isActive(item.path)
                         ? 'text-primary border-b-2 border-primary'
-                        : 'text-gray-700 hover:text-primary'
+                        : 'text-black hover:text-primary' /* Changed from text-gray-700 to text-black */
                     }`}
                   >
                     {item.name}
@@ -189,7 +192,7 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center space-x-4 flex-shrink-0">
             <Link
               to="/membership"
-              className="bg-primary text-white px-5 py-2 rounded-full font-marcellus hover:bg-orange-500 transition-colors duration-300 text-sm"
+              className="bg-primary text-white px-5 py-2 rounded-full font-urbanist hover:bg-orange-500 transition-colors duration-300 text-sm"
             >
               Join Now
             </Link>
@@ -207,7 +210,7 @@ const Navbar = () => {
           <div className="lg:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-primary"
+              className="text-black hover:text-primary" /* Changed from text-gray-700 to text-black */
             >
               <SafeIcon icon={isOpen ? FiX : FiMenu} className="h-6 w-6" />
             </button>
@@ -236,11 +239,11 @@ const Navbar = () => {
                           setIsMobileAboutOpen(false)
                         }
                       }}
-                      className={`flex items-center justify-between w-full px-3 py-2 font-marcellus ${
+                      className={`flex items-center justify-between w-full px-3 py-2 font-urbanist ${
                         (item.name === 'About' && (isActive('/about') || isActive('/leadership'))) ||
                         (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
                           ? 'text-primary bg-orange-50'
-                          : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                          : 'text-black hover:text-primary hover:bg-gray-50' /* Changed from text-gray-700 to text-black */
                       }`}
                     >
                       <span>{item.name}</span>
@@ -260,10 +263,10 @@ const Navbar = () => {
                               setIsMobileAboutOpen(false)
                               setIsMobileServicesOpen(false)
                             }}
-                            className={`block px-3 py-2 font-marcellus ${
+                            className={`block px-3 py-2 font-urbanist ${
                               isActive(dropdownItem.path)
                                 ? 'text-primary bg-orange-50'
-                                : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                                : 'text-black hover:text-primary hover:bg-gray-50' /* Changed from text-gray-700 to text-black */
                             }`}
                           >
                             {dropdownItem.name}
@@ -277,10 +280,10 @@ const Navbar = () => {
                     key={item.name}
                     to={item.path}
                     onClick={() => setIsOpen(false)}
-                    className={`block px-3 py-2 font-marcellus ${
+                    className={`block px-3 py-2 font-urbanist ${
                       isActive(item.path)
                         ? 'text-primary bg-orange-50'
-                        : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                        : 'text-black hover:text-primary hover:bg-gray-50' /* Changed from text-gray-700 to text-black */
                     }`}
                   >
                     {item.name}
@@ -290,14 +293,14 @@ const Navbar = () => {
               <Link
                 to="/membership"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 mt-4 bg-primary text-white rounded-md font-marcellus text-center"
+                className="block px-3 py-2 mt-4 bg-primary text-white rounded-md font-urbanist text-center"
               >
                 Join Now
               </Link>
               <Link
                 to="/admin"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 mt-2 text-gray-500 hover:text-secondary font-marcellus"
+                className="block px-3 py-2 mt-2 text-gray-500 hover:text-secondary font-urbanist"
               >
                 Admin Login
               </Link>
