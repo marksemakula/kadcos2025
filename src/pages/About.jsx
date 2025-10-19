@@ -28,8 +28,8 @@ const About = () => {
               className="flex justify-center"
             >
               <img 
-                src="/images/PatrickDdumba1.png" 
-                alt="Patrick Ddumba - KADCOS Manager" 
+                src="/images/kadcos_lubaga_co_operative_society_cover.jpeg" 
+                alt="KADCOS Head Office" 
                 className="rounded-lg shadow-lg w-full max-w-md h-auto object-cover"
                 onError={(e) => {
                   e.target.onerror = null;
@@ -81,7 +81,7 @@ const About = () => {
               className="flex justify-center"
             >
               <img 
-                src="/images/ryan-jussel-688IIZUKnuU-unsplash.jpg" 
+                src="/images/kadcos_lubaga_co_operative_society_cover.jpeg" 
                 alt="Community Meeting" 
                 className="rounded-lg shadow-lg w-full h-96 object-cover"
                 onError={(e) => {
@@ -94,32 +94,15 @@ const About = () => {
         </div>
       </section>
 
-      {/* Vision & Mission */}
+      {/* Mission Only */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="flex justify-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="bg-white p-8 rounded-lg shadow-lg"
-            >
-              <div className="flex items-center mb-6">
-                <div className="bg-accent bg-opacity-10 p-3 rounded-full mr-4">
-                  <SafeIcon icon={FiEye} className="text-accent text-2xl" />
-                </div>
-                <h3 className="text-2xl font-bold text-secondary font-marcellus">Our Vision</h3>
-              </div>
-              <p className="text-gray-600 font-marcellus leading-relaxed">
-                To be the Leading Cooperative in Kampala Archdiocese providing quality and Dynamic Services to the Members.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-white p-8 rounded-lg shadow-lg"
+              className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full"
             >
               <div className="flex items-center mb-6">
                 <div className="bg-primary bg-opacity-10 p-3 rounded-full mr-4">
@@ -128,7 +111,7 @@ const About = () => {
                 <h3 className="text-2xl font-bold text-secondary font-marcellus">Our Mission</h3>
               </div>
               <p className="text-gray-600 font-marcellus leading-relaxed">
-                To provide financial and non-financial services to members in an efficient, affordable and sustainable manner.
+                To offer financial and non-financial services to members in an efficient, affordable and sustainable mannner.
               </p>
             </motion.div>
           </div>
