@@ -24,8 +24,12 @@ const BoardChairMessage = () => {
             {/* Board Chair Photo and Info */}
             <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-8">
               <div className="flex-shrink-0">
-                <div className="w-48 h-48 bg-gray-200 rounded-full flex items-center justify-center">
-                  <span className="text-gray-500 text-lg font-marcellus">Board Chair Photo</span>
+                <div className="w-48 h-48 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                  <img 
+                    src="/images/Mrs.Nseerikomawa Josephine.jpeg" 
+                    alt="Mrs. Nseerikomawa Josephine - Board Chairperson"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
               <div className="text-center md:text-left">
