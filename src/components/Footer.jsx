@@ -42,10 +42,10 @@ const Footer = () => {
                 />
                 <div className="pt-1">
                   <h3 className="text-2xl font-bold font-marcellus">KADCOS</h3>
-                  <p className="text-gray-400 font-marcellus mt-1">Lubaga Cooperative Society Ltd.</p>
+                  <p className="text-gray-400 font-cookie mt-1 text-xl">Lubaga Cooperative Society Ltd.</p>
                 </div>
               </div>
-              <p className="text-gray-400 mb-3 font-marcellus leading-relaxed text-justify">
+              <p className="text-gray-400 mb-3 font-cookie leading-relaxed text-justify text-xl">
                 Financially empowering people through cooperative effort and savings culture since 2007.
               </p>
               <p className="text-sm text-gray-500 font-marcellus text-justify">ACTS 2:45-47</p>
@@ -56,7 +56,7 @@ const Footer = () => {
           <div className="flex flex-col md:pl-4">
             <h4 className="text-lg font-semibold mb-3 font-marcellus">Quick Links</h4>
             <ul className="space-y-2">
-              {['About Us', 'Services', 'Membership', 'Blog', 'Contact'].map((item) => (
+              {['About Us', 'Services', 'Membership', 'News Updates', 'Contact'].map((item) => (
                 <li key={item}>
                   <Link 
                     to={`/${item.toLowerCase().replace(' ', '')}`}
