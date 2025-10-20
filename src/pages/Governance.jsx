@@ -36,7 +36,7 @@ const Governance = () => {
     {
       name: "Mrs. Kalanda Annette Kizza",
       position: "Member",
-      image: "/images/Kalanda_Annette.jpg",
+      image: "/images/Mrs.Kizza Annette Kalanda.jpeg",
       bio: "Committee member with focus on member welfare."
     },
     {

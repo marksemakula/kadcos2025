@@ -39,7 +39,7 @@ const ManagersMessage = () => {
               />
               <div>
                 <h2 className="text-2xl font-bold text-secondary mb-2 font-marcellus">
-                  Mr. Ddumba Patrick, CFIP
+                  Mr. Dumba Patrick, CFIP
                 </h2>
                 <p className="text-gray-600 font-marcellus mb-2">Manager</p>
                 <p className="text-gray-500 font-marcellus">KADCOS Lubaga Cooperative Society Ltd</p>
@@ -80,7 +80,7 @@ const ManagersMessage = () => {
               
               <p className="text-gray-700 mt-8 font-marcellus leading-relaxed">
                 Sincerely,<br />
-                <strong>Patrick Ddumba, CFIP</strong><br />
+                <strong>Patrick Dumba, CFIP</strong><br />
                 Manager<br />
                 KADCOS Lubaga Cooperative Society Ltd
               </p>
