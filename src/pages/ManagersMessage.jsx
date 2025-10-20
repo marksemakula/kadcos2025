@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const ManagersMessage = () => {
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-primary py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -12,7 +12,7 @@ const ManagersMessage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl lg:text-5xl font-bold text-secondary mb-6 font-marcellus">
+            <h1 className="text-4xl lg:text-5xl font-bold text-secondary mb-6 font-arthelo">
               Manager's Message
             </h1>
             <p className="text-xl text-gray-700 font-marcellus max-w-3xl mx-auto">
