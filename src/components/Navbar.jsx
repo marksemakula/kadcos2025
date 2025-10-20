@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMenu, FiX, FiSettings, FiChevronDown } = FiIcons
+const { FiMenu, FiX, FiSettings, FiChevronDown, FiMail } = FiIcons
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -46,7 +46,6 @@ const Navbar = () => {
     },
     { name: 'Membership', path: '/membership' },
     { name: 'News Updates', path: '/blog' },
-    { name: 'Work with us', path: '/work-with-us' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -225,6 +224,17 @@ const Navbar = () => {
                   </Link>
                 )
               ))}
+              
+              {/* Mail Link - External */}
+              <a
+                href="https://mail.kadcoslubaga.co.ug"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center font-marcellus transition-colors duration-300 text-sm font-bold text-black hover:text-primary"
+              >
+                <FiMail className="mr-1" />
+                Mail
+              </a>
             </div>
           </div>
 
@@ -372,6 +382,19 @@ const Navbar = () => {
                   </Link>
                 )
               ))}
+              
+              {/* Mail Link in Mobile */}
+              <a
+                href="https://mail.kadcoslubaga.co.ug"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center px-3 py-2 font-marcellus font-bold text-black hover:text-primary hover:bg-gray-50"
+              >
+                <FiMail className="mr-2" />
+                Mail
+              </a>
+              
               <Link
                 to="/membership"
                 onClick={() => setIsOpen(false)}

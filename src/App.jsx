@@ -17,7 +17,6 @@ import Blog from './pages/Blog'
 import ScrollToTop from './components/ScrollToTop'
 import Governance from './pages/Governance'
 import ResourcesELib from './pages/ResourcesELib'
-import WorkWithUs from './pages/WorkWithUs'
 import ManagersMessage from './pages/ManagersMessage'
 import BoardChairMessage from './pages/BoardChairMessage'
 import './App.css'
@@ -90,7 +89,6 @@ function App() {
                       <Route path="/membership" element={<Membership />} />
                       <Route path="/contact" element={<Contact />} />
                       <Route path="/blog" element={<Blog />} />
-                      <Route path="/work-with-us" element={<WorkWithUs />} />
                       <Route path="/governance" element={<Governance />} />
                       <Route path="/resources-e-lib" element={<ResourcesELib />} />
                       <Route path="/managers-message" element={<ManagersMessage />} />
