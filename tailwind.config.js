@@ -20,6 +20,7 @@ export default {
         'urbanist': ['Urbanist', 'sans-serif'],
         'marcellus': ['Marcellus', 'serif'],
         'arthelo': ['Arthelo', 'sans-serif'],
+        'cookie': ['Cookie', 'cursive'],
       },
     },
   },

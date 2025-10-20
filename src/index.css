@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -44,7 +45,13 @@ body {
   font-family: 'Arthelo', sans-serif !important;
 }
 
-/* Rest of your CSS remains the same */
+.font-cookie {
+  font-family: 'Cookie', cursive !important;
+}
+
+/* Override any conflicting font styles */
+/* Let Tailwind classes handle specific font assignments */
+
 /* Smart invert for ISO certification logos - No background */
 .iso-logo-container {
   position: relative;

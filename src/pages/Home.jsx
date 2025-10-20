@@ -146,7 +146,7 @@ const Home = () => {
             <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-arthelo">
               Why Choose KADCOS Lubaga Co-operative Society?
             </h2>
-            <p className="text-xl text-gray-600 font-arthelo max-w-3xl mx-auto">
+            <p className="text-3xl text-gray-600 font-cookie max-w-3xl mx-auto">
               Join a trusted financial community that has been empowering members through cooperative savings and investment since 2007.
             </p>
           </motion.div>
