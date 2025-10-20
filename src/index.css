@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap'); /* Add this line */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,14 +22,17 @@ body {
   height: 100%;
 }
 
+/* Font utility classes */
 .font-urbanist {
   font-family: 'Urbanist', sans-serif !important;
 }
 
-/* Override any conflicting font styles */
-h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, label {
-  font-family: 'Urbanist', sans-serif !important;
+.font-marcellus {
+  font-family: 'Marcellus', serif !important;
 }
+
+/* Override any conflicting font styles - Remove global Urbanist override for headings */
+/* Let Tailwind classes handle specific font assignments */
 
 /* Smart invert for ISO certification logos - No background */
 .iso-logo-container {

@@ -16,7 +16,8 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* Ensure Marcellus font is applied globally */
+/* Remove the global Marcellus rules since we want Urbanist as default */
+/*
 * {
   font-family: 'Marcellus', serif;
 }
@@ -24,6 +25,7 @@
 body, html {
   font-family: 'Marcellus', serif !important;
 }
+*/
 
 /* Adjust main content to account for reduced navbar height */
 .main-content {
