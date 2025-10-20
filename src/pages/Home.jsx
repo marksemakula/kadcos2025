@@ -75,7 +75,7 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-4xl lg:text-6xl font-bold text-secondary mb-6 font-marcellus">
+              <h1 className="text-4xl lg:text-6xl font-bold text-secondary mb-6 font-urbanist">
                 Your Trusted <span className="text-white">Financial Partner</span>
               </h1>
               <p className="text-xl text-gray-800 mb-8 font-marcellus leading-relaxed">
@@ -143,7 +143,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-marcellus">
+            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-urbanist">
               Why Choose KADCOS Lubaga Co-operative Society
             </h2>
             <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
@@ -184,7 +184,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-marcellus">
+            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-urbanist">
               Our Partners
             </h2>
             <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
