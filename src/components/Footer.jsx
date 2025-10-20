@@ -45,7 +45,7 @@ const Footer = () => {
                   <p className="text-gray-400 font-cookie mt-1 text-xl">Lubaga Cooperative Society Ltd.</p>
                 </div>
               </div>
-              <p className="text-gray-400 mb-3 font-cookie leading-relaxed text-justify text-xl">
+              <p className="text-white-400 mb-3 font-cookie leading-relaxed text-justify text-xl">
                 Financially empowering people through cooperative effort and savings culture since 2007.
               </p>
               <p className="text-sm text-gray-500 font-marcellus text-justify">ACTS 2:45-47</p>
@@ -54,7 +54,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div className="flex flex-col md:pl-4">
-            <h4 className="text-lg font-semibold mb-3 font-marcellus">Quick Links</h4>
+            <h4 className="text-lg font-normal mb-3 font-arthelo">Quick Links</h4>
             <ul className="space-y-2">
               {['About Us', 'Services', 'Membership', 'News Updates', 'Contact'].map((item) => (
                 <li key={item}>
@@ -71,7 +71,7 @@ const Footer = () => {
 
           {/* Office Locations */}
           <div className="flex flex-col md:pl-2">
-            <h4 className="text-lg font-semibold mb-3 font-marcellus">Our Offices</h4>
+            <h4 className="text-lg font-normal mb-3 font-arthelo">Our Offices</h4>
             <div className="space-y-2">
               {offices.map((office, index) => (
                 <div key={index} className="bg-gray-750 p-2 rounded-lg">
@@ -91,7 +91,7 @@ const Footer = () => {
 
           {/* Contact Info with App Download Section */}
           <div className="flex flex-col">
-            <h4 className="text-lg font-semibold mb-3 font-marcellus">Contact Info</h4>
+            <h4 className="text-lg font-normal mb-3 font-arthelo">Contact Info</h4>
             <div className="space-y-3 mb-4">
               <div className="flex items-center space-x-3">
                 <SafeIcon icon={FiMail} className="text-primary" />

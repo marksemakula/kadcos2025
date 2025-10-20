@@ -163,7 +163,7 @@ const Home = () => {
                 <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
                   <SafeIcon icon={benefit.icon} className="text-primary text-2xl" />
                 </div>
-                <h3 className="text-2xl font-semibold text-secondary mb-4 font-arthelo">
+                <h3 className="text-2xl font-normal text-secondary mb-4 font-arthelo">
                   {benefit.title}
                 </h3>
                 <p className="text-gray-600 font-marcellus leading-relaxed">
