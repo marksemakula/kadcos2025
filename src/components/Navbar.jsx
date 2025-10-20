@@ -25,7 +25,7 @@ const Navbar = () => {
       hasDropdown: true,
       items: [
         { name: 'About Us', path: '/about' },
-        { name: 'Leadership', path: '/leadership' },
+        { name: 'Governance', path: '/governance' },
         { 
           name: 'Messages', 
           hasNestedDropdown: true,

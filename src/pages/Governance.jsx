@@ -6,31 +6,31 @@ const Governance = () => {
     {
       name: "Mrs. Nseerikomawa Josephine",
       position: "Board Chairperson",
-      image: "/images/Nseerikomawa_Josephine.jpg",
+      image: "/images/Mrs.Nseerikomawa Josephine1.jpeg",
       bio: "Experienced leader providing strategic direction and oversight."
     },
     {
       name: "Council Jude Mbabaali",
       position: "Vice Chairperson",
-      image: "/images/Jude_Mbabaali.jpg",
+      image: "/images/Counsel Jude Mbabaali.jpeg",
       bio: "Supports the chairperson in governance and strategic planning."
     },
     {
       name: "Ms. Namaganda Justine",
       position: "Secretary",
-      image: "/images/Namaganda_Justine.jpg",
+      image: "/images/Miss.Namaganda Justine.jpeg",
       bio: "Responsible for documentation and official communications."
     },
     {
       name: "Mr. Tenywa Herman Musisi",
       position: "Treasurer",
-      image: "/images/Tenywa_Herman.jpg",
+      image: "/images/Mr. Herman Musisi Tenywa.jpeg",
       bio: "Manages financial oversight and fiscal responsibility."
     },
     {
       name: "Mr. Budde Harry Dominic",
       position: "Member",
-      image: "/images/Budde_Harry.jpg",
+      image: "/images/Mr.Harry Dominic Budde Kigonya.jpeg",
       bio: "Committee member contributing to strategic decisions."
     },
     {
@@ -42,19 +42,19 @@ const Governance = () => {
     {
       name: "Mr. Ssekamatte Patrick",
       position: "Member",
-      image: "/images/Ssekamatte_Patrick.jpg",
+      image: "/images/Mr.Ssekamate Patrick.jpeg",
       bio: "Committee member providing operational insights."
     },
     {
       name: "Mr. Mutebi Emmanuel",
       position: "Member",
-      image: "/images/Mutebi_Emmanuel.jpg",
+      image: "/images/Mr.Mutebi Ronald.jpeg",
       bio: "Committee member with community development expertise."
     },
     {
       name: "Mr. Mukalazi Vienny",
       position: "Member",
-      image: "/images/Mukalazi_Vienny.jpg",
+      image: "/images/Mr.Mukalazi John Vianney.jpeg",
       bio: "Committee member focused on growth initiatives."
     }
   ];
@@ -63,19 +63,19 @@ const Governance = () => {
     {
       name: "Mr. Gerald Katusabe",
       position: "Supervisory Committee",
-      image: "/images/Gerald_Katusabe.jpg",
+      image: "/images/Mr. Gerald Katusabe.jpeg",
       bio: "Oversees compliance and operational integrity."
     },
     {
       name: "Mrs. Josephine Sekatuba",
       position: "Supervisory Committee",
-      image: "/images/Josephine_Sekatuba.jpg",
+      image: "/images/Mrs.Josephine Ssekatuba.jpeg",
       bio: "Ensures regulatory compliance and best practices."
     },
     {
       name: "Mrs. Rose Ssali",
       position: "Supervisory Committee",
-      image: "/images/Rose_Ssali.jpg",
+      image: "/images/Miss. Rose Ssali.jpeg",
       bio: "Monitors operational efficiency and member satisfaction."
     }
   ];
@@ -84,49 +84,49 @@ const Governance = () => {
     {
       name: "Mr. Dumba Patrick",
       position: "Manager",
-      image: "/images/PatrickDdumba.png",
+      image: "/images/PatrickDdumba1.png",
       bio: "Business development specialist focused on expanding cooperative services."
     },
     {
       name: "Ms. Nyago Mary Goretti",
       position: "Accountant",
-      image: "/images/Mary_Goretti.jpg",
+      image: "/images/Nyago Mary Gorreti.jpeg",
       bio: "Manages financial records and reporting."
     },
     {
       name: "Ms. Namukasa Proscovia",
       position: "Credit Officer",
-      image: "/images/Proscovia_Namukasa.jpg",
+      image: "/images/Namukasa Proscovia.JPG",
       bio: "Handles credit assessments and loan management."
     },
     {
       name: "Ms. Kansiime Anna",
       position: "Assistant Credit Officer",
-      image: "/images/Anna_Kansiime.jpg",
+      image: "/images/Kansiime AnnaMaria.jpg",
       bio: "Supports credit operations and member services."
     },
     {
       name: "Ms. Namugga Maria",
       position: "Cashier",
-      image: "/images/Maria_Namugga.jpg",
+      image: "/images/Namugga Maria.jpg",
       bio: "Manages daily transactions and member accounts."
     },
     {
       name: "Ms. Nanyonga Gladys",
       position: "Cashier",
-      image: "/images/Gladys_Nanyonga.jpg",
+      image: "/images/Nanyonga Gladys.jpg",
       bio: "Handles financial transactions and customer service."
     },
     {
       name: "Ms. Nyago Grace",
       position: "Support Staff",
-      image: "/images/Grace_Nyago.jpg",
+      image: "/images/Nyago Mary Gorreti.jpeg",
       bio: "Provides operational support and maintenance."
     },
     {
       name: "Ms. Nabagereka Victoria",
       position: "Office Attendant/Receptionist",
-      image: "/images/nabagerekavictoria.jpeg",
+      image: "/images/Nabagereka Victoria.jpg",
       bio: "Dedicated to providing exceptional service and support to our members."
     }
   ];
