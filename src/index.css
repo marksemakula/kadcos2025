@@ -18,11 +18,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Urbanist', sans-serif !important;
 }
 
 body {
-  font-family: 'Urbanist', sans-serif !important;
+  font-family: 'Urbanist', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -34,19 +33,19 @@ body {
 
 /* Font utility classes */
 .font-urbanist {
-  font-family: 'Urbanist', sans-serif !important;
+  font-family: 'Urbanist', sans-serif;
 }
 
 .font-marcellus {
-  font-family: 'Marcellus', serif !important;
+  font-family: 'Marcellus', serif;
 }
 
 .font-arthelo {
-  font-family: 'Arthelo', sans-serif !important;
+  font-family: 'Arthelo', sans-serif;
 }
 
 .font-cookie {
-  font-family: 'Cookie', cursive !important;
+  font-family: 'Cookie', cursive;
 }
 
 /* Override any conflicting font styles */

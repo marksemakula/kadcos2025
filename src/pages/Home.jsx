@@ -63,7 +63,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-urbanist">
       <InterestWidget />
       
       {/* Hero Section - Modified for consistent yellow and no gap */}
@@ -76,7 +76,7 @@ const Home = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-4xl lg:text-6xl font-bold text-secondary mb-6 font-arthelo">
-                Your Trusted <span className="text-white">Financial Partner</span>
+                Your Trusted <span className="text-white font-urbanist">Financial Partner</span>
               </h1>
               <p className="text-xl text-gray-800 mb-8 font-marcellus leading-relaxed">
                 Financially empowering people through cooperative effort and savings culture since 2007.
@@ -257,8 +257,8 @@ const Home = () => {
               to="/membership"
               className="inline-flex items-center space-x-2 bg-primary text-secondary px-8 py-4 rounded-full font-arthelo hover:bg-orange-500 transition-colors duration-300"
             >
-              <span>Get Started Today</span>
-              <SafeIcon icon={FiArrowRight} />
+              <span className="font-arthelo">Get Started Today</span>
+              <SafeIcon icon={FiArrowRight} className="font-arthelo" />
             </Link>
           </motion.div>
         </div>
