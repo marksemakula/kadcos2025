@@ -75,7 +75,7 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-4xl lg:text-6xl font-bold text-secondary mb-6 font-urbanist">
+              <h1 className="text-4xl lg:text-6xl font-bold text-secondary mb-6 font-arthelo">
                 Your Trusted <span className="text-white">Financial Partner</span>
               </h1>
               <p className="text-xl text-gray-800 mb-8 font-marcellus leading-relaxed">
@@ -255,7 +255,7 @@ const Home = () => {
             </p>
             <Link
               to="/membership"
-              className="inline-flex items-center space-x-2 bg-primary text-secondary px-8 py-4 rounded-full font-marcellus hover:bg-orange-500 transition-colors duration-300"
+              className="inline-flex items-center space-x-2 bg-primary text-secondary px-8 py-4 rounded-full font-arthelo hover:bg-orange-500 transition-colors duration-300"
             >
               <span>Get Started Today</span>
               <SafeIcon icon={FiArrowRight} />
