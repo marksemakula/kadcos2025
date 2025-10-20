@@ -163,7 +163,7 @@ const Home = () => {
                 <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
                   <SafeIcon icon={benefit.icon} className="text-primary text-2xl" />
                 </div>
-                <h3 className="text-xl font-semibold text-secondary mb-4 font-marcellus">
+                <h3 className="text-2xl font-semibold text-secondary mb-4 font-arthelo">
                   {benefit.title}
                 </h3>
                 <p className="text-gray-600 font-marcellus leading-relaxed">
@@ -184,10 +184,10 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-urbanist">
+            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-arthelo">
               Our Partners
             </h2>
-            <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
+            <p className="text-2xl text-gray-600 font-cookie max-w-3xl mx-auto">
               We collaborate with communities & leading organizations to better serve our members.
             </p>
           </motion.div>
