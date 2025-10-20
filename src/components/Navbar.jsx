@@ -37,7 +37,7 @@ const Navbar = () => {
       ]
     },
     { 
-      name: 'Services', 
+      name: 'Services & Products', 
       hasDropdown: true,
       items: [
         { name: 'Our Services', path: '/services' },
@@ -142,7 +142,7 @@ const Navbar = () => {
                   >
                     <button className={`flex items-center font-urbanist transition-colors duration-300 text-sm font-bold ${
                       (item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) || 
-                      (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
+                      (item.name === 'Services & Products' && (isActive('/services') || isActive('/resources-e-lib')))
                         ? 'text-primary border-b-2 border-primary' 
                         : 'text-black hover:text-primary'
                     }`}>
@@ -151,7 +151,7 @@ const Navbar = () => {
                     </button>
                     
                     <AnimatePresence>
-                      {(item.name === 'About' && isAboutOpen) || (item.name === 'Services' && isServicesOpen) ? (
+                      {(item.name === 'About' && isAboutOpen) || (item.name === 'Services & Products' && isServicesOpen) ? (
                         <motion.div 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -180,7 +180,7 @@ const Navbar = () => {
                                       }`}
                                       onClick={() => {
                                         if (item.name === 'About') setIsAboutOpen(false)
-                                        if (item.name === 'Services') setIsServicesOpen(false)
+                                        if (item.name === 'Services & Products') setIsServicesOpen(false)
                                       }}
                                     >
                                       {nestedItem.name}
@@ -199,7 +199,7 @@ const Navbar = () => {
                                 }`}
                                 onClick={() => {
                                   if (item.name === 'About') setIsAboutOpen(false)
-                                  if (item.name === 'Services') setIsServicesOpen(false)
+                                  if (item.name === 'Services & Products') setIsServicesOpen(false)
                                 }}
                               >
                                 {dropdownItem.name}
@@ -284,14 +284,14 @@ const Navbar = () => {
                         if (item.name === 'About') {
                           setIsMobileAboutOpen(!isMobileAboutOpen)
                           setIsMobileServicesOpen(false)
-                        } else if (item.name === 'Services') {
+                        } else if (item.name === 'Services & Products') {
                           setIsMobileServicesOpen(!isMobileServicesOpen)
                           setIsMobileAboutOpen(false)
                         }
                       }}
                       className={`flex items-center justify-between w-full px-3 py-2 font-urbanist font-bold ${
                         (item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) ||
-                        (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
+                        (item.name === 'Services & Products' && (isActive('/services') || isActive('/resources-e-lib')))
                           ? 'text-primary bg-orange-50'
                           : 'text-black hover:text-primary hover:bg-gray-50'
                       }`}
@@ -299,10 +299,10 @@ const Navbar = () => {
                       <span>{item.name}</span>
                       <FiChevronDown className={`transform transition-transform ${
                         (item.name === 'About' && isMobileAboutOpen) || 
-                        (item.name === 'Services' && isMobileServicesOpen) ? 'rotate-180' : ''
+                        (item.name === 'Services & Products' && isMobileServicesOpen) ? 'rotate-180' : ''
                       }`} />
                     </button>
-                    {(item.name === 'About' && isMobileAboutOpen) || (item.name === 'Services' && isMobileServicesOpen) ? (
+                    {(item.name === 'About' && isMobileAboutOpen) || (item.name === 'Services & Products' && isMobileServicesOpen) ? (
                       <div className="pl-6">
                         {item.items.map((dropdownItem) => (
                           dropdownItem.hasNestedDropdown ? (

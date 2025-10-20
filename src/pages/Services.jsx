@@ -84,14 +84,15 @@ const Services = () => {
   ];
 
   const loanRequirements = [
-    'Regular savings for 3 months',
-    'Application letter and fully filled application form',
-    'At least one guarantor who is a full member of the Society',
-    'Collateral security'
+    'Full membership',
+    'Regular savings for at least a period of 3 months',
+    'At least one guarantor who is fully registered and in good standing with the cooperative',
+    'Loan application letter and a fully filled loan application form',
+    'Collateral on loans above 2.5 million'
   ];
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-primary py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -100,8 +101,8 @@ const Services = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl lg:text-5xl font-bold text-dark mb-6 font-marcellus">
-              Our Services
+            <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6 font-arthelo">
+              Services and Products
             </h1>
             <p className="text-xl text-gray-700 font-marcellus max-w-3xl mx-auto">
               Comprehensive financial services designed to meet your needs and help you achieve your goals
@@ -186,7 +187,7 @@ const Services = () => {
                 <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
                   {loan.description}
                 </p>
-                <div className="space-y-2">
+                <div className="space-y-2 mb-6">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-500 font-marcellus">Max Period:</span>
                     <span className="text-dark font-semibold font-marcellus">{loan.maxPeriod}</span>
@@ -196,13 +197,25 @@ const Services = () => {
                     <span className="text-primary font-semibold font-marcellus">{loan.interestRate}</span>
                   </div>
                 </div>
+                
+                {/* Loan Requirements added to each loan product */}
+                <div className="border-t pt-4">
+                  <h4 className="text-sm font-semibold text-dark mb-3 font-marcellus">Requirements:</h4>
+                  <ul className="text-xs text-gray-600 space-y-1 font-marcellus">
+                    <li>• Full membership</li>
+                    <li>• 3+ months regular savings</li>
+                    <li>• At least one guarantor</li>
+                    <li>• Application letter & form</li>
+                    <li>• Collateral for loans above 2.5m</li>
+                  </ul>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Loan Requirements */}
+      {/* Loan Requirements - Detailed Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
