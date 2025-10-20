@@ -25,7 +25,15 @@ const Navbar = () => {
       hasDropdown: true,
       items: [
         { name: 'About Us', path: '/about' },
-        { name: 'Leadership', path: '/leadership' }
+        { name: 'Leadership', path: '/leadership' },
+        { 
+          name: 'Messages', 
+          hasNestedDropdown: true,
+          items: [
+            { name: "Manager's Message", path: '/managers-message' },
+            { name: "Board Chair's Message", path: '/board-chair-message' }
+          ]
+        }
       ]
     },
     { 
@@ -36,8 +44,6 @@ const Navbar = () => {
         { name: 'Resources/e-Lib', path: '/resources-e-lib' }
       ]
     },
-    { name: "Manager's Message", path: '/managers-message' },
-    { name: "Board Chair's Message", path: '/board-chair-message' },
     { name: 'Membership', path: '/membership' },
     { name: 'News Updates', path: '/blog' },
     { name: 'Work with us', path: '/work-with-us' },
@@ -49,6 +55,11 @@ const Navbar = () => {
       return location.pathname === path;
     }
     return location.pathname.startsWith(path);
+  }
+
+  // Check if any message page is active
+  const isMessageActive = () => {
+    return location.pathname === '/managers-message' || location.pathname === '/board-chair-message';
   }
 
   // Handle hover with delay for better UX - About
@@ -131,7 +142,7 @@ const Navbar = () => {
                     onMouseLeave={item.name === 'About' ? handleAboutMouseLeave : handleServicesMouseLeave}
                   >
                     <button className={`flex items-center font-marcellus transition-colors duration-300 text-sm font-bold ${
-                      (item.name === 'About' && (isActive('/about') || isActive('/leadership'))) || 
+                      (item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) || 
                       (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
                         ? 'text-primary border-b-2 border-primary' 
                         : 'text-black hover:text-primary'
@@ -147,26 +158,54 @@ const Navbar = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
+                          className="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
                           onMouseEnter={item.name === 'About' ? handleAboutMouseEnter : handleServicesMouseEnter}
                           onMouseLeave={item.name === 'About' ? handleAboutMouseLeave : handleServicesMouseLeave}
                         >
                           {item.items.map((dropdownItem) => (
-                            <Link
-                              key={dropdownItem.name}
-                              to={dropdownItem.path}
-                              className={`block px-4 py-2 text-sm font-marcellus font-bold ${
-                                isActive(dropdownItem.path)
-                                  ? 'text-primary bg-orange-50'
-                                  : 'text-black hover:bg-gray-50 hover:text-primary'
-                              }`}
-                              onClick={() => {
-                                if (item.name === 'About') setIsAboutOpen(false)
-                                if (item.name === 'Services') setIsServicesOpen(false)
-                              }}
-                            >
-                              {dropdownItem.name}
-                            </Link>
+                            dropdownItem.hasNestedDropdown ? (
+                              <div key={dropdownItem.name} className="relative group/nested">
+                                <div className="flex items-center justify-between px-4 py-2 text-sm font-marcellus font-bold text-black hover:bg-gray-50 hover:text-primary cursor-pointer">
+                                  {dropdownItem.name}
+                                  <FiChevronDown className="ml-1 transform rotate-0 group-hover/nested:rotate-180 transition-transform" />
+                                </div>
+                                <div className="absolute left-full top-0 ml-1 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200 opacity-0 invisible group-hover/nested:opacity-100 group-hover/nested:visible transition-all duration-200">
+                                  {dropdownItem.items.map((nestedItem) => (
+                                    <Link
+                                      key={nestedItem.name}
+                                      to={nestedItem.path}
+                                      className={`block px-4 py-2 text-sm font-marcellus font-bold ${
+                                        isActive(nestedItem.path)
+                                          ? 'text-primary bg-orange-50'
+                                          : 'text-black hover:bg-gray-50 hover:text-primary'
+                                      }`}
+                                      onClick={() => {
+                                        if (item.name === 'About') setIsAboutOpen(false)
+                                        if (item.name === 'Services') setIsServicesOpen(false)
+                                      }}
+                                    >
+                                      {nestedItem.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            ) : (
+                              <Link
+                                key={dropdownItem.name}
+                                to={dropdownItem.path}
+                                className={`block px-4 py-2 text-sm font-marcellus font-bold ${
+                                  isActive(dropdownItem.path)
+                                    ? 'text-primary bg-orange-50'
+                                    : 'text-black hover:bg-gray-50 hover:text-primary'
+                                }`}
+                                onClick={() => {
+                                  if (item.name === 'About') setIsAboutOpen(false)
+                                  if (item.name === 'Services') setIsServicesOpen(false)
+                                }}
+                              >
+                                {dropdownItem.name}
+                              </Link>
+                            )
                           ))}
                         </motion.div>
                       ) : null}
@@ -241,7 +280,7 @@ const Navbar = () => {
                         }
                       }}
                       className={`flex items-center justify-between w-full px-3 py-2 font-marcellus font-bold ${
-                        (item.name === 'About' && (isActive('/about') || isActive('/leadership'))) ||
+                        (item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) ||
                         (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
                           ? 'text-primary bg-orange-50'
                           : 'text-black hover:text-primary hover:bg-gray-50'
@@ -256,22 +295,64 @@ const Navbar = () => {
                     {(item.name === 'About' && isMobileAboutOpen) || (item.name === 'Services' && isMobileServicesOpen) ? (
                       <div className="pl-6">
                         {item.items.map((dropdownItem) => (
-                          <Link
-                            key={dropdownItem.name}
-                            to={dropdownItem.path}
-                            onClick={() => {
-                              setIsOpen(false)
-                              setIsMobileAboutOpen(false)
-                              setIsMobileServicesOpen(false)
-                            }}
-                            className={`block px-3 py-2 font-marcellus font-bold ${
-                              isActive(dropdownItem.path)
-                                ? 'text-primary bg-orange-50'
-                                : 'text-black hover:text-primary hover:bg-gray-50'
-                            }`}
-                          >
-                            {dropdownItem.name}
-                          </Link>
+                          dropdownItem.hasNestedDropdown ? (
+                            <div key={dropdownItem.name}>
+                              <button
+                                onClick={() => {
+                                  // For mobile, we'll handle nested dropdowns by toggling
+                                  const nestedItems = document.getElementById(`mobile-${dropdownItem.name.toLowerCase()}`);
+                                  if (nestedItems) {
+                                    nestedItems.classList.toggle('hidden');
+                                  }
+                                }}
+                                className={`flex items-center justify-between w-full px-3 py-2 font-marcellus font-bold ${
+                                  isMessageActive()
+                                    ? 'text-primary bg-orange-50'
+                                    : 'text-black hover:text-primary hover:bg-gray-50'
+                                }`}
+                              >
+                                <span>{dropdownItem.name}</span>
+                                <FiChevronDown className="transform transition-transform" />
+                              </button>
+                              <div id={`mobile-${dropdownItem.name.toLowerCase()}`} className="hidden pl-4">
+                                {dropdownItem.items.map((nestedItem) => (
+                                  <Link
+                                    key={nestedItem.name}
+                                    to={nestedItem.path}
+                                    onClick={() => {
+                                      setIsOpen(false)
+                                      setIsMobileAboutOpen(false)
+                                      setIsMobileServicesOpen(false)
+                                    }}
+                                    className={`block px-3 py-2 font-marcellus font-bold ${
+                                      isActive(nestedItem.path)
+                                        ? 'text-primary bg-orange-50'
+                                        : 'text-black hover:text-primary hover:bg-gray-50'
+                                    }`}
+                                  >
+                                    {nestedItem.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <Link
+                              key={dropdownItem.name}
+                              to={dropdownItem.path}
+                              onClick={() => {
+                                setIsOpen(false)
+                                setIsMobileAboutOpen(false)
+                                setIsMobileServicesOpen(false)
+                              }}
+                              className={`block px-3 py-2 font-marcellus font-bold ${
+                                isActive(dropdownItem.path)
+                                  ? 'text-primary bg-orange-50'
+                                  : 'text-black hover:text-primary hover:bg-gray-50'
+                              }`}
+                            >
+                              {dropdownItem.name}
+                            </Link>
+                          )
                         ))}
                       </div>
                     ) : null}
