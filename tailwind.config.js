@@ -18,7 +18,8 @@ export default {
       },
       fontFamily: {
         'urbanist': ['Urbanist', 'sans-serif'],
-        'marcellus': ['Marcellus', 'serif'], // Add this line
+        'marcellus': ['Marcellus', 'serif'],
+        'arthelo': ['Arthelo', 'sans-serif'],
       },
     },
   },

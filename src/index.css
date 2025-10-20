@@ -1,8 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap'); /* Add this line */
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Arthelo Brush Font Face */
+@font-face {
+  font-family: 'Arthelo';
+  src: url('./fonts/ArtheloBrush.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 * {
   margin: 0;
@@ -31,9 +40,11 @@ body {
   font-family: 'Marcellus', serif !important;
 }
 
-/* Override any conflicting font styles - Remove global Urbanist override for headings */
-/* Let Tailwind classes handle specific font assignments */
+.font-arthelo {
+  font-family: 'Arthelo', sans-serif !important;
+}
 
+/* Rest of your CSS remains the same */
 /* Smart invert for ISO certification logos - No background */
 .iso-logo-container {
   position: relative;
