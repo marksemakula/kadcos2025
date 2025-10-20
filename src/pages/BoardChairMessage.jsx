@@ -2,12 +2,12 @@ import React from 'react';
 
 const BoardChairMessage = () => {
   return (
-    <div className="min-h-screen bg-white pt-8">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-secondary to-gray-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold font-marcellus mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold font-arthelo mb-6">
               Board Chair's Message
             </h1>
             <p className="text-xl lg:text-2xl font-marcellus text-primary">
