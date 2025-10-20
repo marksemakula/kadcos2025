@@ -140,7 +140,7 @@ const Navbar = () => {
                     onMouseEnter={item.name === 'About' ? handleAboutMouseEnter : handleServicesMouseEnter}
                     onMouseLeave={item.name === 'About' ? handleAboutMouseLeave : handleServicesMouseLeave}
                   >
-                    <button className={`flex items-center font-marcellus transition-colors duration-300 text-sm font-bold ${
+                    <button className={`flex items-center font-urbanist transition-colors duration-300 text-sm font-bold ${
                       (item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) || 
                       (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
                         ? 'text-primary border-b-2 border-primary' 
@@ -164,7 +164,7 @@ const Navbar = () => {
                           {item.items.map((dropdownItem) => (
                             dropdownItem.hasNestedDropdown ? (
                               <div key={dropdownItem.name} className="relative group/nested">
-                                <div className="flex items-center justify-between px-4 py-2 text-sm font-marcellus font-bold text-black hover:bg-gray-50 hover:text-primary cursor-pointer">
+                                <div className="flex items-center justify-between px-4 py-2 text-sm font-urbanist font-bold text-black hover:bg-gray-50 hover:text-primary cursor-pointer">
                                   {dropdownItem.name}
                                   <FiChevronDown className="ml-1 transform rotate-0 group-hover/nested:rotate-180 transition-transform" />
                                 </div>
@@ -173,7 +173,7 @@ const Navbar = () => {
                                     <Link
                                       key={nestedItem.name}
                                       to={nestedItem.path}
-                                      className={`block px-4 py-2 text-sm font-marcellus font-bold ${
+                                      className={`block px-4 py-2 text-sm font-urbanist font-bold ${
                                         isActive(nestedItem.path)
                                           ? 'text-primary bg-orange-50'
                                           : 'text-black hover:bg-gray-50 hover:text-primary'
@@ -192,7 +192,7 @@ const Navbar = () => {
                               <Link
                                 key={dropdownItem.name}
                                 to={dropdownItem.path}
-                                className={`block px-4 py-2 text-sm font-marcellus font-bold ${
+                                className={`block px-4 py-2 text-sm font-urbanist font-bold ${
                                   isActive(dropdownItem.path)
                                     ? 'text-primary bg-orange-50'
                                     : 'text-black hover:bg-gray-50 hover:text-primary'
@@ -214,7 +214,7 @@ const Navbar = () => {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`font-marcellus transition-colors duration-300 text-sm font-bold ${
+                    className={`font-urbanist transition-colors duration-300 text-sm font-bold ${
                       isActive(item.path)
                         ? 'text-primary border-b-2 border-primary'
                         : 'text-black hover:text-primary'
@@ -230,7 +230,7 @@ const Navbar = () => {
                 href="https://mail.kadcoslubaga.co.ug"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center font-marcellus transition-colors duration-300 text-sm font-bold text-black hover:text-primary"
+                className="flex items-center font-urbanist transition-colors duration-300 text-sm font-bold text-black hover:text-primary"
               >
                 <FiMail className="mr-1" />
                 Mail
@@ -242,7 +242,7 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center space-x-4 flex-shrink-0 ml-auto pt-4 lg:pt-0">
             <Link
               to="/membership"
-              className="bg-primary text-white px-5 py-2 rounded-full font-marcellus font-bold hover:bg-orange-500 transition-colors duration-300 text-sm"
+              className="bg-primary text-white px-5 py-2 rounded-full font-urbanist font-bold hover:bg-orange-500 transition-colors duration-300 text-sm"
             >
               Join Now
             </Link>
@@ -289,7 +289,7 @@ const Navbar = () => {
                           setIsMobileAboutOpen(false)
                         }
                       }}
-                      className={`flex items-center justify-between w-full px-3 py-2 font-marcellus font-bold ${
+                      className={`flex items-center justify-between w-full px-3 py-2 font-urbanist font-bold ${
                         (item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) ||
                         (item.name === 'Services' && (isActive('/services') || isActive('/resources-e-lib')))
                           ? 'text-primary bg-orange-50'
@@ -315,7 +315,7 @@ const Navbar = () => {
                                     nestedItems.classList.toggle('hidden');
                                   }
                                 }}
-                                className={`flex items-center justify-between w-full px-3 py-2 font-marcellus font-bold ${
+                                className={`flex items-center justify-between w-full px-3 py-2 font-urbanist font-bold ${
                                   isMessageActive()
                                     ? 'text-primary bg-orange-50'
                                     : 'text-black hover:text-primary hover:bg-gray-50'
@@ -334,7 +334,7 @@ const Navbar = () => {
                                       setIsMobileAboutOpen(false)
                                       setIsMobileServicesOpen(false)
                                     }}
-                                    className={`block px-3 py-2 font-marcellus font-bold ${
+                                    className={`block px-3 py-2 font-urbanist font-bold ${
                                       isActive(nestedItem.path)
                                         ? 'text-primary bg-orange-50'
                                         : 'text-black hover:text-primary hover:bg-gray-50'
@@ -354,7 +354,7 @@ const Navbar = () => {
                                 setIsMobileAboutOpen(false)
                                 setIsMobileServicesOpen(false)
                               }}
-                              className={`block px-3 py-2 font-marcellus font-bold ${
+                              className={`block px-3 py-2 font-urbanist font-bold ${
                                 isActive(dropdownItem.path)
                                   ? 'text-primary bg-orange-50'
                                   : 'text-black hover:text-primary hover:bg-gray-50'
@@ -372,7 +372,7 @@ const Navbar = () => {
                     key={item.name}
                     to={item.path}
                     onClick={() => setIsOpen(false)}
-                    className={`block px-3 py-2 font-marcellus font-bold ${
+                    className={`block px-3 py-2 font-urbanist font-bold ${
                       isActive(item.path)
                         ? 'text-primary bg-orange-50'
                         : 'text-black hover:text-primary hover:bg-gray-50'
@@ -389,7 +389,7 @@ const Navbar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center px-3 py-2 font-marcellus font-bold text-black hover:text-primary hover:bg-gray-50"
+                className="flex items-center px-3 py-2 font-urbanist font-bold text-black hover:text-primary hover:bg-gray-50"
               >
                 <FiMail className="mr-2" />
                 Mail
@@ -398,14 +398,14 @@ const Navbar = () => {
               <Link
                 to="/membership"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 mt-4 bg-primary text-white rounded-md font-marcellus font-bold text-center"
+                className="block px-3 py-2 mt-4 bg-primary text-white rounded-md font-urbanist font-bold text-center"
               >
                 Join Now
               </Link>
               <Link
                 to="/admin"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 mt-2 text-gray-500 hover:text-secondary font-marcellus font-bold"
+                className="block px-3 py-2 mt-2 text-gray-500 hover:text-secondary font-urbanist font-bold"
               >
                 Admin Login
               </Link>
