@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
@@ -15,46 +15,117 @@ const About = () => {
     'Attain higher profits by capitalizing on large economies of scale'
   ];
 
+  const carouselImages = [
+    '/images/kadcos_lubaga_co_operative_society_cover.jpeg',
+    '/images/kadcos_office_1.jpg',
+    '/images/kadcos_office_2.jpg',
+    '/images/kadcos_meeting_1.jpg'
+  ];
+
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isTransitioning) {
+        setIsTransitioning(true);
+        setCurrentImage((prev) => (prev + 1) % carouselImages.length);
+        setTimeout(() => setIsTransitioning(false), 1000);
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [carouselImages.length, isTransitioning]);
+
   return (
-    <div className="min-h-screen pt-20">
-      {/* Hero Section - Updated with Patrick Ddumba image on left */}
-      <section className="bg-primary py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <div className="min-h-screen">
+      {/* Hero Section with Image Carousel */}
+      <section className="relative bg-primary h-[45vh] min-h-[400px] w-full overflow-hidden">
+        {/* Image Carousel with Optimized Zoom Out Effect */}
+        <div className="absolute inset-0 w-full h-full">
+          <AnimatePresence mode="wait">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="flex justify-center"
+              key={currentImage}
+              className="absolute inset-0 w-full h-full"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1 }}
+              transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              <img 
-                src="/images/kadcos_lubaga_co_operative_society_cover.jpeg" 
-                alt="KADCOS Head Office" 
-                className="rounded-lg shadow-lg w-full max-w-md h-auto object-cover"
+              <img
+                src={carouselImages[currentImage]}
+                alt="KADCOS Carousel"
+                className="w-full h-full object-cover"
+                loading="eager"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "/images/kadcos_lubaga_co_operative_society_cover.jpeg";
                 }}
               />
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-center lg:text-left"
-            >
-              <h1 className="text-4xl lg:text-5xl font-bold text-secondary mb-6 font-marcellus">
-                
-              </h1>
-              <p className="text-xl text-gray-700 font-marcellus">
-                Kampala Archdiocese Development Cooperative Society - Empowering communities through faith-based financial services
-              </p>
-            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Double Density Halftone Dot Filter Overlay */}
+        <div 
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 1px 1px, #2181A1 1px, transparent 1px),
+              radial-gradient(circle at 1px 1px, #2181A1 1px, transparent 1px)
+            `,
+            backgroundSize: '4px 4px',
+            backgroundPosition: '0 0, 2px 2px',
+            opacity: '0.35',
+            mixBlendMode: 'multiply'
+          }}
+        />
+
+        {/* Dark Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-20" />
+        
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="flex justify-center lg:justify-start">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-center lg:text-left text-white max-w-3xl"
+              >
+                <h1 className="text-3xl lg:text-5xl font-bold mb-4 lg:mb-6 font-marcellus">
+                  Kampala Archdiocese Development Cooperative Society
+                </h1>
+                <p className="text-lg lg:text-xl text-gray-100 font-marcellus">
+                  Empowering communities through faith-based financial services
+                </p>
+              </motion.div>
+            </div>
           </div>
+        </div>
+
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+          {carouselImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setIsTransitioning(true);
+                setCurrentImage(index);
+                setTimeout(() => setIsTransitioning(false), 1000);
+              }}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentImage 
+                  ? 'bg-white scale-125' 
+                  : 'bg-white bg-opacity-50'
+              }`}
+            />
+          ))}
         </div>
       </section>
 
-      {/* Introduction */}
+      {/* Rest of the sections remain exactly the same */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -133,6 +204,12 @@ const About = () => {
             <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
               We are committed to achieving these key objectives for the benefit of our members and community.
             </p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-marcellus">
+              Core Values
+            </h2>
+            <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
+              Integrity. Efficientcy. Transparency. Equality. Confidentiality. Accountability.
+            </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -190,7 +267,7 @@ const About = () => {
                 className="rounded-lg shadow-lg w-full h-96 object-cover"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "https://images.unsplash.com/photo-1580477667995-2b94f01c9516?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80";
+                  e.target.src = "/images/kadcos_lubaga_co_operative_society_cover.jpeg";
                 }}
               />
             </motion.div>
