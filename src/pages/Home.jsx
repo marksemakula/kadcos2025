@@ -8,26 +8,36 @@ import InterestWidget from '../components/InterestWidget';
 const { FiUsers, FiDollarSign, FiTrendingUp, FiShield, FiArrowRight, FiCheckCircle } = FiIcons;
 
 const Home = () => {
-  const services = [
+  const benefits = [
     {
-      icon: FiDollarSign,
-      title: 'Savings Accounts',
-      description: 'Regular savings with competitive interest rates starting from 10,000 UGX monthly.',
-    },
-    {
-      icon: FiTrendingUp,
-      title: 'Loan Services',
-      description: 'Various loan products including personal, business, agricultural, and emergency loans.',
-    },
-    {
-      icon: FiUsers,
-      title: 'Membership Benefits',
-      description: 'Join our community of over 1,700 members and enjoy exclusive cooperative benefits.',
+      icon: FiCheckCircle,
+      title: 'Proven Track Record',
+      description: '17+ years of trusted financial service with over 1,700 satisfied members.',
     },
     {
       icon: FiShield,
-      title: 'Secure Investment',
-      description: 'Your investments are secure with our regulated cooperative society framework.',
+      title: 'Secure & Regulated',
+      description: 'Your investments are protected under our regulated cooperative society framework.',
+    },
+    {
+      icon: FiTrendingUp,
+      title: 'Competitive Returns',
+      description: 'Earn up to 2% monthly interest on your savings and investments.',
+    },
+    {
+      icon: FiUsers,
+      title: 'Community Focused',
+      description: 'Be part of a growing community that supports each other financially.',
+    },
+    {
+      icon: FiDollarSign,
+      title: 'Flexible Savings',
+      description: 'Start with as little as 10,000 UGX monthly with various savings options.',
+    },
+    {
+      icon: FiCheckCircle,
+      title: 'Multiple Branches',
+      description: 'Convenient access with 10+ parish branches across our network.',
     },
   ];
 
@@ -124,7 +134,48 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Logo Carousel Section */}
+      {/* Benefits Section - Replaced Services Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-marcellus">
+              Why Choose KADCOS Lubaga Co-operative Society
+            </h2>
+            <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
+              Join a trusted financial community that has been empowering members through cooperative savings and investment since 2007.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="bg-white p-8 rounded-lg shadow-lg card-hover"
+              >
+                <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                  <SafeIcon icon={benefit.icon} className="text-primary text-2xl" />
+                </div>
+                <h3 className="text-xl font-semibold text-secondary mb-4 font-marcellus">
+                  {benefit.title}
+                </h3>
+                <p className="text-gray-600 font-marcellus leading-relaxed">
+                  {benefit.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Logo Carousel Section - Moved to bottom */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -186,47 +237,6 @@ const Home = () => {
             }
           }
         `}</style>
-      </section>
-
-      {/* Services Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-marcellus">
-              Our Services
-            </h2>
-            <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
-              We provide comprehensive financial services tailored to empower our members through cooperative effort.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white p-8 rounded-lg shadow-lg card-hover"
-              >
-                <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                  <SafeIcon icon={service.icon} className="text-primary text-2xl" />
-                </div>
-                <h3 className="text-xl font-semibold text-secondary mb-4 font-marcellus">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 font-marcellus leading-relaxed">
-                  {service.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* CTA Section */}
