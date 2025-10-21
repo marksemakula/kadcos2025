@@ -83,7 +83,7 @@ const Membership = () => {
         'Paying entry fees of shs.16,000',
         'Mandatory share purchase of shs.100,000'
       ],
-      formUrl: 'https://script.google.com/macros/s/AKfycbyJeZia1hn2EgeY9wAqCCgm80mRan63aHzeD6mdHlFUhYMOs7TiKLcUPTgyROv-Osd4/exec',
+      formUrl: 'https://script.google.com/macros/s/AKfycbyydO_cpBOfNZAtLYc84ZXnLMjfy6XCN1ii2LASapljNdHaLgy2x_eODd4IJRa6-D6d0g/exec',
       formType: 'individual'
     },
     {
@@ -97,7 +97,7 @@ const Membership = () => {
         'Paying entry fees of shs.26,000',
         'Mandatory share purchase of shs.100,000'
       ],
-      formUrl: 'https://script.google.com/macros/s/AKfycbyJeZia1hn2EgeY9wAqCCgm80mRan63aHzeD6mdHlFUhYMOs7TiKLcUPTgyROv-Osd4/exec',
+      formUrl: 'https://script.google.com/macros/s/AKfycbyleByh_jNzu5y1f6bApnJb7238Rwe2YWtGdOtXZNhY8cyLW-br0tFp8ppOCWYjNwP3cA/exec',
       formType: 'joint'
     },
     {
@@ -111,7 +111,7 @@ const Membership = () => {
         'Paying entry fees of shs.56,000',
         'Mandatory share purchase of shs.100,000'
       ],
-      formUrl: 'https://script.google.com/macros/s/AKfycbyJeZia1hn2EgeY9wAqCCgm80mRan63aHzeD6mdHlFUhYMOs7TiKLcUPTgyROv-Osd4/exec',
+      formUrl: 'https://script.google.com/macros/s/AKfycbxjQdo4azDlnTw9NCQcJtCbPxpPYqETMGhJFzMqetThlXwurXmO1hIL4xIbxqlYenTGAQ/exec',
       formType: 'group'
     }
   ]
