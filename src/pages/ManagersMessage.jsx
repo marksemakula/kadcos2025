@@ -38,53 +38,53 @@ const ManagersMessage = () => {
                 className="w-48 h-48 object-cover rounded-full border-4 border-primary"
               />
               <div>
-                <h2 className="text-2xl font-bold text-secondary mb-2 font-arthelo">
-                  Mr. Dumba Patrick, <span className="font-arthelo text-base">CFIP</span>
+                <h2 className="text-2xl font-bold text-secondary mb-2 font-marcellus">
+                  Mr. Dumba Patrick, <span className="font-marcellus text-base">CFIP</span>
                 </h2>
-                <p className="text-gray-600 font-cookie mb-2 text-2xl">Manager</p>
-                <p className="text-gray-500 font-cookie text-xl">
-                  <span className="font-arthelo text-lg">KADCOS</span> Lubaga Cooperative Society Ltd
+                <p className="text-gray-600 font-marcellus mb-2 text-l">Manager</p>
+                <p className="text-gray-500 font-marcellus text-l">
+                  KADCOS Lubaga Cooperative Society Ltd
                 </p>
               </div>
             </div>
 
             <div className="prose max-w-none">
-              <p className="text-gray-700 mb-6 font-cookie text-2xl leading-relaxed">
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
                 Dear valued members and partners,
               </p>
               
-              <p className="text-gray-700 mb-6 font-cookie text-2xl leading-relaxed">
-                Welcome to <span className="font-arthelo text-lg">KADCOS</span> Lubaga Co-operative Society Ltd. We are dedicated to promoting financial empowerment, 
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
+                Welcome to KADCOS Lubaga Co-operative Society Ltd. We are dedicated to promoting financial empowerment, 
                 sustainable growth and shared prosperity for all our members. Guided with integrity and good governance, 
                 we remain committed to providing reliable services that create lasting value for our community members 
                 through cooperative effort and a strong savings culture.
               </p>
               
-              <p className="text-gray-700 mb-6 font-cookie text-2xl leading-relaxed">
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
                 Our journey has been remarkable, growing from a small initiative to a thriving cooperative with over 
                 1,700 members. This growth is a testament to your trust in our services and the dedication of our team 
                 to provide exceptional financial solutions.
               </p>
               
-              <p className="text-gray-700 mb-6 font-cookie text-2xl leading-relaxed">
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
                 As we look to the future, we remain focused on innovation, member satisfaction, and sustainable growth. 
                 We will continue to introduce new services and improve existing ones to better serve you.
               </p>
               
-              <p className="text-gray-700 mb-6 font-cookie text-2xl leading-relaxed">
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
                 I invite you to explore our services, join our growing community, and experience the benefits of being 
-                part of <span className="font-arthelo text-lg">KADCOS</span>. Together, we can achieve financial freedom and build a prosperous community.
+                part of KADCOS. Together, we can achieve financial freedom and build a prosperous community.
               </p>
               
-              <p className="text-gray-700 font-cookie text-2xl leading-relaxed">
+              <p className="text-gray-700 font-marcellus text-l leading-relaxed">
                 Thank you for your continued trust and support.
               </p>
               
-              <p className="text-gray-700 mt-8 font-cookie text-2xl leading-relaxed">
+              <p className="text-gray-700 mt-8 font-marcellus text-l leading-relaxed">
                 Sincerely,<br />
-                <strong>Patrick Dumba, <span className="font-arthelo text-base">CFIP</span></strong><br />
+                <strong>Patrick Dumba, CFIP</strong><br />
                 Manager<br />
-                <span className="font-arthelo text-lg">KADCOS</span> Lubaga Cooperative Society Ltd
+                KADCOS Lubaga Cooperative Society Ltd
               </p>
             </div>
           </motion.div>
@@ -107,7 +107,7 @@ const ManagersMessage = () => {
             </p>
             <a
               href="/membership"
-              className="inline-flex items-center bg-primary text-secondary px-8 py-4 rounded-full font-arthelo hover:bg-orange-500 transition-colors duration-300"
+              className="inline-flex items-center bg-primary text-secondary px-8 py-4 rounded-full font-marcellus hover:bg-orange-500 transition-colors duration-300"
             >
               Become a Member
             </a>
