@@ -49,38 +49,38 @@ const ManagersMessage = () => {
             </div>
 
             <div className="prose max-w-none">
-              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed text-justify">
                 Dear valued members and partners,
               </p>
               
-              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed text-justify">
                 Welcome to KADCOS Lubaga Co-operative Society Ltd. We are dedicated to promoting financial empowerment, 
                 sustainable growth and shared prosperity for all our members. Guided with integrity and good governance, 
                 we remain committed to providing reliable services that create lasting value for our community members 
                 through cooperative effort and a strong savings culture.
               </p>
               
-              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed text-justify">
                 Our journey has been remarkable, growing from a small initiative to a thriving cooperative with over 
                 1,700 members. This growth is a testament to your trust in our services and the dedication of our team 
                 to provide exceptional financial solutions.
               </p>
               
-              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed text-justify">
                 As we look to the future, we remain focused on innovation, member satisfaction, and sustainable growth. 
                 We will continue to introduce new services and improve existing ones to better serve you.
               </p>
               
-              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed">
+              <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed text-justify">
                 I invite you to explore our services, join our growing community, and experience the benefits of being 
                 part of KADCOS. Together, we can achieve financial freedom and build a prosperous community.
               </p>
               
-              <p className="text-gray-700 font-marcellus text-l leading-relaxed">
+              <p className="text-gray-700 font-marcellus text-l leading-relaxed text-justify">
                 Thank you for your continued trust and support.
               </p>
               
-              <p className="text-gray-700 mt-8 font-marcellus text-l leading-relaxed">
+              <p className="text-gray-700 mt-8 font-marcellus text-l leading-relaxed text-justify">
                 Sincerely,<br />
                 <strong>Patrick Dumba, CFIP</strong><br />
                 Manager<br />
