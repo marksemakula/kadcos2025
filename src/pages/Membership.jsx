@@ -83,7 +83,7 @@ const Membership = () => {
         'Paying entry fees of shs.16,000',
         'Mandatory share purchase of shs.100,000'
       ],
-      formUrl: 'https://script.google.com/macros/s/AKfycbyydO_cpBOfNZAtLYc84ZXnLMjfy6XCN1ii2LASapljNdHaLgy2x_eODd4IJRa6-D6d0g/exec',
+      formUrl: 'https://script.google.com/macros/s/AKfycbxkZiuIzfyDdKgyTUCX3kNffyANvRPJY7Za0q7YJKKJye-ISC6la20y_bCiFo30VfmV7A/exec',
       formType: 'individual'
     },
     {
