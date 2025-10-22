@@ -42,7 +42,7 @@ const Footer = () => {
                 />
                 <div className="pt-1">
                   <h3 className="text-2xl font-bold font-marcellus">KADCOS</h3>
-                  <p className="text-gray-400 font-urbanist mt-1 text-l">Lubaga Cooperative Society Ltd.</p>
+                  <p className="text-gray-400 font-marcellus mt-1 text-l">Lubaga Cooperative Society Ltd.</p>
                 </div>
               </div>
               <p className="text-white-400 mb-3 font-marcellus leading-relaxed text-justify text-l">
