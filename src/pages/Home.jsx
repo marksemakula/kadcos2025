@@ -44,7 +44,7 @@ const Home = () => {
   const stats = [
     { number: '1,700+', label: 'Active Members' },
     { number: '17+', label: 'Years of Service' },
-    { number: '10+', label: 'Parish Branches' },
+    { number: '4', label: 'Parish Branches' },
     { number: '2%', label: 'Monthly Interest' },
   ];
 
