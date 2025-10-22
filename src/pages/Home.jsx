@@ -37,7 +37,7 @@ const Home = () => {
     {
       icon: FiCheckCircle,
       title: 'Multiple Branches',
-      description: 'Convenient access with 10+ parish branches across our network.',
+      description: 'Convenient access with 4 parish branches across our network.',
     },
   ];
 
