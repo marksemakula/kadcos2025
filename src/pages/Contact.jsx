@@ -49,19 +49,19 @@ const Contact = () => {
     {
       icon: FiPhone,
       title: 'Phone Numbers',
-      details: ['0783-077661', '0701763688'],
-      link: 'tel:0783077661'
+      details: ['+256 200 959838', '+256 783 077661', '+256 701 763688'],
+      link: 'tel:+256200959838'
     },
     {
       icon: FiMail,
-      title: 'Email Addresses',
-      details: ['kadcoslubaga.sacco@gmail.com', 'dpatrik005@gmail.com'],
+      title: 'Email Address',
+      details: ['kadcoslubaga.sacco@gmail.com'],
       link: 'mailto:kadcoslubaga.sacco@gmail.com'
     },
     {
       icon: FiMapPin,
-      title: 'Office Location',
-      details: ['Lubaga Cathedral', 'Administration Building'],
+      title: 'Lubaga Cathedral',
+      details: ['Administrative building', '+256 200 959838', '+256 783 077661', '+256 701 763688'],
       link: '#'
     },
     {
@@ -69,6 +69,24 @@ const Contact = () => {
       title: 'Working Hours',
       details: ['Mon-Fri: 8:30am - 5:00pm', 'Saturday: 8:00am - 1:00pm'],
       link: '#'
+    }
+  ];
+
+  const branchLocations = [
+    {
+      name: 'Mt Carmel Busega Parish',
+      phone: '+256 701606797',
+      details: ['Busega Parish']
+    },
+    {
+      name: 'Our Lady of Assumption Buyege Parish',
+      phone: '+256 782685238',
+      details: ['Buyege Parish']
+    },
+    {
+      name: 'St Bruno Sserunkuuma Kasenge Parish',
+      phone: '+256 782317265',
+      details: ['Kasenge Parish']
     }
   ];
 
@@ -109,7 +127,7 @@ const Contact = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {contactInfo.map((info, index) => (
               <motion.div
                 key={index}
@@ -130,6 +148,50 @@ const Contact = () => {
                       {detail}
                     </p>
                   ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Branch Locations */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-dark mb-4 font-marcellus">
+              Branch Locations
+            </h2>
+            <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
+              Visit us at any of our convenient branch locations
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {branchLocations.map((branch, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="bg-gray-50 p-8 rounded-lg shadow-lg card-hover text-center"
+              >
+                <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                  <SafeIcon icon={FiMapPin} className="text-primary text-2xl" />
+                </div>
+                <h3 className="text-xl font-semibold text-dark mb-4 font-marcellus">
+                  {branch.name}
+                </h3>
+                <div className="space-y-2">
+                  {branch.details.map((detail, idx) => (
+                    <p key={idx} className="text-gray-600 font-marcellus">
+                      {detail}
+                    </p>
+                  ))}
+                  <p className="text-primary font-semibold font-marcellus mt-2">
+                    {branch.phone}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -289,11 +351,11 @@ const Contact = () => {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <SafeIcon icon={FiPhone} className="text-primary" />
-                    <span className="text-gray-600 font-marcellus">0783-077661</span>
+                    <span className="text-gray-600 font-marcellus">+256 783 077661</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <SafeIcon icon={FiMail} className="text-primary" />
-                    <span className="text-gray-600 font-marcellus">patrik.dumba@kadcoslubaga.co.ug</span>
+                    <span className="text-gray-600 font-marcellus">kadcoslubaga.sacco@gmail.com</span>
                   </div>
                 </div>
               </div>
