@@ -120,7 +120,7 @@ const Governance = () => {
     {
       name: "Ms. Nyago Grace",
       position: "Support Staff",
-      image: "/images/Nyago Mary Gorreti.jpeg",
+      image: "/images/Ms.Nyago Grace.JPG",
       bio: "Provides operational support and maintenance."
     },
     {
