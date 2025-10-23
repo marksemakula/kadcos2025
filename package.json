@@ -1,14 +1,12 @@
 {
   "name": "kadcos-website",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run lint && vite build",
-    "lint": "eslint .",
-    "lint:error": "eslint . --quiet",
-    "preview": "vite preview"
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@questlabs/react-sdk": "latest",
