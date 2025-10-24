@@ -1,44 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import InterestWidget from '../components/InterestWidget';
 
-const { FiUsers, FiDollarSign, FiTrendingUp, FiShield, FiArrowRight, FiCheckCircle } = FiIcons;
+const { FiUsers, FiDollarSign, FiTrendingUp, FiShield, FiArrowRight, FiCheckCircle, FiPlay, FiPause } = FiIcons;
 
 const Home = () => {
-  const benefits = [
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const videos = [
+    {
+      src: "/videos/KADCOS HOME PAGE.mp4",
+      title: "Welcome to KADCOS",
+      description: "Discover our financial services and community"
+    },
+    {
+      src: "/videos/KADCOS MEMBERSHIP.mp4", 
+      title: "Membership Benefits",
+      description: "Learn about the advantages of joining KADCOS"
+    }
+  ];
+
+  const keyBenefits = [
     {
       icon: FiCheckCircle,
-      title: 'Proven Track Record',
-      description: '17+ years of trusted financial service with over 1,700 satisfied members.',
+      title: '17+ Years Experience',
+      description: 'Trusted financial service since 2007.',
     },
     {
       icon: FiShield,
       title: 'Secure & Regulated',
-      description: 'Your investments are protected under our regulated cooperative society framework.',
+      description: 'Protected under cooperative society framework.',
     },
     {
       icon: FiTrendingUp,
       title: 'Competitive Returns',
-      description: 'Earn up to 2% monthly interest on your savings and investments.',
-    },
-    {
-      icon: FiUsers,
-      title: 'Community Focused',
-      description: 'Be part of a growing community that supports each other financially.',
-    },
-    {
-      icon: FiDollarSign,
-      title: 'Flexible Savings',
-      description: 'Start with as little as 10,000 UGX monthly with various savings options.',
-    },
-    {
-      icon: FiCheckCircle,
-      title: 'Multiple Branches',
-      description: 'Convenient access with 4 parish branches across our network.',
-    },
+      description: 'Earn up to 2% monthly interest.',
+    }
   ];
 
   const stats = [
@@ -61,6 +62,28 @@ const Home = () => {
     "/images/fia.png",
     "/images/wcc.jpeg"
   ];
+
+  // Auto-advance carousel
+  useEffect(() => {
+    if (!isPlaying) return;
+    
+    const interval = setInterval(() => {
+      setCurrentVideoIndex((prevIndex) => 
+        prevIndex === videos.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 8000); // Change video every 8 seconds
+
+    return () => clearInterval(interval);
+  }, [isPlaying, videos.length]);
+
+  const handleVideoSelect = (index) => {
+    setCurrentVideoIndex(index);
+    setIsPlaying(true);
+  };
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
 
   return (
     <div className="min-h-screen font-urbanist">
@@ -134,7 +157,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Benefits Section - Replaced Services Section */}
+      {/* Split Section: Video Carousel + Benefits */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -146,31 +169,127 @@ const Home = () => {
             <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-arthelo">
               Why Choose KADCOS Lubaga Co-operative Society?
             </h2>
-            <p className="text-3xl text-gray-600 font-urbanist max-w-3xl mx-auto">
-
-            </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
+          {/* Split Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Video Carousel */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-6"
+            >
+              {/* Video Player */}
+              <div className="relative rounded-xl overflow-hidden shadow-lg bg-black">
+                <video 
+                  key={videos[currentVideoIndex].src}
+                  className="w-full h-auto max-h-96 object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                >
+                  <source src={videos[currentVideoIndex].src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                
+                {/* Video Controls */}
+                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                  <button
+                    onClick={togglePlayPause}
+                    className="bg-primary bg-opacity-80 hover:bg-opacity-100 text-white p-2 rounded-full transition-all duration-300"
+                  >
+                    {isPlaying ? 
+                      <SafeIcon icon={FiPause} className="text-lg" /> : 
+                      <SafeIcon icon={FiPlay} className="text-lg" />
+                    }
+                  </button>
+                  
+                  <div className="bg-black bg-opacity-60 text-white px-3 py-1 rounded-full">
+                    <span className="text-sm font-marcellus">
+                      {currentVideoIndex + 1} / {videos.length}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Video Navigation */}
+              <div className="flex space-x-4 justify-center">
+                {videos.map((video, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleVideoSelect(index)}
+                    className={`flex flex-col items-center p-3 rounded-lg transition-all duration-300 ${
+                      index === currentVideoIndex 
+                        ? 'bg-primary text-white' 
+                        : 'bg-white text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className="w-3 h-3 rounded-full bg-current mb-2"></div>
+                    <span className="text-sm font-marcellus whitespace-nowrap">
+                      {video.title}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Current Video Info */}
+              <div className="text-center">
+                <h3 className="text-xl font-arthelo text-secondary mb-2">
+                  {videos[currentVideoIndex].title}
+                </h3>
+                <p className="text-gray-600 font-marcellus">
+                  {videos[currentVideoIndex].description}
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Right: Minimalist Benefits */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-8"
+            >
+              {keyBenefits.map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="flex items-start space-x-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="bg-primary bg-opacity-10 p-3 rounded-full flex-shrink-0">
+                    <SafeIcon icon={benefit.icon} className="text-primary text-xl" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-arthelo text-secondary mb-2">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-gray-600 font-marcellus leading-relaxed">
+                      {benefit.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+
+              {/* Call to Action */}
               <motion.div
-                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white p-8 rounded-lg shadow-lg card-hover"
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="text-center pt-4"
               >
-                <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                  <SafeIcon icon={benefit.icon} className="text-primary text-2xl" />
-                </div>
-                <h3 className="text-2xl font-normal text-secondary mb-4 font-arthelo">
-                  {benefit.title}
-                </h3>
-                <p className="text-gray-600 font-marcellus leading-relaxed">
-                  {benefit.description}
-                </p>
+                <Link
+                  to="/about"
+                  className="inline-flex items-center space-x-2 bg-secondary text-white px-6 py-3 rounded-full font-arthelo hover:bg-blue-800 transition-colors duration-300"
+                >
+                  <span>Learn More About Us</span>
+                  <SafeIcon icon={FiArrowRight} />
+                </Link>
               </motion.div>
-            ))}
+            </motion.div>
           </div>
         </div>
       </section>
@@ -187,9 +306,6 @@ const Home = () => {
             <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-urbanist">
               Our Partners
             </h2>
-            <p className="text-2xl text-gray-600 font-urbanist max-w-3xl mx-auto">
-             
-            </p>
           </motion.div>
           
           {/* Carousel Container - Fixed for seamless looping */}
