@@ -3,7 +3,7 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20.19.0"
 
 [[headers]]
   for = "/*"
@@ -15,10 +15,5 @@
 
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/admin/*"
   to = "/index.html"
   status = 200
