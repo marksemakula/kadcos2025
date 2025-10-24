@@ -45,7 +45,7 @@ const Footer = () => {
                   <p className="text-gray-400 font-marcellus mt-1 text-l">Lubaga Cooperative Society Ltd.</p>
                 </div>
               </div>
-              <p className="text-white-400 mb-3 font-marcellus leading-relaxed text-justify text-l">
+              <p className="text-white-400 mb-3 font-marcellus leading-relaxed text-justify text-sm">
                 Financially empowering people through cooperative effort and savings culture since 2007.
               </p>
               <p className="text-sm text-gray-500 font-marcellus text-justify">ACTS 2:45-47</p>
