@@ -255,7 +255,7 @@ const Home = () => {
 
               {/* Current Video Info */}
               <div className="text-center">
-                <h3 className="text-xl font-arthelo text-secondary mb-2">
+                <h3 className="text-xl font-marcellus text-secondary mb-2">
                   {videos[currentVideoIndex].title}
                 </h3>
                 <p className="text-gray-600 font-marcellus">
@@ -283,7 +283,7 @@ const Home = () => {
                     <SafeIcon icon={benefit.icon} className="text-primary text-xl" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-arthelo text-secondary mb-2">
+                    <h3 className="text-xl font-marcellus text-secondary mb-2">
                       {benefit.title}
                     </h3>
                     <p className="text-gray-600 font-marcellus leading-relaxed">
@@ -302,7 +302,7 @@ const Home = () => {
               >
                 <Link
                   to="/about"
-                  className="inline-flex items-center space-x-2 bg-secondary text-white px-6 py-3 rounded-full font-arthelo hover:bg-blue-800 transition-colors duration-300"
+                  className="inline-flex items-center space-x-2 bg-secondary text-white px-6 py-3 rounded-full font-marcellus hover:bg-blue-800 transition-colors duration-300"
                 >
                   <span>Learn More About Us</span>
                   <SafeIcon icon={FiArrowRight} />
