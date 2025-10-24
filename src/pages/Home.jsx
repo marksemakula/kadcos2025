@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
@@ -10,6 +10,7 @@ const { FiUsers, FiDollarSign, FiTrendingUp, FiShield, FiArrowRight, FiCheckCirc
 const Home = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const videoRef = useRef(null);
 
   const videos = [
     {
@@ -63,18 +64,14 @@ const Home = () => {
     "/images/wcc.jpeg"
   ];
 
-  // Auto-advance carousel
-  useEffect(() => {
-    if (!isPlaying) return;
-    
-    const interval = setInterval(() => {
-      setCurrentVideoIndex((prevIndex) => 
-        prevIndex === videos.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 8000); // Change video every 8 seconds
-
-    return () => clearInterval(interval);
-  }, [isPlaying, videos.length]);
+  const handleVideoEnd = () => {
+    // When video ends, move to next video
+    setCurrentVideoIndex((prevIndex) => 
+      prevIndex === videos.length - 1 ? 0 : prevIndex + 1
+    );
+    // Reset playing state for next video
+    setIsPlaying(true);
+  };
 
   const handleVideoSelect = (index) => {
     setCurrentVideoIndex(index);
@@ -82,8 +79,28 @@ const Home = () => {
   };
 
   const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
   };
+
+  // Effect to handle play/pause when video changes
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.play().catch(error => {
+          console.log('Video play failed:', error);
+        });
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [currentVideoIndex, isPlaying]);
 
   return (
     <div className="min-h-screen font-urbanist">
@@ -183,12 +200,14 @@ const Home = () => {
               {/* Video Player */}
               <div className="relative rounded-xl overflow-hidden shadow-lg bg-black">
                 <video 
+                  ref={videoRef}
                   key={videos[currentVideoIndex].src}
                   className="w-full h-auto max-h-96 object-cover"
-                  autoPlay
                   muted
-                  loop
                   playsInline
+                  onEnded={handleVideoEnd}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
                 >
                   <source src={videos[currentVideoIndex].src} type="video/mp4" />
                   Your browser does not support the video tag.
