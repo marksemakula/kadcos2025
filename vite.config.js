@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: '/', // Changed from './' to '/'
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
@@ -12,14 +12,11 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false, // Disable sourcemaps for faster builds
-    emptyOutDir: true, // Ensure output directory is cleaned
+    sourcemap: false,
+    emptyOutDir: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          charts: ['echarts', 'echarts-for-react']
-        }
+        manualChunks: undefined,
       }
     }
   },
