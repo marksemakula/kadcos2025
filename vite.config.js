@@ -10,9 +10,21 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   },
-   build: {
+  build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: false, // Disable sourcemaps for faster builds
+    emptyOutDir: true, // Ensure output directory is cleaned
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          charts: ['echarts', 'echarts-for-react']
+        }
+      }
+    }
   },
-  publicDir: 'public'
+  publicDir: 'public',
+  server: {
+    host: true
+  }
 });
