@@ -18,12 +18,17 @@ const Footer = () => {
     {
       name: "Mt. Carmel Busega Parish",
       address: "Busega Catholic Parish",
-      phone: "0752-599221"
+      phone: "+256701606797"
     },
     {
       name: "Buyege Catholic Parish",
       address: "Buyege Parish Office",
-      phone: "0772-455332"
+      phone: "+256782685238"
+    },
+    {
+      name: "St Bruno Sserunkuuma Kasenge Parish",
+      address: "Kasenge Parish Office",
+      phone: "+256782317265"
     }
   ];
 
