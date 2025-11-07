@@ -8,7 +8,7 @@ const Vote = () => {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Define the valid member ID range
+  // Define the valid member ID range (hidden from users)
   const validMemberIdRange = {
     min: 9838001,
     max: 98381736
@@ -153,10 +153,9 @@ const Vote = () => {
   };
 
   const handleVote = async (positionId, candidateId) => {
-    // Prompt for member ID
+    // Prompt for member ID without revealing the range
     const memberId = window.prompt(
-      'Please enter your Member ID number to vote:\n\n' +
-      `Valid Member ID range: ${validMemberIdRange.min} - ${validMemberIdRange.max}`
+      'Please enter your Member ID number to vote:'
     );
 
     // If user cancels the prompt
@@ -166,7 +165,7 @@ const Vote = () => {
 
     // Validate member ID
     if (!isValidMemberId(memberId)) {
-      alert(`Invalid Member ID!\n\nPlease enter a valid Member ID between ${validMemberIdRange.min} and ${validMemberIdRange.max}`);
+      alert('Invalid Member ID! Please enter a valid Member ID.');
       return;
     }
 
@@ -191,7 +190,7 @@ const Vote = () => {
       return position;
     }));
     
-    alert(`Vote submitted successfully!\nMember ID: ${memberId}`);
+    alert('Vote submitted successfully!');
   };
 
   const handleApplication = async (applicationData) => {
@@ -238,7 +237,7 @@ const Vote = () => {
           </p>
           <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4 inline-block">
             <p className="text-sm text-blue-800 font-marcellus">
-              <strong>Voting Eligibility:</strong> Only members with valid Member ID numbers ({validMemberIdRange.min} - {validMemberIdRange.max}) can vote.
+              <strong>Voting Eligibility:</strong> Only verified members with valid Member ID numbers can vote.
             </p>
           </div>
         </motion.div>
@@ -277,7 +276,6 @@ const Vote = () => {
               onVote={handleVote}
               calculatePercentage={calculatePercentage}
               getApprovedCandidates={getApprovedCandidates}
-              validMemberIdRange={validMemberIdRange}
             />
           ) : (
             <ApplicationSection 
@@ -293,7 +291,7 @@ const Vote = () => {
 };
 
 // Vote Section Component - Only shows approved candidates
-const VoteSection = ({ positions, onVote, calculatePercentage, getApprovedCandidates, validMemberIdRange }) => {
+const VoteSection = ({ positions, onVote, calculatePercentage, getApprovedCandidates }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold text-secondary mb-6 font-marcellus text-center">
@@ -306,7 +304,7 @@ const VoteSection = ({ positions, onVote, calculatePercentage, getApprovedCandid
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
         <p className="text-sm text-yellow-800 font-marcellus text-center">
           <strong>Important:</strong> You will be asked to enter your Member ID when voting. 
-          Only members with valid Member IDs ({validMemberIdRange.min} - {validMemberIdRange.max}) can vote.
+          Only verified members with valid Member IDs can vote.
         </p>
       </div>
       
