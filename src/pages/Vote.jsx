@@ -8,6 +8,12 @@ const Vote = () => {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Define the valid member ID range
+  const validMemberIdRange = {
+    min: 9838001,
+    max: 98381736
+  };
+
   // Position qualifications based on the document
   const positionQualifications = {
     'Board Chairperson': {
@@ -139,9 +145,36 @@ const Vote = () => {
     return ((candidateVotes / totalVotes) * 100).toFixed(1);
   };
 
+  const isValidMemberId = (memberId) => {
+    const idNumber = parseInt(memberId);
+    return !isNaN(idNumber) && 
+           idNumber >= validMemberIdRange.min && 
+           idNumber <= validMemberIdRange.max;
+  };
+
   const handleVote = async (positionId, candidateId) => {
-    // TODO: Implement vote submission to backend
-    console.log(`Voted for position ${positionId}, candidate ${candidateId}`);
+    // Prompt for member ID
+    const memberId = window.prompt(
+      'Please enter your Member ID number to vote:\n\n' +
+      `Valid Member ID range: ${validMemberIdRange.min} - ${validMemberIdRange.max}`
+    );
+
+    // If user cancels the prompt
+    if (memberId === null) {
+      return;
+    }
+
+    // Validate member ID
+    if (!isValidMemberId(memberId)) {
+      alert(`Invalid Member ID!\n\nPlease enter a valid Member ID between ${validMemberIdRange.min} and ${validMemberIdRange.max}`);
+      return;
+    }
+
+    // TODO: Implement vote submission to backend with member ID verification
+    console.log(`Voted for position ${positionId}, candidate ${candidateId} by member ${memberId}`);
+    
+    // Check if this member has already voted for this position (you might want to implement this)
+    // For now, we'll proceed with the vote
     
     // Temporary mock update
     setPositions(prev => prev.map(position => {
@@ -158,7 +191,7 @@ const Vote = () => {
       return position;
     }));
     
-    alert('Vote submitted successfully!');
+    alert(`Vote submitted successfully!\nMember ID: ${memberId}`);
   };
 
   const handleApplication = async (applicationData) => {
@@ -203,6 +236,11 @@ const Vote = () => {
             Apply for leadership positions or vote for your preferred candidates. 
             All applications undergo a thorough vetting process based on cooperative policies.
           </p>
+          <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4 inline-block">
+            <p className="text-sm text-blue-800 font-marcellus">
+              <strong>Voting Eligibility:</strong> Only members with valid Member ID numbers ({validMemberIdRange.min} - {validMemberIdRange.max}) can vote.
+            </p>
+          </div>
         </motion.div>
 
         {/* Navigation Tabs */}
@@ -239,6 +277,7 @@ const Vote = () => {
               onVote={handleVote}
               calculatePercentage={calculatePercentage}
               getApprovedCandidates={getApprovedCandidates}
+              validMemberIdRange={validMemberIdRange}
             />
           ) : (
             <ApplicationSection 
@@ -254,7 +293,7 @@ const Vote = () => {
 };
 
 // Vote Section Component - Only shows approved candidates
-const VoteSection = ({ positions, onVote, calculatePercentage, getApprovedCandidates }) => {
+const VoteSection = ({ positions, onVote, calculatePercentage, getApprovedCandidates, validMemberIdRange }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold text-secondary mb-6 font-marcellus text-center">
@@ -263,6 +302,13 @@ const VoteSection = ({ positions, onVote, calculatePercentage, getApprovedCandid
       <p className="text-gray-600 text-center mb-8 font-marcellus">
         Vote for your preferred candidates in each position. Only vetted and approved candidates are displayed.
       </p>
+      
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+        <p className="text-sm text-yellow-800 font-marcellus text-center">
+          <strong>Important:</strong> You will be asked to enter your Member ID when voting. 
+          Only members with valid Member IDs ({validMemberIdRange.min} - {validMemberIdRange.max}) can vote.
+        </p>
+      </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         {positions.map((position) => {
