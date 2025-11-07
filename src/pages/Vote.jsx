@@ -80,7 +80,7 @@ const Vote = () => {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-bold text-secondary mb-4 font-marcellus">
-            Leadership Elections 2024
+            Leadership Elections 2025/26
           </h1>
           <p className="text-lg text-gray-600 font-marcellus max-w-3xl mx-auto">
             Apply for leadership positions or vote for your preferred candidates. 
