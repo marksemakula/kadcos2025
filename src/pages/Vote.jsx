@@ -3,133 +3,106 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const Vote = () => {
-  const [activeTab, setActiveTab] = useState('vote');
   const [positions, setPositions] = useState([]);
-  const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Define the valid member ID range (hidden from users)
-  const validMemberIdRange = {
-    min: 9838001,
-    max: 98381736
-  };
-
-  // Position qualifications based on the document
+  // Detailed position qualifications based on the document
   const positionQualifications = {
     'Board Chairperson': {
-      membershipDuration: '7 years',
-      shares: '100 shares',
-      savings: 'UGX 1,000,000',
+      membershipDuration: 'Minimum 7 years as Society member',
+      committeeExperience: 'Must have held a position on the Committee',
+      meetingAttendance: 'Actively attending all Cooperative Annual General Meetings',
+      shares: 'Minimum 100 shares at prevailing share value',
+      savings: 'Minimum UGX 1,000,000 in savings account',
+      transactionActivity: 'Actively transacting with the society',
+      languages: 'Fluent in Luganda and English with ability to communicate and express themselves',
       education: 'Not specified',
-      experience: 'Must have held a position on the Committee',
-      languages: 'Fluent in Luganda and English',
-      additional: 'Actively attending all AGMs, actively transacting with society'
+      additional: 'Principal role: Manage and provide leadership to the cooperative. Acts as liaison between Committee and management.'
     },
     'Vice Chairperson': {
-      membershipDuration: '7 years',
-      shares: '100 shares',
-      savings: 'UGX 1,000,000',
+      membershipDuration: 'Minimum 7 years as Society member',
+      meetingAttendance: 'Actively attending all Cooperative Annual General Meetings',
+      shares: 'Minimum 100 shares at prevailing share value',
+      savings: 'Minimum UGX 1,000,000 in savings account',
+      transactionActivity: 'Actively transacting with the society',
+      languages: 'Fluent in Luganda and English with ability to communicate and express themselves',
+      duties: 'Perform duties of Chairman in their absence, Chair Education and Training sub-committee',
       education: 'Not specified',
-      experience: 'Leadership experience',
-      languages: 'Fluent in Luganda and English',
-      additional: 'Actively attending all AGMs, actively transacting with society'
+      additional: 'Leadership experience required'
     },
     'Treasurer': {
-      membershipDuration: '7 years',
-      shares: 'Not specified',
-      savings: 'UGX 1,000,000',
-      education: 'Diploma in Business Management or Accounting',
-      experience: 'Accounting and financial management skills',
-      languages: 'Read and write English and Luganda',
-      additional: 'Computer literate, actively transacting with society'
+      membershipDuration: 'Minimum 7 years as Society member',
+      shares: 'Minimum shares at prevailing share value (exact number not specified)',
+      savings: 'Minimum UGX 1,000,000 in savings account',
+      transactionActivity: 'Actively transacting with the society',
+      languages: 'Able to read and write English and Luganda',
+      education: 'Diploma in Business Management or Accounting studies',
+      skills: 'Accounting and financial management skills, Computer literate',
+      duties: 'Financial oversight, manage financial affairs, prepare annual accounts, custody of books and cash',
+      additional: 'Principal signatory to society bank accounts'
     },
     'Secretary': {
-      membershipDuration: '5 years',
-      shares: '50 shares',
-      savings: 'UGX 500,000',
-      education: 'Certificate in Secretarial or Business Management',
-      experience: 'Administrative experience',
-      languages: 'Fluent in Luganda and English',
-      additional: 'Computer literate, actively transacting with society, actively attending AGMs'
+      membershipDuration: 'Minimum 5 years as Society member',
+      meetingAttendance: 'Actively attending all Cooperative Annual General Meetings',
+      shares: 'Minimum 50 shares at prevailing share value',
+      savings: 'Minimum UGX 500,000 in savings account',
+      transactionActivity: 'Actively transacting with the society',
+      languages: 'Fluent in Luganda and English, able to write and read both languages',
+      education: 'Certificate in Secretarial or Business Management studies',
+      skills: 'Computer literate',
+      duties: 'Call and attend meetings, prepare minutes, custody of member register, conduct correspondence',
+      additional: 'If appointed as employee, may have different qualifications set by Committee'
     },
     'Committee Member': {
-      membershipDuration: '5 years',
-      shares: '50 shares',
-      savings: 'UGX 500,000',
-      education: 'Certificate in any field',
-      experience: 'Not specified',
-      languages: 'Read and write English and Luganda',
-      additional: 'Actively transacting with society'
+      membershipDuration: 'Minimum 5 years as Society member',
+      shares: 'Minimum 50 shares at prevailing share value',
+      savings: 'Minimum UGX 500,000 in savings account',
+      transactionActivity: 'Actively transacting with the society',
+      languages: 'Able to write and read English and Luganda',
+      education: 'Certificate in any field of study',
+      additional: 'Form sub-committees of the Cooperative (up to 5 members)'
     },
     'Supervisory Board Member': {
       membershipDuration: 'Same as Chairperson',
       shares: 'Same as Chairperson',
       savings: 'Same as Chairperson',
-      education: 'Administrative, financial and accounting knowledge preferred',
-      experience: 'Clean record in cooperative community',
-      languages: 'Same as Chairperson',
-      additional: 'Persons with administrative, financial and accounting skills if available'
+      record: 'Clean record in cooperative community',
+      skills: 'Persons with administrative, financial and accounting knowledge and skills if available',
+      additional: 'Fully paid up members of the society'
     }
   };
 
-  // Mock data - will be replaced with actual data from your backend
+  // Mock data for positions
   const mockPositions = [
     {
       id: 1,
       title: 'Board Chairperson',
-      type: 'executive',
-      candidates: [
-        { id: 1, name: 'Mrs. Nseerikomawa Josephine', votes: 0, status: 'approved' },
-        { id: 2, name: 'John Kamya', votes: 0, status: 'approved' },
-        { id: 3, name: 'Sarah Nakato', votes: 0, status: 'pending' },
-      ]
+      type: 'executive'
     },
     {
       id: 2,
       title: 'Vice Chairperson',
-      type: 'executive',
-      candidates: [
-        { id: 1, name: 'Council Jude Mbabaali', votes: 0, status: 'approved' },
-        { id: 2, name: 'David Ssemwanga', votes: 0, status: 'approved' },
-      ]
+      type: 'executive'
     },
     {
       id: 3,
       title: 'Treasurer',
-      type: 'executive',
-      candidates: [
-        { id: 1, name: 'Mr. Tenywa Herman Musisi', votes: 0, status: 'approved' },
-        { id: 2, name: 'Grace Nalubega', votes: 0, status: 'approved' },
-      ]
+      type: 'executive'
     },
     {
       id: 4,
       title: 'Secretary',
-      type: 'executive',
-      candidates: [
-        { id: 1, name: 'Ms. Namaganda Justine', votes: 0, status: 'approved' },
-        { id: 2, name: 'Peter Wasswa', votes: 0, status: 'approved' },
-      ]
+      type: 'executive'
     },
     {
       id: 5,
       title: 'Committee Member',
-      type: 'committee',
-      candidates: [
-        { id: 1, name: 'Mr. Budde Harry Dominic', votes: 0, status: 'approved' },
-        { id: 2, name: 'Mrs. Kalanda Annette Kizza', votes: 0, status: 'approved' },
-        { id: 3, name: 'Mr. Ssekamatte Patrick', votes: 0, status: 'approved' },
-      ]
+      type: 'committee'
     },
     {
       id: 6,
       title: 'Supervisory Board Member',
-      type: 'supervisory',
-      candidates: [
-        { id: 1, name: 'Mr. Gerald Katusabe', votes: 0, status: 'approved' },
-        { id: 2, name: 'Mrs. Josephine Sekatuba', votes: 0, status: 'approved' },
-        { id: 3, name: 'Mrs. Rose Ssali', votes: 0, status: 'approved' },
-      ]
+      type: 'supervisory'
     }
   ];
 
@@ -137,61 +110,7 @@ const Vote = () => {
     // Initialize with mock data
     setPositions(mockPositions);
     setLoading(false);
-    // TODO: Fetch actual data from backend
   }, []);
-
-  const calculatePercentage = (candidateVotes, totalVotes) => {
-    if (totalVotes === 0) return 0;
-    return ((candidateVotes / totalVotes) * 100).toFixed(1);
-  };
-
-  const isValidMemberId = (memberId) => {
-    const idNumber = parseInt(memberId);
-    return !isNaN(idNumber) && 
-           idNumber >= validMemberIdRange.min && 
-           idNumber <= validMemberIdRange.max;
-  };
-
-  const handleVote = async (positionId, candidateId) => {
-    // Prompt for member ID without revealing the range
-    const memberId = window.prompt(
-      'Please enter your Member ID number to vote:'
-    );
-
-    // If user cancels the prompt
-    if (memberId === null) {
-      return;
-    }
-
-    // Validate member ID
-    if (!isValidMemberId(memberId)) {
-      alert('Invalid Member ID! Please enter a valid Member ID.');
-      return;
-    }
-
-    // TODO: Implement vote submission to backend with member ID verification
-    console.log(`Voted for position ${positionId}, candidate ${candidateId} by member ${memberId}`);
-    
-    // Check if this member has already voted for this position (you might want to implement this)
-    // For now, we'll proceed with the vote
-    
-    // Temporary mock update
-    setPositions(prev => prev.map(position => {
-      if (position.id === positionId) {
-        return {
-          ...position,
-          candidates: position.candidates.map(candidate => 
-            candidate.id === candidateId 
-              ? { ...candidate, votes: candidate.votes + 1 }
-              : candidate
-          )
-        };
-      }
-      return position;
-    }));
-    
-    alert('Vote submitted successfully!');
-  };
 
   const handleApplication = async (applicationData) => {
     // TODO: Submit application to Google Forms/backend
@@ -203,17 +122,12 @@ const Vote = () => {
     alert('Application submitted successfully! Your application will be reviewed by the vetting committee.');
   };
 
-  // Get only approved candidates for voting
-  const getApprovedCandidates = (candidates) => {
-    return candidates.filter(candidate => candidate.status === 'approved');
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 pt-20 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600 font-marcellus">Loading election data...</p>
+          <p className="text-gray-600 font-marcellus">Loading application data...</p>
         </div>
       </div>
     );
@@ -229,177 +143,27 @@ const Vote = () => {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-bold text-secondary mb-4 font-marcellus">
-            KADCOS Leadership Elections 2026
+            KADCOS Leadership Elections 2026 - Applications
           </h1>
           <p className="text-lg text-gray-600 font-marcellus max-w-3xl mx-auto">
-            Apply for leadership positions or vote for your preferred candidates. 
-            All applications undergo a thorough vetting process based on cooperative policies.
+            Apply for leadership positions in the KADCOS Committee. All applications undergo thorough 
+            vetting based on cooperative governance policies and qualification requirements.
           </p>
           <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4 inline-block">
             <p className="text-sm text-blue-800 font-marcellus">
-              <strong>Voting Eligibility:</strong> Only verified members with valid Member ID numbers can vote.
+              <strong>Note:</strong> Voting will be conducted offline. This portal is for leadership position applications only.
             </p>
           </div>
         </motion.div>
 
-        {/* Navigation Tabs */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-lg shadow-sm p-1 flex">
-            <button
-              onClick={() => setActiveTab('vote')}
-              className={`px-6 py-3 rounded-md font-marcellus font-semibold transition-all duration-300 ${
-                activeTab === 'vote'
-                  ? 'bg-primary text-white shadow-md'
-                  : 'text-gray-600 hover:text-primary'
-              }`}
-            >
-              Vote
-            </button>
-            <button
-              onClick={() => setActiveTab('apply')}
-              className={`px-6 py-3 rounded-md font-marcellus font-semibold transition-all duration-300 ${
-                activeTab === 'apply'
-                  ? 'bg-primary text-white shadow-md'
-                  : 'text-gray-600 hover:text-primary'
-              }`}
-            >
-              Apply for Position
-            </button>
-          </div>
-        </div>
-
-        {/* Content based on active tab */}
+        {/* Application Section */}
         <div className="bg-white rounded-xl shadow-lg p-6">
-          {activeTab === 'vote' ? (
-            <VoteSection 
-              positions={positions} 
-              onVote={handleVote}
-              calculatePercentage={calculatePercentage}
-              getApprovedCandidates={getApprovedCandidates}
-            />
-          ) : (
-            <ApplicationSection 
-              positions={positions}
-              positionQualifications={positionQualifications}
-              onApply={handleApplication}
-            />
-          )}
+          <ApplicationSection 
+            positions={positions}
+            positionQualifications={positionQualifications}
+            onApply={handleApplication}
+          />
         </div>
-      </div>
-    </div>
-  );
-};
-
-// Vote Section Component - Only shows approved candidates
-const VoteSection = ({ positions, onVote, calculatePercentage, getApprovedCandidates }) => {
-  return (
-    <div>
-      <h2 className="text-2xl font-bold text-secondary mb-6 font-marcellus text-center">
-        Cast Your Vote
-      </h2>
-      <p className="text-gray-600 text-center mb-8 font-marcellus">
-        Vote for your preferred candidates in each position. Only vetted and approved candidates are displayed.
-      </p>
-      
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-        <p className="text-sm text-yellow-800 font-marcellus text-center">
-          <strong>Important:</strong> You will be asked to enter your Member ID when voting. 
-          Only verified members with valid Member IDs can vote.
-        </p>
-      </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {positions.map((position) => {
-          const approvedCandidates = getApprovedCandidates(position.candidates);
-          const totalVotes = approvedCandidates.reduce((sum, candidate) => sum + candidate.votes, 0);
-          
-          return (
-            <motion.div
-              key={position.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-gray-50 rounded-lg p-6 border border-gray-200"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-secondary font-marcellus">
-                  {position.title}
-                </h3>
-                <span className="bg-primary text-white text-xs px-2 py-1 rounded font-marcellus">
-                  {position.type === 'executive' ? 'Executive' : 
-                   position.type === 'supervisory' ? 'Supervisory' : 'Committee'}
-                </span>
-              </div>
-              
-              {/* Top 3 Approved Candidates Preview */}
-              <div className="mb-6">
-                <h4 className="text-sm font-semibold text-gray-600 mb-3 font-marcellus">
-                  Current Standings:
-                </h4>
-                {approvedCandidates.length > 0 ? (
-                  <div className="space-y-2">
-                    {approvedCandidates.slice(0, 3).map((candidate, index) => (
-                      <div key={candidate.id} className="flex items-center justify-between bg-white px-3 py-2 rounded border">
-                        <div className="flex items-center">
-                          <span className="w-6 h-6 bg-primary text-white rounded-full text-xs flex items-center justify-center mr-2">
-                            {index + 1}
-                          </span>
-                          <span className="font-marcellus text-sm">{candidate.name}</span>
-                        </div>
-                        <span className="text-primary font-bold text-sm">
-                          {calculatePercentage(candidate.votes, totalVotes)}%
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 text-sm font-marcellus text-center py-4">
-                    No approved candidates yet
-                  </p>
-                )}
-              </div>
-
-              {/* Voting Options - Only approved candidates */}
-              <div className="space-y-3">
-                <h4 className="text-sm font-semibold text-gray-600 mb-2 font-marcellus">
-                  Select your candidate:
-                </h4>
-                {approvedCandidates.length > 0 ? (
-                  approvedCandidates.map((candidate) => (
-                    <div key={candidate.id} className="flex items-center justify-between bg-white p-3 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-3">
-                          <span className="text-primary font-bold text-sm">
-                            {candidate.name.split(' ').map(n => n[0]).join('')}
-                          </span>
-                        </div>
-                        <span className="font-marcellus">{candidate.name}</span>
-                      </div>
-                      <button
-                        onClick={() => onVote(position.id, candidate.id)}
-                        className="bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition-colors font-marcellus text-sm"
-                      >
-                        Vote
-                      </button>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-gray-500 text-center py-4 font-marcellus">
-                    No candidates approved for this position yet
-                  </p>
-                )}
-              </div>
-
-              {/* Total votes for this position */}
-              {approvedCandidates.length > 0 && (
-                <div className="mt-4 pt-3 border-t border-gray-200">
-                  <p className="text-xs text-gray-500 text-center font-marcellus">
-                    Total votes: {totalVotes}
-                  </p>
-                </div>
-              )}
-            </motion.div>
-          );
-        })}
       </div>
     </div>
   );
@@ -420,6 +184,8 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
     experience: '',
     qualifications: '',
     vision: '',
+    languages: '',
+    computerSkills: '',
     agreesToTerms: false
   });
 
@@ -429,6 +195,12 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
     // Validate form
     if (!applicationForm.positionId || !applicationForm.fullName || !applicationForm.agreesToTerms) {
       alert('Please fill in all required fields and agree to the terms.');
+      return;
+    }
+
+    // Validate membership number format (basic check)
+    if (!applicationForm.membershipNumber || applicationForm.membershipNumber.length < 3) {
+      alert('Please enter a valid membership number.');
       return;
     }
 
@@ -448,6 +220,8 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
         experience: '',
         qualifications: '',
         vision: '',
+        languages: '',
+        computerSkills: '',
         agreesToTerms: false
       });
     } catch (error) {
@@ -504,7 +278,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 <option value="">Select a position</option>
                 {positions.map((position) => (
                   <option key={position.id} value={position.id}>
-                    {position.title}
+                    {position.title} {position.type === 'executive' ? '(Executive)' : position.type === 'supervisory' ? '(Supervisory)' : '(Committee)'}
                   </option>
                 ))}
               </select>
@@ -588,6 +362,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                   placeholder="How many years as member"
+                  min="1"
                   required
                 />
               </div>
@@ -603,6 +378,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                   placeholder="Your current shares"
+                  min="0"
                   required
                 />
               </div>
@@ -619,8 +395,49 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                 placeholder="Your current savings balance"
+                min="0"
                 required
               />
+            </div>
+
+            {/* Language Proficiency */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+                Language Proficiency *
+              </label>
+              <select
+                name="languages"
+                value={applicationForm.languages}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                required
+              >
+                <option value="">Select your language proficiency</option>
+                <option value="fluent_both">Fluent in both English and Luganda</option>
+                <option value="read_write_both">Can read and write both English and Luganda</option>
+                <option value="english_only">English only</option>
+                <option value="luganda_only">Luganda only</option>
+              </select>
+            </div>
+
+            {/* Computer Skills */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+                Computer Skills *
+              </label>
+              <select
+                name="computerSkills"
+                value={applicationForm.computerSkills}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                required
+              >
+                <option value="">Select your computer proficiency</option>
+                <option value="basic">Basic computer skills</option>
+                <option value="intermediate">Intermediate (Word, Excel, Email)</option>
+                <option value="advanced">Advanced (Accounting software, Advanced Excel)</option>
+                <option value="none">No computer skills</option>
+              </select>
             </div>
 
             {/* Qualifications */}
@@ -634,7 +451,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 onChange={handleChange}
                 rows="3"
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                placeholder="List your educational qualifications and certificates"
+                placeholder="List your educational qualifications, certificates, and institutions"
                 required
               />
             </div>
@@ -649,7 +466,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 onChange={handleChange}
                 rows="3"
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                placeholder="Describe your relevant leadership and cooperative experience"
+                placeholder="Describe your relevant leadership experience, committee positions held, and cooperative involvement"
                 required
               />
             </div>
@@ -664,7 +481,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 onChange={handleChange}
                 rows="3"
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                placeholder="Other qualifications, skills, language proficiency, etc."
+                placeholder="Other qualifications, professional skills, training, workshops attended, etc."
                 required
               />
             </div>
@@ -679,36 +496,38 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 onChange={handleChange}
                 rows="3"
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                placeholder="Share your vision, goals, and plans for this leadership position"
+                placeholder="Share your vision, goals, and specific plans for this leadership position. How will you contribute to the cooperative's growth?"
                 required
               />
             </div>
 
             {/* Terms Agreement */}
-            <div className="flex items-center">
+            <div className="flex items-start">
               <input
                 type="checkbox"
                 name="agreesToTerms"
                 checked={applicationForm.agreesToTerms}
                 onChange={handleChange}
-                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded mt-1"
                 required
               />
               <label className="ml-2 block text-sm text-gray-700 font-marcellus">
-                I confirm that all information provided is accurate and I meet the eligibility requirements *
+                I confirm that all information provided is accurate and I meet ALL the eligibility requirements specified in the KADCOS governance policies. 
+                I understand that providing false information may lead to disqualification. *
               </label>
             </div>
 
             <div className="bg-yellow-50 border border-yellow-200 rounded p-4">
               <p className="text-sm text-yellow-800 font-marcellus">
-                <strong>Note:</strong> All applications will be reviewed by the vetting committee against the qualification requirements. 
-                Only approved candidates will appear on the voting ballot. You will be notified of your application status via email.
+                <strong>Important Note:</strong> All applications will be thoroughly reviewed by the vetting committee against the qualification requirements. 
+                Only candidates who meet ALL specified requirements will be considered. You will be notified of your application status via email. 
+                Voting will be conducted through offline processes as per cooperative procedures.
               </p>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-primary text-white py-3 rounded hover:bg-secondary transition-colors font-marcellus font-semibold"
+              className="w-full bg-primary text-white py-3 rounded hover:bg-secondary transition-colors font-marcellus font-semibold text-lg"
             >
               Submit Application
             </button>
@@ -725,15 +544,15 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
           {applicationForm.positionId && (
             <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
               <h3 className="text-lg font-bold text-secondary mb-4 font-marcellus">
-                Requirements for {getSelectedPosition()?.title}
+                Detailed Requirements for {getSelectedPosition()?.title}
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {Object.entries(getPositionQualification(getSelectedPosition()?.title)).map(([key, value]) => (
-                  <div key={key} className="flex justify-between">
-                    <span className="text-sm font-medium text-gray-700 font-marcellus capitalize">
-                      {key.replace(/([A-Z])/g, ' $1')}:
+                  <div key={key} className="border-b border-blue-100 pb-3 last:border-b-0">
+                    <span className="text-sm font-semibold text-gray-700 font-marcellus capitalize block mb-1">
+                      {key.replace(/([A-Z])/g, ' $1').replace(/([A-Z][a-z])/g, ' $1')}:
                     </span>
-                    <span className="text-sm text-gray-600 font-marcellus text-right">
+                    <span className="text-sm text-gray-600 font-marcellus block">
                       {value}
                     </span>
                   </div>
@@ -745,7 +564,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
           {/* General Eligibility Requirements */}
           <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
             <h3 className="text-lg font-bold text-secondary mb-4 font-marcellus">
-              General Eligibility Requirements
+              General Eligibility Requirements (All Positions)
             </h3>
             <ul className="text-sm text-gray-700 space-y-2 font-marcellus list-disc list-inside">
               <li>Must be a member of the Society</li>
@@ -762,17 +581,29 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
             </ul>
           </div>
 
-          {/* Application Process */}
+          {/* Term of Office */}
           <div className="bg-green-50 rounded-lg p-6 border border-green-200">
             <h4 className="font-bold text-secondary mb-3 font-marcellus">
-              Application & Election Process
+              Term of Office
+            </h4>
+            <p className="text-sm text-gray-700 font-marcellus">
+              The Committee shall hold office for more than one term of four years, but eligible for re-election.
+            </p>
+          </div>
+
+          {/* Application Process */}
+          <div className="bg-purple-50 rounded-lg p-6 border border-purple-200">
+            <h4 className="font-bold text-secondary mb-3 font-marcellus">
+              Application & Selection Process
             </h4>
             <ol className="text-sm text-gray-700 space-y-2 font-marcellus">
-              <li><strong>1. Application:</strong> Submit complete application with required information</li>
-              <li><strong>2. Vetting:</strong> Committee reviews against qualification requirements</li>
-              <li><strong>3. Approval:</strong> Eligible candidates are approved for ballot</li>
-              <li><strong>4. Voting:</strong> Members vote for preferred candidates</li>
-              <li><strong>5. Results:</strong> Winners announced after voting period</li>
+              <li><strong>1. Application:</strong> Submit complete application with all required information</li>
+              <li><strong>2. Documentation Review:</strong> Committee verifies all provided information</li>
+              <li><strong>3. Vetting:</strong> Comprehensive review against qualification requirements</li>
+              <li><strong>4. Eligibility Confirmation:</strong> Verification of meeting all criteria</li>
+              <li><strong>5. Candidate Approval:</strong> Eligible candidates approved for consideration</li>
+              <li><strong>6. Offline Voting:</strong> Election conducted through cooperative voting procedures</li>
+              <li><strong>7. Results:</strong> Winners announced after voting process completion</li>
             </ol>
           </div>
         </motion.div>
