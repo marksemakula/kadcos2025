@@ -73,9 +73,9 @@ const Vote = () => {
       title: 'Board Chairperson',
       type: 'executive',
       candidates: [
-        { id: 1, name: 'Mrs. Nseerikomawa Josephine', votes: 45, image: '/images/Nseerikomawa_Josephine.jpg', status: 'approved' },
-        { id: 2, name: 'John Kamya', votes: 30, image: '/images/placeholder.jpg', status: 'approved' },
-        { id: 3, name: 'Sarah Nakato', votes: 25, image: '/images/placeholder.jpg', status: 'pending' },
+        { id: 1, name: 'Mrs. Nseerikomawa Josephine', votes: 45, status: 'approved' },
+        { id: 2, name: 'John Kamya', votes: 30, status: 'approved' },
+        { id: 3, name: 'Sarah Nakato', votes: 25, status: 'pending' },
       ]
     },
     {
@@ -83,8 +83,8 @@ const Vote = () => {
       title: 'Vice Chairperson',
       type: 'executive',
       candidates: [
-        { id: 1, name: 'Council Jude Mbabaali', votes: 50, image: '/images/Jude_Mbabaali.jpg', status: 'approved' },
-        { id: 2, name: 'David Ssemwanga', votes: 35, image: '/images/placeholder.jpg', status: 'approved' },
+        { id: 1, name: 'Council Jude Mbabaali', votes: 50, status: 'approved' },
+        { id: 2, name: 'David Ssemwanga', votes: 35, status: 'approved' },
       ]
     },
     {
@@ -92,8 +92,8 @@ const Vote = () => {
       title: 'Treasurer',
       type: 'executive',
       candidates: [
-        { id: 1, name: 'Mr. Tenywa Herman Musisi', votes: 60, image: '/images/Tenywa_Herman.jpg', status: 'approved' },
-        { id: 2, name: 'Grace Nalubega', votes: 40, image: '/images/placeholder.jpg', status: 'approved' },
+        { id: 1, name: 'Mr. Tenywa Herman Musisi', votes: 60, status: 'approved' },
+        { id: 2, name: 'Grace Nalubega', votes: 40, status: 'approved' },
       ]
     },
     {
@@ -101,8 +101,8 @@ const Vote = () => {
       title: 'Secretary',
       type: 'executive',
       candidates: [
-        { id: 1, name: 'Ms. Namaganda Justine', votes: 55, image: '/images/Namaganda_Justine.jpg', status: 'approved' },
-        { id: 2, name: 'Peter Wasswa', votes: 45, image: '/images/placeholder.jpg', status: 'approved' },
+        { id: 1, name: 'Ms. Namaganda Justine', votes: 55, status: 'approved' },
+        { id: 2, name: 'Peter Wasswa', votes: 45, status: 'approved' },
       ]
     },
     {
@@ -110,9 +110,9 @@ const Vote = () => {
       title: 'Committee Member',
       type: 'committee',
       candidates: [
-        { id: 1, name: 'Mr. Budde Harry Dominic', votes: 40, image: '/images/Budde_Harry.jpg', status: 'approved' },
-        { id: 2, name: 'Mrs. Kalanda Annette Kizza', votes: 35, image: '/images/Kalanda_Annette.jpg', status: 'approved' },
-        { id: 3, name: 'Mr. Ssekamatte Patrick', votes: 25, image: '/images/Ssekamatte_Patrick.jpg', status: 'approved' },
+        { id: 1, name: 'Mr. Budde Harry Dominic', votes: 40, status: 'approved' },
+        { id: 2, name: 'Mrs. Kalanda Annette Kizza', votes: 35, status: 'approved' },
+        { id: 3, name: 'Mr. Ssekamatte Patrick', votes: 25, status: 'approved' },
       ]
     },
     {
@@ -120,9 +120,9 @@ const Vote = () => {
       title: 'Supervisory Board Member',
       type: 'supervisory',
       candidates: [
-        { id: 1, name: 'Mr. Gerald Katusabe', votes: 50, image: '/images/Gerald_Katusabe.jpg', status: 'approved' },
-        { id: 2, name: 'Mrs. Josephine Sekatuba', votes: 30, image: '/images/Josephine_Sekatuba.jpg', status: 'approved' },
-        { id: 3, name: 'Mrs. Rose Ssali', votes: 20, image: '/images/Rose_Ssali.jpg', status: 'approved' },
+        { id: 1, name: 'Mr. Gerald Katusabe', votes: 50, status: 'approved' },
+        { id: 2, name: 'Mrs. Josephine Sekatuba', votes: 30, status: 'approved' },
+        { id: 3, name: 'Mrs. Rose Ssali', votes: 20, status: 'approved' },
       ]
     }
   ];
@@ -323,15 +323,12 @@ const VoteSection = ({ positions, onVote, calculatePercentage, getApprovedCandid
                   approvedCandidates.map((candidate) => (
                     <div key={candidate.id} className="flex items-center justify-between bg-white p-3 rounded border">
                       <div className="flex items-center">
-                        <img 
-                          src={candidate.image} 
-                          alt={candidate.name}
-                          className="w-10 h-10 rounded-full object-cover mr-3"
-                          onError={(e) => {
-                            e.target.src = '/images/placeholder.jpg';
-                          }}
-                        />
-                        <span className="font-marcellus text-sm">{candidate.name}</span>
+                        <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-3">
+                          <span className="text-primary font-bold text-sm">
+                            {candidate.name.split(' ').map(n => n[0]).join('')}
+                          </span>
+                        </div>
+                        <span className="font-marcellus">{candidate.name}</span>
                       </div>
                       <button
                         onClick={() => onVote(position.id, candidate.id)}
