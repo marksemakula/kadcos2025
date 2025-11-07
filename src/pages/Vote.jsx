@@ -197,7 +197,7 @@ const Vote = () => {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-bold text-secondary mb-4 font-marcellus">
-            KADCOS Leadership Elections 2024
+            KADCOS Leadership Elections 2026
           </h1>
           <p className="text-lg text-gray-600 font-marcellus max-w-3xl mx-auto">
             Apply for leadership positions or vote for your preferred candidates. 
