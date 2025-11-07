@@ -73,9 +73,9 @@ const Vote = () => {
       title: 'Board Chairperson',
       type: 'executive',
       candidates: [
-        { id: 1, name: 'Mrs. Nseerikomawa Josephine', votes: 45, status: 'approved' },
-        { id: 2, name: 'John Kamya', votes: 30, status: 'approved' },
-        { id: 3, name: 'Sarah Nakato', votes: 25, status: 'pending' },
+        { id: 1, name: 'Mrs. Nseerikomawa Josephine', votes: 0, status: 'approved' },
+        { id: 2, name: 'John Kamya', votes: 0, status: 'approved' },
+        { id: 3, name: 'Sarah Nakato', votes: 0, status: 'pending' },
       ]
     },
     {
@@ -83,8 +83,8 @@ const Vote = () => {
       title: 'Vice Chairperson',
       type: 'executive',
       candidates: [
-        { id: 1, name: 'Council Jude Mbabaali', votes: 50, status: 'approved' },
-        { id: 2, name: 'David Ssemwanga', votes: 35, status: 'approved' },
+        { id: 1, name: 'Council Jude Mbabaali', votes: 0, status: 'approved' },
+        { id: 2, name: 'David Ssemwanga', votes: 0, status: 'approved' },
       ]
     },
     {
@@ -92,8 +92,8 @@ const Vote = () => {
       title: 'Treasurer',
       type: 'executive',
       candidates: [
-        { id: 1, name: 'Mr. Tenywa Herman Musisi', votes: 60, status: 'approved' },
-        { id: 2, name: 'Grace Nalubega', votes: 40, status: 'approved' },
+        { id: 1, name: 'Mr. Tenywa Herman Musisi', votes: 0, status: 'approved' },
+        { id: 2, name: 'Grace Nalubega', votes: 0, status: 'approved' },
       ]
     },
     {
@@ -101,8 +101,8 @@ const Vote = () => {
       title: 'Secretary',
       type: 'executive',
       candidates: [
-        { id: 1, name: 'Ms. Namaganda Justine', votes: 55, status: 'approved' },
-        { id: 2, name: 'Peter Wasswa', votes: 45, status: 'approved' },
+        { id: 1, name: 'Ms. Namaganda Justine', votes: 0, status: 'approved' },
+        { id: 2, name: 'Peter Wasswa', votes: 0, status: 'approved' },
       ]
     },
     {
@@ -110,9 +110,9 @@ const Vote = () => {
       title: 'Committee Member',
       type: 'committee',
       candidates: [
-        { id: 1, name: 'Mr. Budde Harry Dominic', votes: 40, status: 'approved' },
-        { id: 2, name: 'Mrs. Kalanda Annette Kizza', votes: 35, status: 'approved' },
-        { id: 3, name: 'Mr. Ssekamatte Patrick', votes: 25, status: 'approved' },
+        { id: 1, name: 'Mr. Budde Harry Dominic', votes: 0, status: 'approved' },
+        { id: 2, name: 'Mrs. Kalanda Annette Kizza', votes: 0, status: 'approved' },
+        { id: 3, name: 'Mr. Ssekamatte Patrick', votes: 0, status: 'approved' },
       ]
     },
     {
@@ -120,9 +120,9 @@ const Vote = () => {
       title: 'Supervisory Board Member',
       type: 'supervisory',
       candidates: [
-        { id: 1, name: 'Mr. Gerald Katusabe', votes: 50, status: 'approved' },
-        { id: 2, name: 'Mrs. Josephine Sekatuba', votes: 30, status: 'approved' },
-        { id: 3, name: 'Mrs. Rose Ssali', votes: 20, status: 'approved' },
+        { id: 1, name: 'Mr. Gerald Katusabe', votes: 0, status: 'approved' },
+        { id: 2, name: 'Mrs. Josephine Sekatuba', votes: 0, status: 'approved' },
+        { id: 3, name: 'Mrs. Rose Ssali', votes: 0, status: 'approved' },
       ]
     }
   ];
