@@ -46,6 +46,7 @@ const Navbar = () => {
     },
     { name: 'Membership', path: '/membership' },
     { name: 'News Updates', path: '/blog' },
+    { name: 'Vote', path: '/vote' },
     { name: 'Contact', path: '/contact' },
   ];
 

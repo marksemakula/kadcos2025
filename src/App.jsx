@@ -19,6 +19,7 @@ import Governance from './pages/Governance'
 import ResourcesELib from './pages/ResourcesELib'
 import ManagersMessage from './pages/ManagersMessage'
 import BoardChairMessage from './pages/BoardChairMessage'
+import Vote from './pages/Vote'
 import './App.css'
 
 // Temporary mock auth hook since we're commenting out the real one
@@ -93,6 +94,7 @@ function App() {
                       <Route path="/resources-e-lib" element={<ResourcesELib />} />
                       <Route path="/managers-message" element={<ManagersMessage />} />
                       <Route path="/board-chair-message" element={<BoardChairMessage />} />
+                      <Route path="/vote" element={<Vote />} />
                     </Routes>
                   </div>
                   <Footer />
