@@ -158,7 +158,7 @@ const Vote = () => {
     }
   };
 
-  const sendEmailNotification = async (applicationData) => {
+  const sendEmailNotification = async (applicationData, file) => {
     const position = positions.find(p => p.id === parseInt(applicationData.positionId));
     
     // Create comprehensive email content
@@ -203,51 +203,84 @@ This application has been automatically recorded in the KADCOS Leadership Applic
 KADCOS Leadership Portal
     `;
 
-    const emailSubject = `NEW APPLICATION: ${position?.title || 'Leadership Position'} - ${applicationData.fullName}`;
+    const emailSubject = `KADCOS Leadership Application - ${position?.title || 'Leadership Position'} - ${applicationData.fullName}`;
 
     try {
-      // Method 1: Direct email client (most reliable)
-      const mailtoLink = `mailto:kadcoslubaga.sacco@gmail.com,seo@inzozi.co?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+      // Create form data for email submission with attachment
+      const emailFormData = new FormData();
+      emailFormData.append('applicantName', applicationData.fullName);
+      emailFormData.append('applicantEmail', applicationData.email);
+      emailFormData.append('position', position?.title || 'Not specified');
+      emailFormData.append('subject', emailSubject);
+      emailFormData.append('body', emailBody);
       
-      // Create a hidden iframe to open email client without redirecting
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = mailtoLink;
-      document.body.appendChild(iframe);
+      if (file) {
+        emailFormData.append('attachment', file);
+        emailFormData.append('fileName', file.name);
+      }
+
+      // Submit to our backend API
+      const emailResponse = await fetch('/api/send-application-email', {
+        method: 'POST',
+        body: emailFormData,
+      });
+
+      if (emailResponse.ok) {
+        console.log('Email with attachment sent successfully');
+        return true;
+      } else {
+        const errorData = await emailResponse.json();
+        throw new Error(errorData.message || 'Email sending failed');
+      }
       
-      // Remove iframe after a short delay
-      setTimeout(() => {
-        document.body.removeChild(iframe);
-      }, 1000);
-      
-      return true;
     } catch (error) {
       console.error('Email notification failed:', error);
       
-      // Fallback: show success message without email
-      return true;
+      // Fallback: Use mailto link without attachment
+      try {
+        const mailtoLink = `mailto:admin@kadcoslubaga.co.ug,kadcoslubaga.sacco@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        
+        // Create a hidden iframe to open email client without redirecting
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = mailtoLink;
+        document.body.appendChild(iframe);
+        
+        // Remove iframe after a short delay
+        setTimeout(() => {
+          document.body.removeChild(iframe);
+        }, 1000);
+        
+        console.log('Fallback email sent (without attachment)');
+        return true;
+      } catch (fallbackError) {
+        console.error('Fallback email also failed:', fallbackError);
+        return false;
+      }
     }
   };
 
-  const handleApplication = async (applicationData) => {
+  const handleApplication = async (applicationData, file) => {
     setSubmitting(true);
     
     try {
       // Submit to Google Forms (in background)
       const formsSuccess = await submitToGoogleForms(applicationData);
       
-      // Send email notification
-      const emailSuccess = await sendEmailNotification(applicationData);
+      // Send email notification with attachment
+      const emailSuccess = await sendEmailNotification(applicationData, file);
       
-      if (formsSuccess) {
-        alert('Application submitted successfully! Your application has been received and will be reviewed by the vetting committee. You will be notified of the status via email.');
+      if (formsSuccess && emailSuccess) {
+        alert('Application submitted successfully! Your application and documents have been received and will be reviewed by the vetting committee. You will be notified of the status via email.');
+      } else if (emailSuccess) {
+        alert('Application submitted successfully! Your application and documents have been received. There was a minor issue with system recording, but your application will be reviewed by the committee.');
       } else {
-        alert('Application received! There was a minor issue with system recording, but your application has been saved and will be reviewed by the committee.');
+        alert('Application received! There was an issue sending your documents. Please email them directly to admin@kadcoslubaga.co.ug.');
       }
       
     } catch (error) {
       console.error('Application submission error:', error);
-      alert('Thank you for your application! There was a temporary system issue, but your application has been recorded and will be reviewed by the vetting committee.');
+      alert('Thank you for your application! There was a temporary system issue. Please save your application details and email them to admin@kadcoslubaga.co.ug if you don\'t receive a confirmation.');
     } finally {
       setSubmitting(false);
     }
@@ -352,6 +385,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
     computerSkills: '',
     agreesToTerms: false
   });
+  const [attachment, setAttachment] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -371,7 +405,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
     }
 
     try {
-      await onApply(applicationForm);
+      await onApply(applicationForm, attachment);
       // Reset form after successful submission
       setApplicationForm({
         positionId: '',
@@ -390,6 +424,10 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
         computerSkills: '',
         agreesToTerms: false
       });
+      setAttachment(null);
+      // Reset file input
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) fileInput.value = '';
     } catch (error) {
       alert('Error submitting application. Please try again.');
     }
@@ -401,6 +439,37 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file size (max 10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        alert('File size must be less than 10MB.');
+        e.target.value = '';
+        return;
+      }
+      
+      // Validate file type
+      const allowedTypes = [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'image/jpeg',
+        'image/png'
+      ];
+      
+      if (!allowedTypes.includes(file.type)) {
+        alert('Please upload a PDF, Word document, JPEG, or PNG file.');
+        e.target.value = '';
+        return;
+      }
+      
+      setAttachment(file);
+    } else {
+      setAttachment(null);
+    }
   };
 
   const getSelectedPosition = () => {
@@ -681,6 +750,29 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
               />
             </div>
 
+            {/* File Attachment */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Attach Supporting Documents (PDF, DOC, DOCX, JPEG, PNG) - Optional
+              </label>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-secondary"
+                disabled={submitting}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Maximum file size: 10MB. Supported formats: PDF, Word documents, JPEG, PNG.
+                You can attach your CV, application letter, or other supporting documents.
+              </p>
+              {attachment && (
+                <p className="text-sm text-green-600 mt-1">
+                  ✓ File selected: {attachment.name} ({(attachment.size / 1024 / 1024).toFixed(2)} MB)
+                </p>
+              )}
+            </div>
+
             {/* Terms Agreement */}
             <div className="flex items-start">
               <input
@@ -700,7 +792,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
 
             <div className="bg-yellow-50 border border-yellow-200 rounded p-4">
               <p className="text-sm text-yellow-800">
-                <strong>Important Note:</strong> Your application will be submitted directly through this portal. 
+                <strong>Important Note:</strong> Your application and attached documents will be automatically sent to the election committee. 
                 All applications will be thoroughly reviewed by the vetting committee against the qualification requirements. 
                 Only candidates who meet ALL specified requirements will be considered. You will be notified of your application status via email. 
                 Voting will be conducted through offline processes as per cooperative procedures.
