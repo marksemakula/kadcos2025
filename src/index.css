@@ -15,7 +15,7 @@
   font-display: swap;
 }
 
-/* Gill Sans MT Font Face */
+/* Gill Sans MT Font Face - KEEP for the two specific elements */
 @font-face {
   font-family: 'Gill Sans MT';
   src: local('Gill Sans MT'), 
@@ -45,7 +45,7 @@
 }
 
 body {
-  font-family: 'Urbanist', sans-serif;
+  font-family: 'Urbanist', sans-serif; /* Default font for entire site */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -55,7 +55,7 @@ body {
   height: 100%;
 }
 
-/* Font utility classes */
+/* Font utility classes - KEEP all utility classes */
 .font-urbanist {
   font-family: 'Urbanist', sans-serif;
 }
@@ -76,14 +76,7 @@ body {
   font-family: 'Gill Sans MT', 'Gill Sans', 'Trebuchet MS', sans-serif;
 }
 
-/* Force Gill Sans MT on all elements when using the utility class */
-.font-gill-sans,
-.font-gill-sans * {
-  font-family: 'Gill Sans MT', 'Gill Sans', 'Trebuchet MS', sans-serif !important;
-}
-
-/* Override any conflicting font styles */
-/* Let Tailwind classes handle specific font assignments */
+/* REMOVED: The global force rule that was applying Gill Sans to all children */
 
 /* Smart invert for ISO certification logos - No background */
 .iso-logo-container {

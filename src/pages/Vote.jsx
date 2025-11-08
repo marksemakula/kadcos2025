@@ -297,7 +297,7 @@ KADCOS Leadership Portal
                 Applications can be submitted via email to <span className="text-primary">admin@kadcoslubaga.co.ug</span> and <span className="text-primary">kadcoslubaga.sacco@gmail.com</span>.
               </p>
               <p>
-                Alternatively, online applications can be submitted through the link provided, or hand-delivered applications can be brought to our office in Lubaga.
+                Alternatively, online applications can be submitted through this link / on this page, or hand-delivered applications can be brought to our office in Lubaga.
               </p>
 
               <h4 className="font-bold text-lg text-gray-800 mt-6 mb-3">
@@ -424,14 +424,14 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
           animate={{ opacity: 1, x: 0 }}
           className="bg-gray-50 rounded-lg p-6"
         >
-          <h3 className="text-lg font-bold text-secondary mb-4">
+          <h3 className="text-lg font-bold text-secondary mb-4" style={{ fontFamily: 'Gill Sans MT Bold, Gill Sans, sans-serif' }}>
             Candidate Application Form
           </h3>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Position Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'Gill Sans MT, Gill Sans, sans-serif' }}>
                 Position Applied For *
               </label>
               <select
