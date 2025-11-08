@@ -16,6 +16,17 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
+/* Gill Sans MT font class for Vote page */
+.font-gill-sans {
+  font-family: 'Gill Sans MT', 'Gill Sans', 'Trebuchet MS', sans-serif;
+}
+
+/* Force Gill Sans MT on all child elements */
+.font-gill-sans,
+.font-gill-sans * {
+  font-family: 'Gill Sans MT', 'Gill Sans', 'Trebuchet MS', sans-serif !important;
+}
+
 /* Remove the global Marcellus rules since we want Urbanist as default */
 /*
 * {

@@ -258,14 +258,14 @@ KADCOS Leadership Portal
       <div className="min-h-screen bg-gray-50 pt-20 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600 font-marcellus">Loading application data...</p>
+          <p className="text-gray-600">Loading application data...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-gray-50 pt-20 font-gill-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
@@ -273,15 +273,46 @@ KADCOS Leadership Portal
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-bold text-secondary mb-4 font-marcellus">
-            KADCOS Leadership Elections 2026 - Applications
+          <h1 className="text-4xl font-bold text-secondary mb-6">
+            Notice of Election
           </h1>
-          <p className="text-lg text-gray-600 font-marcellus max-w-3xl mx-auto">
-            Apply for leadership positions in the KADCOS Committee. All applications undergo thorough 
-            vetting based on cooperative governance policies and qualification requirements.
-          </p>
-          <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4 inline-block">
-            <p className="text-sm text-blue-800 font-marcellus">
+          <div className="text-lg text-gray-700 max-w-4xl mx-auto space-y-6 text-justify leading-relaxed">
+            <p className="text-center">
+              KADCOS Lubaga Cooperative society is pleased to announce the upcoming election of Supervisory and Executive Board Members, scheduled to take place in February 2026 during the Annual General Meeting.
+            </p>
+            
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+              <h3 className="text-xl font-bold text-secondary mb-4 text-center">
+                Call for Applications
+              </h3>
+              <p className="mb-4">
+                Suitable candidates are invited to apply for the positions by December 10th, 2025. To be eligible, applicants must meet the criteria outlined on our website: 
+                <a href="http://kadcoslubaga.co.ug/vote" className="text-primary hover:text-secondary ml-1 underline">http://kadcoslubaga.co.ug/vote</a>
+              </p>
+
+              <h4 className="font-bold text-lg text-gray-800 mb-3">
+                Application Submission
+              </h4>
+              <p className="mb-3">
+                Applications can be submitted via email to <span className="text-primary">admin@kadcoslubaga.co.ug</span> and <span className="text-primary">kadcoslubaga.sacco@gmail.com</span>.
+              </p>
+              <p>
+                Alternatively, online applications can be submitted through the link provided, or hand-delivered applications can be brought to our office in Lubaga.
+              </p>
+
+              <h4 className="font-bold text-lg text-gray-800 mt-6 mb-3">
+                Required Documents
+              </h4>
+              <p className="mb-3">All applications must include:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li>A formal application letter specifying the role applied for</li>
+                <li>A detailed Curriculum Vitae</li>
+                <li>Any additional supporting documents</li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto">
+            <p className="text-sm text-blue-800">
               <strong>Note:</strong> Applications are submitted directly through this portal. 
               You will receive a confirmation message once submitted.
             </p>
@@ -382,7 +413,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-secondary mb-6 font-marcellus text-center">
+      <h2 className="text-2xl font-bold text-secondary mb-6 text-center">
         Apply for Leadership Position
       </h2>
 
@@ -393,21 +424,21 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
           animate={{ opacity: 1, x: 0 }}
           className="bg-gray-50 rounded-lg p-6"
         >
-          <h3 className="text-lg font-bold text-secondary mb-4 font-marcellus">
+          <h3 className="text-lg font-bold text-secondary mb-4">
             Candidate Application Form
           </h3>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Position Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Position Applied For *
               </label>
               <select
                 name="positionId"
                 value={applicationForm.positionId}
                 onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                 required
                 disabled={submitting}
               >
@@ -423,7 +454,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
             {/* Personal Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Full Name *
                 </label>
                 <input
@@ -431,7 +462,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                   name="fullName"
                   value={applicationForm.fullName}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="Enter your full name"
                   required
                   disabled={submitting}
@@ -439,7 +470,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Membership Number *
                 </label>
                 <input
@@ -447,7 +478,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                   name="membershipNumber"
                   value={applicationForm.membershipNumber}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="Your membership number"
                   required
                   disabled={submitting}
@@ -457,7 +488,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address *
                 </label>
                 <input
@@ -465,7 +496,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                   name="email"
                   value={applicationForm.email}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="Your email address"
                   required
                   disabled={submitting}
@@ -473,7 +504,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Phone Number *
                 </label>
                 <input
@@ -481,7 +512,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                   name="phone"
                   value={applicationForm.phone}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="Your phone number"
                   required
                   disabled={submitting}
@@ -492,7 +523,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
             {/* Membership Details */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Membership Duration (Years) *
                 </label>
                 <input
@@ -500,7 +531,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                   name="membershipDuration"
                   value={applicationForm.membershipDuration}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="How many years as member"
                   min="1"
                   required
@@ -509,7 +540,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Current Number of Shares *
                 </label>
                 <input
@@ -517,7 +548,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                   name="currentShares"
                   value={applicationForm.currentShares}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="Your current shares"
                   min="0"
                   required
@@ -527,7 +558,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Current Savings Balance (UGX) *
               </label>
               <input
@@ -535,7 +566,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                 name="currentSavings"
                 value={applicationForm.currentSavings}
                 onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="Your current savings balance"
                 min="0"
                 required
@@ -545,14 +576,14 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
 
             {/* Language Proficiency */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Language Proficiency *
               </label>
               <select
                 name="languages"
                 value={applicationForm.languages}
                 onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                 required
                 disabled={submitting}
               >
@@ -566,14 +597,14 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
 
             {/* Computer Skills */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Computer Skills *
               </label>
               <select
                 name="computerSkills"
                 value={applicationForm.computerSkills}
                 onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                 required
                 disabled={submitting}
               >
@@ -587,7 +618,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
 
             {/* Qualifications */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Educational Qualifications *
               </label>
               <textarea
@@ -595,7 +626,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                 value={applicationForm.education}
                 onChange={handleChange}
                 rows="3"
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="List your educational qualifications, certificates, and institutions"
                 required
                 disabled={submitting}
@@ -603,7 +634,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Leadership & Cooperative Experience *
               </label>
               <textarea
@@ -611,7 +642,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                 value={applicationForm.experience}
                 onChange={handleChange}
                 rows="3"
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="Describe your relevant leadership experience, committee positions held, and cooperative involvement"
                 required
                 disabled={submitting}
@@ -619,7 +650,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Additional Qualifications & Skills *
               </label>
               <textarea
@@ -627,7 +658,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                 value={applicationForm.qualifications}
                 onChange={handleChange}
                 rows="3"
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="Other qualifications, professional skills, training, workshops attended, etc."
                 required
                 disabled={submitting}
@@ -635,7 +666,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-marcellus">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Vision for the Position *
               </label>
               <textarea
@@ -643,7 +674,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                 value={applicationForm.vision}
                 onChange={handleChange}
                 rows="3"
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="Share your vision, goals, and specific plans for this leadership position. How will you contribute to the cooperative's growth?"
                 required
                 disabled={submitting}
@@ -661,14 +692,14 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                 required
                 disabled={submitting}
               />
-              <label className="ml-2 block text-sm text-gray-700 font-marcellus">
+              <label className="ml-2 block text-sm text-gray-700">
                 I confirm that all information provided is accurate and I meet ALL the eligibility requirements specified in the KADCOS governance policies. 
                 I understand that providing false information may lead to disqualification. *
               </label>
             </div>
 
             <div className="bg-yellow-50 border border-yellow-200 rounded p-4">
-              <p className="text-sm text-yellow-800 font-marcellus">
+              <p className="text-sm text-yellow-800">
                 <strong>Important Note:</strong> Your application will be submitted directly through this portal. 
                 All applications will be thoroughly reviewed by the vetting committee against the qualification requirements. 
                 Only candidates who meet ALL specified requirements will be considered. You will be notified of your application status via email. 
@@ -679,7 +710,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
             <button
               type="submit"
               disabled={submitting}
-              className={`w-full py-3 rounded transition-colors font-marcellus font-semibold text-lg ${
+              className={`w-full py-3 rounded transition-colors font-semibold text-lg ${
                 submitting 
                   ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
                   : 'bg-primary text-white hover:bg-secondary'
@@ -706,16 +737,16 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
           {/* Selected Position Requirements */}
           {applicationForm.positionId && (
             <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
-              <h3 className="text-lg font-bold text-secondary mb-4 font-marcellus">
+              <h3 className="text-lg font-bold text-secondary mb-4">
                 Detailed Requirements for {getSelectedPosition()?.title}
               </h3>
               <div className="space-y-4">
                 {Object.entries(getPositionQualification(getSelectedPosition()?.title)).map(([key, value]) => (
                   <div key={key} className="border-b border-blue-100 pb-3 last:border-b-0">
-                    <span className="text-sm font-semibold text-gray-700 font-marcellus capitalize block mb-1">
+                    <span className="text-sm font-semibold text-gray-700 capitalize block mb-1">
                       {key.replace(/([A-Z])/g, ' $1').replace(/([A-Z][a-z])/g, ' $1')}:
                     </span>
-                    <span className="text-sm text-gray-600 font-marcellus block">
+                    <span className="text-sm text-gray-600 block">
                       {value}
                     </span>
                   </div>
@@ -726,10 +757,10 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
 
           {/* General Eligibility Requirements */}
           <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <h3 className="text-lg font-bold text-secondary mb-4 font-marcellus">
+            <h3 className="text-lg font-bold text-secondary mb-4">
               General Eligibility Requirements (All Positions)
             </h3>
-            <ul className="text-sm text-gray-700 space-y-2 font-marcellus list-disc list-inside">
+            <ul className="text-sm text-gray-700 space-y-2 list-disc list-inside">
               <li>Must be a member of the Society</li>
               <li>Must be 18 years or older</li>
               <li>Able to read and write English and Luganda</li>
@@ -746,20 +777,20 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
 
           {/* Term of Office */}
           <div className="bg-green-50 rounded-lg p-6 border border-green-200">
-            <h4 className="font-bold text-secondary mb-3 font-marcellus">
+            <h4 className="font-bold text-secondary mb-3">
               Term of Office
             </h4>
-            <p className="text-sm text-gray-700 font-marcellus">
+            <p className="text-sm text-gray-700">
               The Committee shall hold office for more than one term of four years, but eligible for re-election.
             </p>
           </div>
 
           {/* Application Process */}
           <div className="bg-purple-50 rounded-lg p-6 border border-purple-200">
-            <h4 className="font-bold text-secondary mb-3 font-marcellus">
+            <h4 className="font-bold text-secondary mb-3">
               Application & Selection Process
             </h4>
-            <ol className="text-sm text-gray-700 space-y-2 font-marcellus">
+            <ol className="text-sm text-gray-700 space-y-2">
               <li><strong>1. Application:</strong> Submit complete application with all required information</li>
               <li><strong>2. Automated Processing:</strong> System records application and notifies committee</li>
               <li><strong>3. Documentation Review:</strong> Committee verifies all provided information</li>
