@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 const Vote = () => {
   const [positions, setPositions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   // Detailed position qualifications based on the document
   const positionQualifications = {
@@ -112,14 +113,129 @@ const Vote = () => {
     setLoading(false);
   }, []);
 
+  const submitToGoogleForms = async (applicationData) => {
+    // Google Forms prefill URL
+    const googleFormsUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdhRjeJ_sSP6KyKW-FUGTHlgEvcTr1ekGc3R65bOurKGNc2Gw/viewform?usp=pp_url';
+    
+    // Create URL parameters for pre-filling the form
+    const params = new URLSearchParams();
+    
+    // Map form data to Google Forms field IDs using the actual IDs from your form
+    const position = positions.find(p => p.id === parseInt(applicationData.positionId));
+    
+    // Add form data as URL parameters with correct field IDs
+    if (position) {
+      params.append('entry.767180669', `${position.title} (${position.type.charAt(0).toUpperCase() + position.type.slice(1)})`);
+    }
+    params.append('entry.1060597654', applicationData.fullName); // Full Name
+    params.append('entry.1184590918', applicationData.email); // Email
+    params.append('entry.1266229749', applicationData.phone); // Phone
+    params.append('entry.1242248726', applicationData.membershipNumber); // Membership Number
+    params.append('entry.25217971', applicationData.membershipDuration); // Membership Duration
+    params.append('entry.1732913573', applicationData.currentShares); // Current Shares
+    params.append('entry.1687312056', applicationData.currentSavings); // Current Savings
+    params.append('entry.302345355', applicationData.languages); // Languages
+    params.append('entry.13563876', applicationData.computerSkills); // Computer Skills
+    params.append('entry.1613738470', applicationData.education); // Education
+    params.append('entry.2085251057', applicationData.experience); // Experience
+    params.append('entry.627465262', applicationData.qualifications); // Qualifications
+    params.append('entry.1754992661', applicationData.vision); // Vision
+    
+    const prefillUrl = `${googleFormsUrl}&${params.toString()}`;
+    
+    // Open Google Forms in new tab with pre-filled data
+    window.open(prefillUrl, '_blank');
+    
+    return true;
+  };
+
+  const sendEmailNotification = async (applicationData) => {
+    const position = positions.find(p => p.id === parseInt(applicationData.positionId));
+    
+    const emailData = {
+      to: ['kadcoslubaga.sacco@gmail.com', 'seo@inzozi.co'],
+      subject: `New KADCOS Leadership Application - ${position?.title || 'Unknown Position'}`,
+      html: `
+        <h2>New Leadership Position Application</h2>
+        <p><strong>Position:</strong> ${position?.title || 'Not specified'}</p>
+        <p><strong>Candidate Name:</strong> ${applicationData.fullName}</p>
+        <p><strong>Email:</strong> ${applicationData.email}</p>
+        <p><strong>Phone:</strong> ${applicationData.phone}</p>
+        <p><strong>Membership Number:</strong> ${applicationData.membershipNumber}</p>
+        <p><strong>Membership Duration:</strong> ${applicationData.membershipDuration} years</p>
+        <p><strong>Current Shares:</strong> ${applicationData.currentShares}</p>
+        <p><strong>Current Savings:</strong> UGX ${applicationData.currentSavings}</p>
+        <p><strong>Languages:</strong> ${applicationData.languages}</p>
+        <p><strong>Computer Skills:</strong> ${applicationData.computerSkills}</p>
+        <hr>
+        <p><strong>Education:</strong> ${applicationData.education}</p>
+        <p><strong>Experience:</strong> ${applicationData.experience}</p>
+        <p><strong>Additional Qualifications:</strong> ${applicationData.qualifications}</p>
+        <p><strong>Vision:</strong> ${applicationData.vision}</p>
+        <hr>
+        <p><em>This application was submitted through the KADCOS Leadership Portal on ${new Date().toLocaleString()}</em></p>
+      `
+    };
+
+    try {
+      // Using EmailJS or similar service - you'll need to set this up
+      // For now, we'll create a mailto link as fallback
+      const mailtoBody = `
+Position: ${position?.title || 'Not specified'}
+Candidate: ${applicationData.fullName}
+Email: ${applicationData.email}
+Phone: ${applicationData.phone}
+Membership: ${applicationData.membershipNumber} (${applicationData.membershipDuration} years)
+Shares: ${applicationData.currentShares}
+Savings: UGX ${applicationData.currentSavings}
+
+EDUCATION:
+${applicationData.education}
+
+EXPERIENCE:
+${applicationData.experience}
+
+QUALIFICATIONS:
+${applicationData.qualifications}
+
+VISION:
+${applicationData.vision}
+
+Submitted: ${new Date().toLocaleString()}
+      `;
+
+      const mailtoLink = `mailto:kadcoslubaga.sacco@gmail.com,seo@inzozi.co?subject=New KADCOS Leadership Application - ${encodeURIComponent(position?.title || 'Unknown')}&body=${encodeURIComponent(mailtoBody)}`;
+      window.location.href = mailtoLink;
+      
+      return true;
+    } catch (error) {
+      console.error('Email notification failed:', error);
+      return false;
+    }
+  };
+
   const handleApplication = async (applicationData) => {
-    // TODO: Submit application to Google Forms/backend
-    console.log('Application submitted:', applicationData);
+    setSubmitting(true);
     
-    // Here you would typically send data to Google Forms via their API
-    // or to your backend which then forwards to Google Forms
-    
-    alert('Application submitted successfully! Your application will be reviewed by the vetting committee.');
+    try {
+      // Submit to Google Forms
+      const formsSuccess = await submitToGoogleForms(applicationData);
+      
+      // Send email notification
+      const emailSuccess = await sendEmailNotification(applicationData);
+      
+      if (formsSuccess) {
+        alert('Application submitted successfully! Please complete the submission in the Google Form that opened in a new tab. Your application will be reviewed by the vetting committee.');
+      } else {
+        alert('Application prepared! Please check your email to complete the submission.');
+      }
+      
+    } catch (error) {
+      console.error('Application submission error:', error);
+      alert('There was an issue submitting your application. Please try again or contact support.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (loading) {
@@ -151,7 +267,8 @@ const Vote = () => {
           </p>
           <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4 inline-block">
             <p className="text-sm text-blue-800 font-marcellus">
-              <strong>Note:</strong> Voting will be conducted offline. This portal is for leadership position applications only.
+              <strong>Note:</strong> After submitting, you'll be redirected to Google Forms to complete your application.
+              Voting will be conducted offline.
             </p>
           </div>
         </motion.div>
@@ -162,6 +279,7 @@ const Vote = () => {
             positions={positions}
             positionQualifications={positionQualifications}
             onApply={handleApplication}
+            submitting={submitting}
           />
         </div>
       </div>
@@ -170,7 +288,7 @@ const Vote = () => {
 };
 
 // Application Section Component
-const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
+const ApplicationSection = ({ positions, positionQualifications, onApply, submitting }) => {
   const [applicationForm, setApplicationForm] = useState({
     positionId: '',
     fullName: '',
@@ -191,6 +309,8 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (submitting) return;
     
     // Validate form
     if (!applicationForm.positionId || !applicationForm.fullName || !applicationForm.agreesToTerms) {
@@ -274,6 +394,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                 required
+                disabled={submitting}
               >
                 <option value="">Select a position</option>
                 {positions.map((position) => (
@@ -298,6 +419,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                   className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                   placeholder="Enter your full name"
                   required
+                  disabled={submitting}
                 />
               </div>
 
@@ -313,6 +435,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                   className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                   placeholder="Your membership number"
                   required
+                  disabled={submitting}
                 />
               </div>
             </div>
@@ -330,6 +453,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                   className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                   placeholder="Your email address"
                   required
+                  disabled={submitting}
                 />
               </div>
 
@@ -345,6 +469,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                   className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                   placeholder="Your phone number"
                   required
+                  disabled={submitting}
                 />
               </div>
             </div>
@@ -364,6 +489,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                   placeholder="How many years as member"
                   min="1"
                   required
+                  disabled={submitting}
                 />
               </div>
 
@@ -380,6 +506,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                   placeholder="Your current shares"
                   min="0"
                   required
+                  disabled={submitting}
                 />
               </div>
             </div>
@@ -397,6 +524,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 placeholder="Your current savings balance"
                 min="0"
                 required
+                disabled={submitting}
               />
             </div>
 
@@ -411,12 +539,13 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                 required
+                disabled={submitting}
               >
                 <option value="">Select your language proficiency</option>
-                <option value="fluent_both">Fluent in both English and Luganda</option>
-                <option value="read_write_both">Can read and write both English and Luganda</option>
-                <option value="english_only">English only</option>
-                <option value="luganda_only">Luganda only</option>
+                <option value="Fluent in both English and Luganda">Fluent in both English and Luganda</option>
+                <option value="Can read and write both English and Luganda">Can read and write both English and Luganda</option>
+                <option value="English only">English only</option>
+                <option value="Luganda only">Luganda only</option>
               </select>
             </div>
 
@@ -431,12 +560,13 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                 required
+                disabled={submitting}
               >
                 <option value="">Select your computer proficiency</option>
-                <option value="basic">Basic computer skills</option>
-                <option value="intermediate">Intermediate (Word, Excel, Email)</option>
-                <option value="advanced">Advanced (Accounting software, Advanced Excel)</option>
-                <option value="none">No computer skills</option>
+                <option value="Basic computer skills">Basic computer skills</option>
+                <option value="Intermediate (Word, Excel, Email)">Intermediate (Word, Excel, Email)</option>
+                <option value="Advanced (Accounting software, Advanced Excel)">Advanced (Accounting software, Advanced Excel)</option>
+                <option value="No computer skills">No computer skills</option>
               </select>
             </div>
 
@@ -453,6 +583,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                 placeholder="List your educational qualifications, certificates, and institutions"
                 required
+                disabled={submitting}
               />
             </div>
 
@@ -468,6 +599,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                 placeholder="Describe your relevant leadership experience, committee positions held, and cooperative involvement"
                 required
+                disabled={submitting}
               />
             </div>
 
@@ -483,6 +615,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                 placeholder="Other qualifications, professional skills, training, workshops attended, etc."
                 required
+                disabled={submitting}
               />
             </div>
 
@@ -498,6 +631,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
                 placeholder="Share your vision, goals, and specific plans for this leadership position. How will you contribute to the cooperative's growth?"
                 required
+                disabled={submitting}
               />
             </div>
 
@@ -510,6 +644,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
                 onChange={handleChange}
                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded mt-1"
                 required
+                disabled={submitting}
               />
               <label className="ml-2 block text-sm text-gray-700 font-marcellus">
                 I confirm that all information provided is accurate and I meet ALL the eligibility requirements specified in the KADCOS governance policies. 
@@ -519,7 +654,8 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
 
             <div className="bg-yellow-50 border border-yellow-200 rounded p-4">
               <p className="text-sm text-yellow-800 font-marcellus">
-                <strong>Important Note:</strong> All applications will be thoroughly reviewed by the vetting committee against the qualification requirements. 
+                <strong>Important Note:</strong> After submitting, you'll be redirected to Google Forms to complete your application. 
+                All applications will be thoroughly reviewed by the vetting committee against the qualification requirements. 
                 Only candidates who meet ALL specified requirements will be considered. You will be notified of your application status via email. 
                 Voting will be conducted through offline processes as per cooperative procedures.
               </p>
@@ -527,9 +663,21 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
 
             <button
               type="submit"
-              className="w-full bg-primary text-white py-3 rounded hover:bg-secondary transition-colors font-marcellus font-semibold text-lg"
+              disabled={submitting}
+              className={`w-full py-3 rounded transition-colors font-marcellus font-semibold text-lg ${
+                submitting 
+                  ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
+                  : 'bg-primary text-white hover:bg-secondary'
+              }`}
             >
-              Submit Application
+              {submitting ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Submitting Application...
+                </div>
+              ) : (
+                'Submit Application'
+              )}
             </button>
           </form>
         </motion.div>
@@ -598,12 +746,13 @@ const ApplicationSection = ({ positions, positionQualifications, onApply }) => {
             </h4>
             <ol className="text-sm text-gray-700 space-y-2 font-marcellus">
               <li><strong>1. Application:</strong> Submit complete application with all required information</li>
-              <li><strong>2. Documentation Review:</strong> Committee verifies all provided information</li>
-              <li><strong>3. Vetting:</strong> Comprehensive review against qualification requirements</li>
-              <li><strong>4. Eligibility Confirmation:</strong> Verification of meeting all criteria</li>
-              <li><strong>5. Candidate Approval:</strong> Eligible candidates approved for consideration</li>
-              <li><strong>6. Offline Voting:</strong> Election conducted through cooperative voting procedures</li>
-              <li><strong>7. Results:</strong> Winners announced after voting process completion</li>
+              <li><strong>2. Google Forms:</strong> Complete submission in the Google Form that opens</li>
+              <li><strong>3. Documentation Review:</strong> Committee verifies all provided information</li>
+              <li><strong>4. Vetting:</strong> Comprehensive review against qualification requirements</li>
+              <li><strong>5. Eligibility Confirmation:</strong> Verification of meeting all criteria</li>
+              <li><strong>6. Candidate Approval:</strong> Eligible candidates approved for consideration</li>
+              <li><strong>7. Offline Voting:</strong> Election conducted through cooperative voting procedures</li>
+              <li><strong>8. Results:</strong> Winners announced after voting process completion</li>
             </ol>
           </div>
         </motion.div>
