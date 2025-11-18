@@ -464,13 +464,40 @@ const MembersSection = ({
           </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {members.map((member) => (
-          <MemberCard
-            key={member.id}
-            member={member}
-          />
-        ))}
+      <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Membership #</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {members.map((member) => (
+              <tr key={member.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{member.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.email}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.phone}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.membershipNumber || member.membership_number || ''}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${member.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                    {member.status || 'pending'}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div className="flex items-center space-x-3">
+                    <button onClick={() => alert('Edit not implemented')} className="text-primary hover:text-secondary">Edit</button>
+                    <button onClick={() => alert('Delete not implemented')} className="text-red-600 hover:text-red-800">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {members.length === 0 && (

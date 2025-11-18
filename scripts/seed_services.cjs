@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable */
 // scripts/seed_services.cjs
 // Puppeteer script to seed localStorage for cms_services and cms_savingsFeatures
 const puppeteer = require('puppeteer');
