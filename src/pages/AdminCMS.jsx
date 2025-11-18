@@ -14,6 +14,10 @@ const AdminCMS = () => {
   const [resources, setResources] = useState([]);
   const [leadership, setLeadership] = useState([]);
   const [services, setServices] = useState([]);
+  // Services are split into loan products (used by public Services page) and savings features
+  const [loanProducts, setLoanProducts] = useState([]);
+  const [savingsFeatures, setSavingsFeatures] = useState([]);
+  const [servicesSubSection, setServicesSubSection] = useState('loanProducts'); // 'loanProducts' | 'savingsFeatures'
   const [loading, setLoading] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -29,9 +33,10 @@ const AdminCMS = () => {
     try {
       // Load data from localStorage or API
       const savedBlogPosts = JSON.parse(localStorage.getItem('cms_blogPosts') || '[]');
-      const savedResources = JSON.parse(localStorage.getItem('cms_resources') || '[]');
-      let savedLeadership = JSON.parse(localStorage.getItem('cms_leadership') || '[]');
-      const savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
+  const savedResources = JSON.parse(localStorage.getItem('cms_resources') || '[]');
+  let savedLeadership = JSON.parse(localStorage.getItem('cms_leadership') || '[]');
+  const savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
+  const savedSavings = JSON.parse(localStorage.getItem('cms_savingsFeatures') || '[]');
 
       // If no leadership in localStorage, use the same default as Governance page
       if (savedLeadership.length === 0) {
@@ -62,10 +67,127 @@ const AdminCMS = () => {
         ];
       }
 
+      // Default values for services (kept similar to public Services page defaults)
+      const commonRequirements = [
+        'Full membership',
+        '3+ months regular savings',
+        'At least one guarantor',
+        'Application letter & form',
+        'Collateral for loans above 2.5m'
+      ];
+
+      const defaultLoanProducts = [
+        {
+          id: 1,
+          title: 'Personal Loan',
+          description: 'For home renovation, buying furniture, and personal needs',
+          maxPeriod: '12 months',
+          interestRate: '2% per month',
+          icon: 'FiDollarSign',
+          requirements: commonRequirements
+        },
+        {
+          id: 2,
+          title: 'School Fees Loan',
+          description: "Educational financing for your children's future",
+          maxPeriod: '6 months',
+          interestRate: '2% per month',
+          icon: 'FiClock',
+          requirements: commonRequirements
+        },
+        {
+          id: 3,
+          title: 'Business Loan',
+          description: 'Capital for business expansion and development',
+          maxPeriod: '12 months',
+          interestRate: '2% per month',
+          icon: 'FiCreditCard',
+          requirements: commonRequirements
+        },
+        {
+          id: 4,
+          title: 'Agricultural/Farming Loan',
+          description: 'Support for agricultural activities and farming',
+          maxPeriod: '12 months',
+          interestRate: '2% per month',
+          icon: 'FiTrendingUp',
+          requirements: commonRequirements
+        },
+        {
+          id: 5,
+          title: 'Construction Loan',
+          description: 'Financing for construction and building projects',
+          maxPeriod: '12 months',
+          interestRate: '2% per month',
+          icon: 'FiTrendingUp',
+          requirements: commonRequirements
+        },
+        {
+          id: 6,
+          title: 'Weekend Loan',
+          description: 'Special rates for members',
+          maxPeriod: '12 months',
+          interestRate: '1% per week',
+          icon: 'FiPercent',
+          requirements: commonRequirements
+        },
+        {
+          id: 7,
+          title: 'Loans in Kind',
+          description: 'Capital for business expansion and development (in-kind)',
+          maxPeriod: '12 months',
+          interestRate: '3% per month',
+          icon: 'FiCreditCard',
+          requirements: commonRequirements
+        },
+        {
+          id: 8,
+          title: 'Emergency Loan',
+          description: 'Quick loans for unexpected expenses',
+          maxPeriod: '3 months',
+          interestRate: '3% per month',
+          icon: 'FiDollarSign',
+          requirements: commonRequirements
+        }
+      ];
+
+      const defaultSavingsFeatures = [
+        {
+          id: 1,
+          title: 'Regular Savings',
+          description: 'Minimum monthly savings of 10,000 UGX with competitive returns',
+          icon: 'FiDollarSign'
+        },
+        {
+          id: 2,
+          title: 'Fixed Deposits',
+          description: 'Secure your money with our fixed deposit accounts',
+          icon: 'FiClock'
+        },
+        {
+          id: 3,
+          title: 'Flexible Withdrawals',
+          description: 'Access your savings when you need them (minimum balance: 20,000 UGX)',
+          icon: 'FiClock'
+        }
+      ];
+
+      const finalLoanProducts = (savedServices && savedServices.length > 0) ? savedServices : defaultLoanProducts;
+      const finalSavings = (savedSavings && savedSavings.length > 0) ? savedSavings : defaultSavingsFeatures;
+
+      // Persist defaults if storage was empty so the public Services page sees data
+      try {
+        if (!savedServices || savedServices.length === 0) localStorage.setItem('cms_services', JSON.stringify(finalLoanProducts));
+        if (!savedSavings || savedSavings.length === 0) localStorage.setItem('cms_savingsFeatures', JSON.stringify(finalSavings));
+      } catch (e) {
+        console.warn('Could not persist default services to localStorage', e);
+      }
+
       setBlogPosts(savedBlogPosts);
       setResources(savedResources);
       setLeadership(savedLeadership);
-      setServices(savedServices);
+      setLoanProducts(finalLoanProducts);
+      setSavingsFeatures(finalSavings);
     } catch (error) {
       console.error('Error loading data:', error);
       toast.error('Failed to load data');
@@ -127,7 +249,8 @@ const AdminCMS = () => {
       case 'blog': return blogPosts;
       case 'resources': return resources;
       case 'leadership': return leadership;
-      case 'services': return services;
+      case 'services':
+        return servicesSubSection === 'savingsFeatures' ? savingsFeatures : loanProducts;
       default: return [];
     }
   };
@@ -148,10 +271,28 @@ const AdminCMS = () => {
         saveData('cms_leadership', updatedData);
         break;
       case 'services':
-        setServices(updatedData);
-        saveData('cms_services', updatedData);
+        if (servicesSubSection === 'savingsFeatures') {
+          setSavingsFeatures(updatedData);
+          saveData('cms_savingsFeatures', updatedData);
+        } else {
+          setLoanProducts(updatedData);
+          // keep backwards compatibility: public Services page reads `cms_services`
+          saveData('cms_services', updatedData);
+        }
         break;
     }
+  };
+
+  const handleResetServices = () => {
+    // Reload services and savings from localStorage (or empty)
+    const defaults = JSON.parse(localStorage.getItem('cms_services') || '[]');
+    const savings = JSON.parse(localStorage.getItem('cms_savingsFeatures') || '[]');
+    setLoanProducts(defaults);
+    setSavingsFeatures(savings);
+    // persist back
+    saveData('cms_services', defaults);
+    saveData('cms_savingsFeatures', savings);
+    toast.success('Services reset');
   };
 
   const getDefaultItem = (section) => {
@@ -191,7 +332,16 @@ const AdminCMS = () => {
         requirements: []
       }
     };
-    return { ...defaults[section] };
+      // For services, respect the servicesSubSection (loanProducts vs savingsFeatures)
+      if (section === 'services') {
+        if (servicesSubSection === 'savingsFeatures') {
+          return { id: Date.now().toString(), title: '', description: '', icon: 'FiDollarSign' };
+        }
+        // loan product default
+        return { id: Date.now().toString(), title: '', description: '', maxPeriod: '', interestRate: '', icon: 'FiDollarSign', requirements: [] };
+      }
+
+      return { ...defaults[section] };
   };
 
   const sections = [
@@ -345,17 +495,55 @@ const AdminCMS = () => {
             )}
 
             {activeSection === 'services' && (
-              <ContentList
-                items={services}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                columns={['Title', 'Interest Rate', 'Max Period']}
-                renderItem={(item) => ({
-                  title: item.title,
-                  interestRate: item.interestRate,
-                  maxPeriod: item.maxPeriod
-                })}
-              />
+              <div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <button
+                    onClick={() => setServicesSubSection('loanProducts')}
+                    className={`px-3 py-1 rounded-md text-sm font-marcellus ${servicesSubSection==='loanProducts'? 'bg-primary text-white':'text-gray-700 hover:bg-gray-100'}`}
+                  >
+                    Loan Products
+                  </button>
+                  <button
+                    onClick={() => setServicesSubSection('savingsFeatures')}
+                    className={`px-3 py-1 rounded-md text-sm font-marcellus ${servicesSubSection==='savingsFeatures'? 'bg-primary text-white':'text-gray-700 hover:bg-gray-100'}`}
+                  >
+                    Savings Services
+                  </button>
+                  <div className="flex-1" />
+                  <button
+                    onClick={handleResetServices}
+                    className="flex items-center space-x-2 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors font-marcellus"
+                  >
+                    <SafeIcon icon={FiX} />
+                    <span>Reset Services</span>
+                  </button>
+                </div>
+
+                {servicesSubSection === 'savingsFeatures' ? (
+                  <ContentList
+                    items={savingsFeatures}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    columns={['Title', 'Description']}
+                    renderItem={(item) => ({
+                      title: item.title,
+                      description: item.description
+                    })}
+                  />
+                ) : (
+                  <ContentList
+                    items={loanProducts}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    columns={['Title', 'Interest Rate', 'Max Period']}
+                    renderItem={(item) => ({
+                      title: item.title,
+                      interestRate: item.interestRate,
+                      maxPeriod: item.maxPeriod
+                    })}
+                  />
+                )}
+              </div>
             )}
           </div>
         </div>

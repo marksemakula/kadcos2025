@@ -13,49 +13,116 @@ const Services = () => {
 
   useEffect(() => {
     const savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
-    
-    if (savedServices.length === 0) {
-      // Use default data if no CMS data exists
-      const defaultLoanProducts = [
-        {
-          id: 1,
-          title: 'Personal Loan',
-          description: 'For home renovation, buying furniture, and personal needs',
-          maxPeriod: '12 months',
-          interestRate: '2% per month',
-          icon: 'FiDollarSign'
-        },
-        {
-          id: 2,
-          title: 'Business Loan',
-          description: 'Capital for business expansion and development',
-          maxPeriod: '12 months',
-          interestRate: '2% per month',
-          icon: 'FiCreditCard'
-        }
-      ];
+    const savedSavings = JSON.parse(localStorage.getItem('cms_savingsFeatures') || '[]');
 
-      const defaultSavingsFeatures = [
-        {
-          id: 1,
-          title: 'Regular Savings',
-          description: 'Minimum monthly savings of 10,000 UGX with competitive returns',
-          icon: 'FiDollarSign'
-        }
-      ];
+    const commonRequirements = [
+      'Full membership',
+      'Regular savings for at least a period of 3 months',
+      'At least one guarantor who is fully registered and in good standing with the cooperative',
+      'Loan application letter and a fully filled loan application form',
+      'Collateral on loans above 2.5 million'
+    ];
 
-      setServicesData({
-        loanProducts: defaultLoanProducts,
-        savingsFeatures: defaultSavingsFeatures
-      });
-    } else {
-      // For now, treat all services as loan products
-      // In a real app, you might want to add a type field to distinguish between services
-      setServicesData({
-        loanProducts: savedServices,
-        savingsFeatures: [] // You could filter savings features if needed
-      });
-    }
+    const defaultLoanProducts = [
+      {
+        id: 1,
+        title: 'Personal Loan',
+        description: 'For home renovation, buying furniture, and personal needs',
+        maxPeriod: '12 months',
+        interestRate: '2% per month',
+        icon: 'FiDollarSign',
+        requirements: commonRequirements
+      },
+      {
+        id: 2,
+        title: 'School Fees Loan',
+        description: "Educational financing for your children's future",
+        maxPeriod: '6 months',
+        interestRate: '2% per month',
+        icon: 'FiClock',
+        requirements: commonRequirements
+      },
+      {
+        id: 3,
+        title: 'Business Loan',
+        description: 'Capital for business expansion and development',
+        maxPeriod: '12 months',
+        interestRate: '2% per month',
+        icon: 'FiCreditCard',
+        requirements: commonRequirements
+      },
+      {
+        id: 4,
+        title: 'Agricultural/Farming Loan',
+        description: 'Support for agricultural activities and farming',
+        maxPeriod: '12 months',
+        interestRate: '2% per month',
+        icon: 'FiTrendingUp',
+        requirements: commonRequirements
+      },
+      {
+        id: 5,
+        title: 'Construction Loan',
+        description: 'Financing for construction and building projects',
+        maxPeriod: '12 months',
+        interestRate: '2% per month',
+        icon: 'FiTrendingUp',
+        requirements: commonRequirements
+      },
+      {
+        id: 6,
+        title: 'Weekend Loan',
+        description: 'Special rates for members',
+        maxPeriod: '12 months',
+        interestRate: '1% per week',
+        icon: 'FiPercent',
+        requirements: commonRequirements
+      },
+      {
+        id: 7,
+        title: 'Loans in Kind',
+        description: 'Capital for business expansion and development (in-kind)',
+        maxPeriod: '12 months',
+        interestRate: '3% per month',
+        icon: 'FiCreditCard',
+        requirements: commonRequirements
+      },
+      {
+        id: 8,
+        title: 'Emergency Loan',
+        description: 'Quick loans for unexpected expenses',
+        maxPeriod: '3 months',
+        interestRate: '3% per month',
+        icon: 'FiDollarSign',
+        requirements: commonRequirements
+      }
+    ];
+
+    const defaultSavingsFeatures = [
+      {
+        id: 1,
+        title: 'Regular Savings',
+        description: 'Minimum monthly savings of 10,000 UGX with competitive returns',
+        icon: 'FiDollarSign'
+      },
+      {
+        id: 2,
+        title: 'Fixed Deposits',
+        description: 'Secure your money with our fixed deposit accounts',
+        icon: 'FiClock'
+      },
+      {
+        id: 3,
+        title: 'Flexible Withdrawals',
+        description: 'Access your savings when you need them (minimum balance: 20,000 UGX)',
+        icon: 'FiClock'
+      }
+    ];
+
+    setServicesData({
+      loanProducts: savedServices && savedServices.length > 0 ? savedServices : defaultLoanProducts,
+      savingsFeatures: savedSavings && savedSavings.length > 0 ? savedSavings : defaultSavingsFeatures
+    });
   }, []);
 
   const loanRequirements = [
