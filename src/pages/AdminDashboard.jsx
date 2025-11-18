@@ -251,7 +251,7 @@ const AdminDashboard = () => {
               }`}
             >
               <SafeIcon icon={FiUserCheck} />
-              <span>Election Candidates</span>
+              <span>Leadership Candidates</span>
             </button>
             <button
               onClick={() => setActiveTab('cms')}
