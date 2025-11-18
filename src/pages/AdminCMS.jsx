@@ -30,8 +30,37 @@ const AdminCMS = () => {
       // Load data from localStorage or API
       const savedBlogPosts = JSON.parse(localStorage.getItem('cms_blogPosts') || '[]');
       const savedResources = JSON.parse(localStorage.getItem('cms_resources') || '[]');
-      const savedLeadership = JSON.parse(localStorage.getItem('cms_leadership') || '[]');
+      let savedLeadership = JSON.parse(localStorage.getItem('cms_leadership') || '[]');
       const savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
+
+      // If no leadership in localStorage, use the same default as Governance page
+      if (savedLeadership.length === 0) {
+        savedLeadership = [
+          // Executive Committee
+          { id: 1, name: "Mrs. Nseerikomawa Josephine", position: "Board Chairperson", image: "/images/Nseerikomawa_Josephine.jpg", bio: "Experienced leader providing strategic direction and oversight.", category: "executive" },
+          { id: 2, name: "Council Jude Mbabaali", position: "Vice Chairperson", image: "/images/Jude_Mbabaali.jpg", bio: "Supports the chairperson in governance and strategic planning.", category: "executive" },
+          { id: 3, name: "Ms. Namaganda Justine", position: "Secretary", image: "", bio: "Responsible for documentation and official communications.", category: "executive" },
+          { id: 4, name: "Mr. Tenywa Herman Musisi", position: "Treasurer", image: "", bio: "Manages financial oversight and fiscal responsibility.", category: "executive" },
+          { id: 5, name: "Mr. Budde Harry Dominic", position: "Member", image: "", bio: "Committee member contributing to strategic decisions.", category: "executive" },
+          { id: 6, name: "Mrs. Kalanda Annette Kizza", position: "Member", image: "", bio: "Committee member with focus on member welfare.", category: "executive" },
+          { id: 7, name: "Mr. Ssekamatte Patrick", position: "Member", image: "", bio: "Committee member providing operational insights.", category: "executive" },
+          { id: 8, name: "Mr. Mutebi Emmanuel", position: "Member", image: "", bio: "Committee member with community development expertise.", category: "executive" },
+          { id: 9, name: "Mr. Mukalazi Vienny", position: "Member", image: "", bio: "Committee member focused on growth initiatives.", category: "executive" },
+          // Supervisory Committee
+          { id: 10, name: "Mr. Gerald Katusabe", position: "Supervisory Committee", image: "/images/Gerald_Katusabe.jpg", bio: "Oversees compliance and operational integrity.", category: "supervisory" },
+          { id: 11, name: "Mrs. Josephine Sekatuba", position: "Supervisory Committee", image: "", bio: "Ensures regulatory compliance and best practices.", category: "supervisory" },
+          { id: 12, name: "Mrs. Rose Ssali", position: "Supervisory Committee", image: "", bio: "Monitors operational efficiency and member satisfaction.", category: "supervisory" },
+          // Management and Staff
+          { id: 13, name: "Mr. Dumba Patrick", position: "Manager", image: "/images/PatrickDdumba.png", bio: "Business development specialist focused on expanding cooperative services.", category: "management" },
+          { id: 14, name: "Ms. Nyago Mary Goretti", position: "Accountant", image: "", bio: "Manages financial records and reporting.", category: "management" },
+          { id: 15, name: "Ms. Namukasa Proscovia", position: "Credit Officer", image: "", bio: "Handles credit assessments and loan management.", category: "management" },
+          { id: 16, name: "Ms. Kansiime Anna", position: "Assistant Credit Officer", image: "", bio: "Supports credit operations and member services.", category: "management" },
+          { id: 17, name: "Ms. Namugga Maria", position: "Cashier", image: "", bio: "Manages daily transactions and member accounts.", category: "management" },
+          { id: 18, name: "Ms. Nanyonga Gladys", position: "Cashier", image: "", bio: "Handles financial transactions and customer service.", category: "management" },
+          { id: 19, name: "Ms. Nyago Grace", position: "Support Staff", image: "", bio: "Provides operational support and maintenance.", category: "management" },
+          { id: 20, name: "Ms. Nabagereka Victoria", position: "Office Attendant/Receptionist", image: "", bio: "Dedicated to providing exceptional service and support to our members.", category: "management" }
+        ];
+      }
 
       setBlogPosts(savedBlogPosts);
       setResources(savedResources);
@@ -288,17 +317,31 @@ const AdminCMS = () => {
             )}
 
             {activeSection === 'leadership' && (
-              <ContentList
-                items={leadership}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                columns={['Name', 'Position', 'Category']}
-                renderItem={(item) => ({
-                  name: item.name,
-                  position: item.position,
-                  category: item.category
+              <div>
+                {['executive', 'supervisory', 'management'].map((cat) => {
+                  const catLabel =
+                    cat === 'executive' ? 'Executive Committee'
+                    : cat === 'supervisory' ? 'Supervisory Committee'
+                    : 'Management and Staff';
+                  const catItems = leadership.filter(l => l.category === cat);
+                  return (
+                    <div key={cat} className="mb-8">
+                      <h3 className="text-lg font-bold mb-4 text-secondary">{catLabel}</h3>
+                      <ContentList
+                        items={catItems}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                        columns={['Name', 'Position', 'Bio']}
+                        renderItem={(item) => ({
+                          name: item.name,
+                          position: item.position,
+                          bio: item.bio
+                        })}
+                      />
+                    </div>
+                  );
                 })}
-              />
+              </div>
             )}
 
             {activeSection === 'services' && (
@@ -444,15 +487,28 @@ const ContentForm = ({ section, item, onSave, onCancel }) => {
         {formData.image !== undefined && (
           <div>
             <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
-              Image URL
+              Upload Photo
             </label>
             <input
-              type="text"
-              value={formData.image || ''}
-              onChange={(e) => handleChange('image', e.target.value)}
+              type="file"
+              accept="image/*"
+              onChange={e => {
+                const file = e.target.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    handleChange('image', reader.result);
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-              placeholder="Enter image URL"
             />
+            {formData.image && (
+              <div className="mt-2">
+                <span className="text-xs text-gray-500">Image selected</span>
+              </div>
+            )}
           </div>
         )}
       </>
