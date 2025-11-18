@@ -42,7 +42,13 @@ const AdminDashboard = () => {
     try {
       setLoading(true)
       
-      // Use mock data only
+      // Try to import members from Google Sheet first
+      const sheetMembers = await fetchMembersFromSheet().catch(err => {
+        console.warn('Failed to fetch members from Google Sheet:', err);
+        return null;
+      });
+
+      // Use mock data only if sheet data is not available
       const mockMembers = [
         {
           id: 1,
@@ -104,6 +110,11 @@ const AdminDashboard = () => {
       setMembers(mockMembers);
       setCandidates(mockCandidates);
       calculateStats(mockMembers, mockCandidates);
+      // If sheetMembers available, use it and recalc
+      if (sheetMembers && Array.isArray(sheetMembers) && sheetMembers.length > 0) {
+        setMembers(sheetMembers);
+        calculateStats(sheetMembers, mockCandidates);
+      }
       
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -113,6 +124,33 @@ const AdminDashboard = () => {
       setRefreshing(false)
     }
   }
+
+  const SHEET_ID = '1eOm6v1MKMzjUJePU0yHEoNRs-8GEZ38Ldvq9uPoiMaQ';
+
+  const fetchMembersFromSheet = async () => {
+    // GViz endpoint (works for public sheets)
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Sheet fetch failed: ${res.status}`);
+    const text = await res.text();
+    // Strip google.visualization wrapper
+    const jsonText = text.replace(/^.*?setResponse\(/s, '').replace(/\);\s*$/s, '');
+    const data = JSON.parse(jsonText);
+    const cols = data.table.cols.map(c => (c.label || c.id || '').trim());
+    const rows = data.table.rows || [];
+    const members = rows.map((r, idx) => {
+      const obj = { id: `sheet-${idx + 1}` };
+      (r.c || []).forEach((cell, i) => {
+        const keyRaw = cols[i] || `col${i}`;
+        const key = keyRaw.toLowerCase().replace(/\s+/g, '_');
+        obj[key] = cell && cell.v !== null ? cell.v : '';
+      });
+      return obj;
+    });
+    // Persist to localStorage for dashboard use
+    try { localStorage.setItem('cms_members', JSON.stringify(members)); } catch (e) { console.warn('Could not persist members', e); }
+    return members;
+  };
 
   const calculateStats = (membersData, candidatesData) => {
     const totalMembers = membersData.length
@@ -342,6 +380,24 @@ const AdminDashboard = () => {
             setSearchTerm={setSearchTerm}
             filterStatus={filterStatus}
             setFilterStatus={setFilterStatus}
+            onImport={async () => {
+              try {
+                setRefreshing(true);
+                const sheetMembers = await fetchMembersFromSheet();
+                if (sheetMembers && sheetMembers.length > 0) {
+                  setMembers(sheetMembers);
+                  calculateStats(sheetMembers, candidates);
+                  toast.success('Imported members from Google Sheet');
+                } else {
+                  toast('No members found in sheet');
+                }
+              } catch (e) {
+                console.error(e);
+                toast.error('Failed to import members from sheet');
+              } finally {
+                setRefreshing(false);
+              }
+            }}
           />
         )}
 
@@ -369,6 +425,7 @@ const MembersSection = ({
   setSearchTerm, 
   filterStatus, 
   setFilterStatus 
+  , onImport
 }) => {
   return (
     <div>
@@ -395,7 +452,16 @@ const MembersSection = ({
               <option value="pending">Pending</option>
             </select>
           </div>
-        </div>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={onImport}
+                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors font-marcellus"
+              >
+                <SafeIcon icon={FiRefreshCw} />
+                <span>Import from Google Sheet</span>
+              </button>
+            </div>
+          </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
