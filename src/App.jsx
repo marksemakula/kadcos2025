@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-// import { useAuth } from './hooks/useAuth' - Temporarily comment out
+import { useAuth, AuthProvider } from './hooks/useAuth.jsx' // Updated import
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
 import AdminLogin from './components/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
+import AdminCMS from './pages/AdminCMS'
 import Home from './pages/Home'
 import About from './pages/About'
 import Services from './pages/Services'
@@ -22,21 +23,13 @@ import BoardChairMessage from './pages/BoardChairMessage'
 import Vote from './pages/Vote'
 import './App.css'
 
-// Temporary mock auth hook since we're commenting out the real one
-const useAuth = () => {
-  return {
-    user: null,
-    loading: false
-  }
-}
-
-function App() {
-  // Moved useAuth to the top level - must be called unconditionally
+// Main App component wrapped with AuthProvider
+function AppContent() {
   const { user, loading } = useAuth()
   
   useEffect(() => {
-    console.log('App component mounted')
-  }, [])
+    console.log('App component mounted, user:', user)
+  }, [user])
   
   try {
     if (loading) {
@@ -70,9 +63,17 @@ function App() {
           <Routes>
             {/* Admin Routes */}
             <Route 
-              path="/admin" 
+              path="/admin/*" 
               element={
                 user ? <AdminDashboard /> : <AdminLogin />
+              } 
+            />
+            
+            {/* Separate CMS Route */}
+            <Route 
+              path="/admin-cms" 
+              element={
+                user ? <AdminCMS /> : <AdminLogin />
               } 
             />
             
@@ -82,7 +83,7 @@ function App() {
               element={
                 <>
                   <Navbar />
-                  <div className="pt-0"> {/* No padding top since navbar is reduced */}
+                  <div className="pt-0">
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/about" element={<About />} />
@@ -120,6 +121,15 @@ function App() {
       </div>
     )
   }
+}
+
+// Wrap the app with AuthProvider
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  )
 }
 
 export default App

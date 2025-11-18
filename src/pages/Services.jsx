@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
@@ -6,82 +6,57 @@ import * as FiIcons from 'react-icons/fi';
 const { FiDollarSign, FiCreditCard, FiTrendingUp, FiCalendar, FiPercent, FiClock } = FiIcons;
 
 const Services = () => {
-  const loanProducts = [
-    {
-      title: 'Personal Loan',
-      description: 'For home renovation, buying furniture, and personal needs',
-      maxPeriod: '12 months',
-      interestRate: '2% per month',
-      icon: FiDollarSign
-    },
-    {
-      title: 'School Fees Loan',
-      description: 'Educational financing for your children\'s future',
-      maxPeriod: '6 months',
-      interestRate: '2% per month',
-      icon: FiTrendingUp
-    },
-    {
-      title: 'Business Loan',
-      description: 'Capital for business expansion and development',
-      maxPeriod: '12 months',
-      interestRate: '2% per month',
-      icon: FiCreditCard
-    },
-    {
-      title: 'Agricultural/Farming Loan',
-      description: 'Support for agricultural activities and farming',
-      maxPeriod: '12 months',
-      interestRate: '2% per month',
-      icon: FiTrendingUp
-    },
-    {
-      title: 'Construction Loan',
-      description: 'Financing for construction and building projects',
-      maxPeriod: '12 months',
-      interestRate: '2% per month',
-      icon: FiDollarSign
-    },
-    {
-      title: 'Weekend Loan',
-      description: 'Special rates for members',
-      maxPeriod: '12 months',
-      interestRate: '1% per week',
-      icon: FiPercent
-    },
-    {
-      title: 'Loans in Kind',
-      description: 'Capital for business expansion and development',
-      maxPeriod: '12 months',
-      interestRate: '3% per month',
-      icon: FiCreditCard
-    },
-    {
-      title: 'Emergency Loan',
-      description: 'Quick loans for unexpected expenses',
-      maxPeriod: '3 months',
-      interestRate: '3% per month',
-      icon: FiClock
-    }
-  ];
+  const [servicesData, setServicesData] = useState({
+    loanProducts: [],
+    savingsFeatures: []
+  });
 
-  const savingsFeatures = [
-    {
-      title: 'Regular Savings',
-      description: 'Minimum monthly savings of 10,000 UGX with competitive returns',
-      icon: FiDollarSign
-    },
-    {
-      title: 'Fixed Deposits',
-      description: 'Secure your money with our fixed deposit accounts',
-      icon: FiTrendingUp
-    },
-    {
-      title: 'Flexible Withdrawals',
-      description: 'Access your savings when you need them (minimum balance: 20,000 UGX)',
-      icon: FiCreditCard
+  useEffect(() => {
+    const savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
+    
+    if (savedServices.length === 0) {
+      // Use default data if no CMS data exists
+      const defaultLoanProducts = [
+        {
+          id: 1,
+          title: 'Personal Loan',
+          description: 'For home renovation, buying furniture, and personal needs',
+          maxPeriod: '12 months',
+          interestRate: '2% per month',
+          icon: 'FiDollarSign'
+        },
+        {
+          id: 2,
+          title: 'Business Loan',
+          description: 'Capital for business expansion and development',
+          maxPeriod: '12 months',
+          interestRate: '2% per month',
+          icon: 'FiCreditCard'
+        }
+      ];
+
+      const defaultSavingsFeatures = [
+        {
+          id: 1,
+          title: 'Regular Savings',
+          description: 'Minimum monthly savings of 10,000 UGX with competitive returns',
+          icon: 'FiDollarSign'
+        }
+      ];
+
+      setServicesData({
+        loanProducts: defaultLoanProducts,
+        savingsFeatures: defaultSavingsFeatures
+      });
+    } else {
+      // For now, treat all services as loan products
+      // In a real app, you might want to add a type field to distinguish between services
+      setServicesData({
+        loanProducts: savedServices,
+        savingsFeatures: [] // You could filter savings features if needed
+      });
     }
-  ];
+  }, []);
 
   const loanRequirements = [
     'Full membership',
@@ -90,6 +65,17 @@ const Services = () => {
     'Loan application letter and a fully filled loan application form',
     'Collateral on loans above 2.5 million'
   ];
+
+  const getIconComponent = (iconName) => {
+    const iconMap = {
+      FiDollarSign,
+      FiCreditCard,
+      FiTrendingUp,
+      FiPercent,
+      FiClock
+    };
+    return iconMap[iconName] || FiDollarSign;
+  };
 
   return (
     <div className="min-h-screen">
@@ -112,45 +98,47 @@ const Services = () => {
       </section>
 
       {/* Savings Services */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-dark mb-4 font-marcellus">
-              Savings Services
-            </h2>
-            <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
-              Build your financial future with our flexible savings options
-            </p>
-          </motion.div>
+      {servicesData.savingsFeatures.length > 0 && (
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl lg:text-4xl font-bold text-dark mb-4 font-marcellus">
+                Savings Services
+              </h2>
+              <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
+                Build your financial future with our flexible savings options
+              </p>
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {savingsFeatures.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-gray-50 p-8 rounded-lg shadow-lg card-hover"
-              >
-                <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                  <SafeIcon icon={feature.icon} className="text-primary text-2xl" />
-                </div>
-                <h3 className="text-xl font-semibold text-dark mb-4 font-marcellus">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 font-marcellus leading-relaxed">
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {servicesData.savingsFeatures.map((feature, index) => (
+                <motion.div
+                  key={feature.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-gray-50 p-8 rounded-lg shadow-lg card-hover"
+                >
+                  <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                    <SafeIcon icon={getIconComponent(feature.icon)} className="text-primary text-2xl" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-dark mb-4 font-marcellus">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 font-marcellus leading-relaxed">
+                    {feature.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Loan Products */}
       <section className="py-20 bg-gray-50">
@@ -169,49 +157,57 @@ const Services = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {loanProducts.map((loan, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white p-8 rounded-lg shadow-lg card-hover"
-              >
-                <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                  <SafeIcon icon={loan.icon} className="text-primary text-2xl" />
-                </div>
-                <h3 className="text-xl font-semibold text-dark mb-4 font-marcellus">
-                  {loan.title}
-                </h3>
-                <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
-                  {loan.description}
-                </p>
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-500 font-marcellus">Max Period:</span>
-                    <span className="text-dark font-semibold font-marcellus">{loan.maxPeriod}</span>
+          {servicesData.loanProducts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {servicesData.loanProducts.map((loan, index) => (
+                <motion.div
+                  key={loan.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-white p-8 rounded-lg shadow-lg card-hover"
+                >
+                  <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                    <SafeIcon icon={getIconComponent(loan.icon)} className="text-primary text-2xl" />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-500 font-marcellus">Interest Rate:</span>
-                    <span className="text-primary font-semibold font-marcellus">{loan.interestRate}</span>
+                  <h3 className="text-xl font-semibold text-dark mb-4 font-marcellus">
+                    {loan.title}
+                  </h3>
+                  <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
+                    {loan.description}
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-500 font-marcellus">Max Period:</span>
+                      <span className="text-dark font-semibold font-marcellus">{loan.maxPeriod}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-500 font-marcellus">Interest Rate:</span>
+                      <span className="text-primary font-semibold font-marcellus">{loan.interestRate}</span>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Loan Requirements added to each loan product */}
-                <div className="border-t pt-4">
-                  <h4 className="text-sm font-semibold text-dark mb-3 font-marcellus">Requirements:</h4>
-                  <ul className="text-xs text-gray-600 space-y-1 font-marcellus">
-                    <li>• Full membership</li>
-                    <li>• 3+ months regular savings</li>
-                    <li>• At least one guarantor</li>
-                    <li>• Application letter & form</li>
-                    <li>• Collateral for loans above 2.5m</li>
-                  </ul>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  
+                  {/* Loan Requirements added to each loan product */}
+                  <div className="border-t pt-4">
+                    <h4 className="text-sm font-semibold text-dark mb-3 font-marcellus">Requirements:</h4>
+                    <ul className="text-xs text-gray-600 space-y-1 font-marcellus">
+                      <li>• Full membership</li>
+                      <li>• 3+ months regular savings</li>
+                      <li>• At least one guarantor</li>
+                      <li>• Application letter & form</li>
+                      <li>• Collateral for loans above 2.5m</li>
+                    </ul>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500 font-marcellus">
+                Loan products information will be available soon...
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -257,6 +253,9 @@ const Services = () => {
                 src="/images/loan.jpg" 
                 alt="Financial Planning" 
                 className="rounded-lg shadow-lg w-full h-96 object-cover"
+                onError={(e) => {
+                  e.target.src = '/images/placeholder-service.jpg';
+                }}
               />
             </motion.div>
           </div>

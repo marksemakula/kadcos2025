@@ -30,11 +30,11 @@
 /* Remove the global Marcellus rules since we want Urbanist as default */
 /*
 * {
-  font-family: 'Marcellus', serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 body, html {
-  font-family: 'Marcellus', serif !important;
+  font-family: 'Ubuntu', sans-serif !important;
 }
 */
 

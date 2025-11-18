@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useAuth } from '../hooks/useAuth'
+import { useAuth } from '../hooks/useAuth.jsx' // Updated import
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 import toast from 'react-hot-toast'
@@ -8,7 +8,10 @@ import toast from 'react-hot-toast'
 const { FiMail, FiLock, FiEye, FiEyeOff } = FiIcons
 
 const AdminLogin = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' })
+  const [formData, setFormData] = useState({ 
+    email: '', // Remove pre-filled email for security
+    password: '' 
+  })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const { signIn } = useAuth()
@@ -19,6 +22,13 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Basic validation
+    if (!formData.email || !formData.password) {
+      toast.error('Please fill in all fields')
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -27,9 +37,11 @@ const AdminLogin = () => {
       if (error) {
         toast.error(error.message)
       } else {
-        toast.success('Welcome back, Admin!')
+        toast.success('Welcome to KADCOS Admin!')
+        // The App component will automatically redirect due to the user state change
       }
     } catch (error) {
+      console.error('Login error:', error)
       toast.error('Login failed. Please try again.')
     } finally {
       setLoading(false)
@@ -49,13 +61,16 @@ const AdminLogin = () => {
               src="/images/kadcos-logo-trsp1.png" 
               alt="KADCOS Logo" 
               className="h-16 w-auto"
+              onError={(e) => {
+                e.target.style.display = 'none'
+              }}
             />
           </div>
           <h2 className="mt-6 text-center text-3xl font-bold text-secondary font-marcellus">
-            Admin Login
+            KADCOS Admin Login
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 font-marcellus">
-            Access the KADCOS Management System
+            Access the KADCOS Content Management System
           </p>
         </div>
 
@@ -74,7 +89,7 @@ const AdminLogin = () => {
                   onChange={handleChange}
                   required
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                  placeholder="admin@kadcos.org"
+                  placeholder="Enter your email address"
                 />
               </div>
             </div>
@@ -105,13 +120,24 @@ const AdminLogin = () => {
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-primary text-secondary py-3 px-4 rounded-lg font-marcellus font-semibold hover:bg-orange-500 transition-colors duration-300 disabled:opacity-50"
-          >
-            {loading ? 'Signing In...' : 'Sign In'}
-          </button>
+          <div className="text-center">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-primary text-white py-3 px-4 rounded-lg font-marcellus font-semibold hover:bg-orange-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Signing In...
+                </div>
+              ) : (
+                'Sign In'
+              )}
+            </button>
+          </div>
+
+          {/* credentials hint for security */}
         </form>
       </motion.div>
     </div>

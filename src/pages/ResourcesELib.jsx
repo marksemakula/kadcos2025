@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
@@ -6,94 +6,107 @@ import * as FiIcons from 'react-icons/fi';
 const { FiDownload, FiFileText, FiBookOpen, FiCalendar, FiUser } = FiIcons;
 
 const ResourcesELib = () => {
-  const reports = [
-    {
-      title: 'Annual Report 2023',
-      description: 'Comprehensive overview of KADCOS activities, financial performance, and achievements in 2023',
-      date: 'March 15, 2024',
-      type: 'PDF',
-      size: '2.4 MB',
-      author: 'KADCOS Management',
-      category: 'Financial Reports'
-    },
-    {
-      title: 'Quarterly Financial Statement Q1 2024',
-      description: 'Detailed financial performance for the first quarter of 2024',
-      date: 'April 10, 2024',
-      type: 'PDF',
-      size: '1.2 MB',
-      author: 'Finance Department',
-      category: 'Financial Reports'
-    },
-    {
-      title: 'Member Growth Analysis 2023',
-      description: 'Analysis of membership trends and demographic information',
-      date: 'February 28, 2024',
-      type: 'PDF',
-      size: '0.8 MB',
-      author: 'Membership Committee',
-      category: 'Analytical Reports'
-    },
-    {
-      title: 'Strategic Plan 2024-2028',
-      description: 'Five-year strategic roadmap for KADCOS development and growth',
-      date: 'January 15, 2024',
-      type: 'PDF',
-      size: '3.1 MB',
-      author: 'Strategic Planning Committee',
-      category: 'Strategic Documents'
-    }
-  ];
+  const [resources, setResources] = useState([]);
+  const [activeCategory, setActiveCategory] = useState('All Resources');
 
-  const publications = [
-    {
-      title: 'Cooperative Savings Guide',
-      description: 'Comprehensive guide to maximizing your savings with KADCOS',
-      date: 'March 1, 2024',
-      type: 'PDF',
-      size: '1.5 MB',
-      author: 'Financial Education Team',
-      category: 'Educational Materials'
-    },
-    {
-      title: 'Loan Products Handbook',
-      description: 'Detailed information about all loan products offered by KADCOS',
-      date: 'February 15, 2024',
-      type: 'PDF',
-      size: '2.0 MB',
-      author: 'Loan Department',
-      category: 'Product Guides'
-    },
-    {
-      title: 'Financial Literacy Newsletter - Q1 2024',
-      description: 'Quarterly newsletter with tips for financial management and planning',
-      date: 'April 5, 2024',
-      type: 'PDF',
-      size: '1.8 MB',
-      author: 'Communications Team',
-      category: 'Newsletters'
-    },
-    {
-      title: 'Member Success Stories',
-      description: 'Inspiring stories from members who have benefited from KADCOS services',
-      date: 'March 20, 2024',
-      type: 'PDF',
-      size: '2.5 MB',
-      author: 'Member Relations',
-      category: 'Testimonials'
+  useEffect(() => {
+    const savedResources = JSON.parse(localStorage.getItem('cms_resources') || '[]');
+    
+    if (savedResources.length === 0) {
+      // Use default data if no CMS data exists
+      const defaultResources = [
+        {
+          id: 1,
+          title: 'Annual Report 2023',
+          description: 'Comprehensive overview of KADCOS activities, financial performance, and achievements in 2023',
+          date: '2024-03-15',
+          type: 'PDF',
+          size: '2.4 MB',
+          author: 'KADCOS Management',
+          category: 'Financial Reports'
+        },
+        {
+          id: 2,
+          title: 'Cooperative Savings Guide',
+          description: 'Comprehensive guide to maximizing your savings with KADCOS',
+          date: '2024-03-01',
+          type: 'PDF',
+          size: '1.5 MB',
+          author: 'Financial Education Team',
+          category: 'Educational Materials'
+        }
+      ];
+      setResources(defaultResources);
+    } else {
+      setResources(savedResources);
     }
-  ];
+  }, []);
 
-  const categories = [
-    'All Resources',
-    'Financial Reports',
-    'Strategic Documents',
-    'Educational Materials',
-    'Product Guides',
-    'Newsletters',
-    'Analytical Reports',
-    'Testimonials'
-  ];
+  // Get unique categories from resources
+  const categories = ['All Resources', ...new Set(resources.map(resource => resource.category))];
+
+  // Filter resources by active category
+  const filteredResources = activeCategory === 'All Resources' 
+    ? resources 
+    : resources.filter(resource => resource.category === activeCategory);
+
+  const renderResourceCard = (resource, index, isPublication = false) => (
+    <motion.div
+      key={resource.id}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className={`p-8 rounded-lg shadow-lg card-hover ${isPublication ? 'bg-gray-50' : 'bg-white'}`}
+    >
+      <div className="flex items-start justify-between mb-6">
+        <div className={`p-4 rounded-full ${isPublication ? 'bg-accent bg-opacity-10' : 'bg-primary bg-opacity-10'}`}>
+          <SafeIcon 
+            icon={isPublication ? FiBookOpen : FiFileText} 
+            className={`text-2xl ${isPublication ? 'text-accent' : 'text-primary'}`} 
+          />
+        </div>
+        <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-marcellus">
+          {resource.type}
+        </span>
+      </div>
+      <h3 className="text-xl font-semibold text-secondary mb-4 font-marcellus">
+        {resource.title}
+      </h3>
+      <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
+        {resource.description}
+      </p>
+      <div className="flex flex-wrap gap-4 mb-6">
+        <div className="flex items-center text-sm text-gray-500 font-marcellus">
+          <SafeIcon icon={FiCalendar} className="mr-1" />
+          {new Date(resource.date).toLocaleDateString()}
+        </div>
+        <div className="flex items-center text-sm text-gray-500 font-marcellus">
+          <SafeIcon icon={FiUser} className="mr-1" />
+          {resource.author}
+        </div>
+        <div className="flex items-center text-sm text-gray-500 font-marcellus">
+          {resource.size}
+        </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className={`px-3 py-1 rounded-full text-sm font-marcellus ${
+          isPublication 
+            ? 'bg-accent bg-opacity-10 text-accent' 
+            : 'bg-primary bg-opacity-10 text-primary'
+        }`}>
+          {resource.category}
+        </span>
+        <button className={`flex items-center transition-colors font-marcellus ${
+          isPublication 
+            ? 'text-accent hover:text-secondary' 
+            : 'text-primary hover:text-secondary'
+        }`}>
+          <SafeIcon icon={FiDownload} className="mr-2" />
+          Download
+        </button>
+      </div>
+    </motion.div>
+  );
 
   return (
     <div className="min-h-screen pt-20">
@@ -134,7 +147,12 @@ const ResourcesELib = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="px-6 py-3 bg-gray-100 text-secondary rounded-full hover:bg-primary hover:text-white transition-colors duration-300 font-marcellus"
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-6 py-3 rounded-full transition-colors duration-300 font-marcellus ${
+                    activeCategory === category
+                      ? 'bg-primary text-white'
+                      : 'bg-gray-100 text-secondary hover:bg-primary hover:text-white'
+                  }`}
                 >
                   {category}
                 </motion.button>
@@ -144,7 +162,7 @@ const ResourcesELib = () => {
         </div>
       </section>
 
-      {/* Reports Section */}
+      {/* Resources Grid */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -154,129 +172,29 @@ const ResourcesELib = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-marcellus">
-              Reports & Publications
+              {activeCategory === 'All Resources' ? 'All Resources' : activeCategory}
             </h2>
             <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
-              Access our latest reports, financial statements, and official publications
+              {activeCategory === 'All Resources' 
+                ? 'Access our latest reports, publications, and educational resources'
+                : `Browse our ${activeCategory.toLowerCase()}`
+              }
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {reports.map((report, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white p-8 rounded-lg shadow-lg card-hover"
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="bg-primary bg-opacity-10 p-4 rounded-full">
-                    <SafeIcon icon={FiFileText} className="text-primary text-2xl" />
-                  </div>
-                  <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-marcellus">
-                    {report.type}
-                  </span>
-                </div>
-                <h3 className="text-xl font-semibold text-secondary mb-4 font-marcellus">
-                  {report.title}
-                </h3>
-                <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
-                  {report.description}
-                </p>
-                <div className="flex flex-wrap gap-4 mb-6">
-                  <div className="flex items-center text-sm text-gray-500 font-marcellus">
-                    <SafeIcon icon={FiCalendar} className="mr-1" />
-                    {report.date}
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500 font-marcellus">
-                    <SafeIcon icon={FiUser} className="mr-1" />
-                    {report.author}
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500 font-marcellus">
-                    {report.size}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full text-sm font-marcellus">
-                    {report.category}
-                  </span>
-                  <button className="flex items-center text-primary hover:text-secondary transition-colors font-marcellus">
-                    <SafeIcon icon={FiDownload} className="mr-2" />
-                    Download
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Publications Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-marcellus">
-              Educational Materials
-            </h2>
-            <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
-              Guides, handbooks, and newsletters to help you make the most of our services
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {publications.map((publication, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-gray-50 p-8 rounded-lg shadow-lg card-hover"
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="bg-accent bg-opacity-10 p-4 rounded-full">
-                    <SafeIcon icon={FiBookOpen} className="text-accent text-2xl" />
-                  </div>
-                  <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-marcellus">
-                    {publication.type}
-                  </span>
-                </div>
-                <h3 className="text-xl font-semibold text-secondary mb-4 font-marcellus">
-                  {publication.title}
-                </h3>
-                <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
-                  {publication.description}
-                </p>
-                <div className="flex flex-wrap gap-4 mb-6">
-                  <div className="flex items-center text-sm text-gray-500 font-marcellus">
-                    <SafeIcon icon={FiCalendar} className="mr-1" />
-                    {publication.date}
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500 font-marcellus">
-                    <SafeIcon icon={FiUser} className="mr-1" />
-                    {publication.author}
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500 font-marcellus">
-                    {publication.size}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="bg-accent bg-opacity-10 text-accent px-3 py-1 rounded-full text-sm font-marcellus">
-                    {publication.category}
-                  </span>
-                  <button className="flex items-center text-accent hover:text-secondary transition-colors font-marcellus">
-                    <SafeIcon icon={FiDownload} className="mr-2" />
-                    Download
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {filteredResources.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {filteredResources.map((resource, index) => 
+                renderResourceCard(resource, index, resource.category.includes('Educational') || resource.category.includes('Newsletter'))
+              )}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500 font-marcellus">
+                No resources found in this category. Check back soon for updates.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

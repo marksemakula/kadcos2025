@@ -123,8 +123,8 @@ const Navbar = () => {
                 className="h-16 w-auto"
               />
               <div className="flex flex-col">
-                <span className="text-2xl font-bold text-secondary font-marcellus">KADCOS</span>
-                <span className="text-sm text-gray-600 font-marcellus">Lubaga Cooperative Society</span>
+                <span className="text-2xl font-bold text-secondary font-ubuntu">KADCOS</span>
+                <span className="text-sm text-gray-600 font-ubuntu">Lubaga Cooperative Society</span>
               </div>
             </Link>
           </div>
