@@ -229,9 +229,42 @@ const AdminCMS = () => {
     }
   };
 
-  const handleSave = (formData) => {
+  const handleSave = async (formData) => {
     const currentData = getCurrentData();
     let updatedData;
+
+    // If leadership image is a data URL, upload it to the repo via Netlify Function
+    if (activeSection === 'leadership' && formData.image && typeof formData.image === 'string' && formData.image.startsWith('data:')) {
+      try {
+        const matches = formData.image.match(/^data:(image\/[^;]+);base64,(.*)$/);
+        if (matches) {
+          const mime = matches[1];
+          const base64 = matches[2];
+          let ext = mime.split('/')[1] || 'png';
+          if (ext === 'jpeg') ext = 'jpg';
+          const safeName = (formData.name || 'profile').replace(/[^a-z0-9-_\.]/gi, '_');
+          const filename = `${Date.now()}_${safeName}.${ext}`;
+
+          const uploadRes = await fetch('/.netlify/functions/upload-image', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename, content: base64 })
+          });
+
+          if (uploadRes.ok) {
+            const json = await uploadRes.json();
+            formData.image = json.path; // e.g. /images/filename.jpg
+          } else {
+            const text = await uploadRes.text();
+            console.error('Image upload failed', text);
+            toast.error('Failed to upload image to repository');
+          }
+        }
+      } catch (e) {
+        console.error('Error uploading image', e);
+        toast.error('Image upload error');
+      }
+    }
 
     if (formData.id) {
       // Update existing item
