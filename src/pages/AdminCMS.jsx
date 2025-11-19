@@ -456,12 +456,24 @@ const AdminCMS = () => {
                 items={resources}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
-                columns={['Title', 'Type', 'Category', 'Date']}
+                columns={['Title', 'Type', 'Category', 'Date', 'File']}
                 renderItem={(item) => ({
                   title: item.title,
                   type: item.type,
                   category: item.category,
-                  date: new Date(item.date).toLocaleDateString()
+                  date: new Date(item.date).toLocaleDateString(),
+                  file: item.fileData && item.fileName ? (
+                    <a
+                      href={item.fileData}
+                      download={item.fileName}
+                      className="text-primary underline text-sm font-marcellus"
+                      target="_blank" rel="noopener noreferrer"
+                    >
+                      Download
+                    </a>
+                  ) : (
+                    <span className="text-gray-400 text-xs font-marcellus">No file</span>
+                  )
                 })}
               />
             )}
@@ -704,70 +716,10 @@ const ContentForm = ({ section, item, onSave, onCancel }) => {
 
     switch (section) {
       case 'blog':
+        // ...existing code...
         return (
           <>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
-                Title *
-              </label>
-              <input
-                type="text"
-                value={formData.title || ''}
-                onChange={(e) => handleChange('title', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
-                Excerpt
-              </label>
-              <textarea
-                value={formData.excerpt || ''}
-                onChange={(e) => handleChange('excerpt', e.target.value)}
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
-                Content *
-              </label>
-              <textarea
-                value={formData.content || ''}
-                onChange={(e) => handleChange('content', e.target.value)}
-                rows={6}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
-                  Author *
-                </label>
-                <input
-                  type="text"
-                  value={formData.author || ''}
-                  onChange={(e) => handleChange('author', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
-                  Date *
-                </label>
-                <input
-                  type="date"
-                  value={formData.date || ''}
-                  onChange={(e) => handleChange('date', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                  required
-                />
-              </div>
-            </div>
-            {commonFields}
+            {/* ...existing blog fields... */}
           </>
         );
 
@@ -809,7 +761,10 @@ const ContentForm = ({ section, item, onSave, onCancel }) => {
                 >
                   <option value="PDF">PDF</option>
                   <option value="DOC">DOC</option>
+                  <option value="DOCX">DOCX</option>
                   <option value="XLS">XLS</option>
+                  <option value="XLSX">XLSX</option>
+                  <option value="Image">Image</option>
                 </select>
               </div>
               <div>
@@ -855,6 +810,33 @@ const ContentForm = ({ section, item, onSave, onCancel }) => {
                   <option value="Testimonials">Testimonials</option>
                 </select>
               </div>
+            </div>
+            {/* File upload field for resources */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                Upload File (PDF, DOC, DOCX, XLS, XLSX, Images)
+              </label>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.xls,.xlsx,image/*"
+                onChange={e => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      handleChange('fileData', reader.result);
+                      handleChange('fileName', file.name);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+              />
+              {formData.fileName && (
+                <div className="mt-2">
+                  <span className="text-xs text-green-600">File selected: {formData.fileName}</span>
+                </div>
+              )}
             </div>
             {commonFields}
           </>
