@@ -49,12 +49,58 @@ const AdminDashboard = () => {
     const data = JSON.parse(jsonText);
     const cols = data.table.cols.map(c => (c.label || c.id || '').trim());
     const rows = data.table.rows || [];
+    // Map columns to required fields
     const candidates = rows.map((r, idx) => {
       const obj = { id: `candidate-sheet-${idx + 1}` };
       (r.c || []).forEach((cell, i) => {
-        const keyRaw = cols[i] || `col${i}`;
-        const key = keyRaw.toLowerCase().replace(/\s+/g, '_');
-        obj[key] = cell && cell.v !== null ? cell.v : '';
+        const col = cols[i].toLowerCase();
+        switch (col) {
+          case 'timestamp':
+            obj.timestamp = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'position applied for *':
+            obj.position_applied_for = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'full name *':
+            obj.full_name = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'membership number *':
+            obj.membership_number = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'email address *':
+            obj.email_address = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'phone number *':
+            obj.phone_number = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'membership duration (years) *':
+            obj.membership_duration_years = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'current number of shares *':
+            obj.current_number_of_shares = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'current savings balance (ugx) *':
+            obj.current_savings_balance_ugx = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'language proficiency *':
+            obj.language_proficiency = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'educational qualifications *':
+            obj.educational_qualifications = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'leadership & cooperative experience *':
+            obj.leadership_and_cooperative_experience = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'additional qualifications & skills *':
+            obj.additional_qualifications_and_skills = cell && cell.v !== null ? cell.v : '';
+            break;
+          case 'vision for the position *':
+            obj.vision_for_the_position = cell && cell.v !== null ? cell.v : '';
+            break;
+          default:
+            // ignore other columns
+            break;
+        }
       });
       // Normalize status
       if (!obj.status) obj.status = 'pending';

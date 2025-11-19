@@ -32,55 +32,29 @@ const CandidateCard = ({ candidate, onApprove, onReject }) => {
       {/* Header */}
       <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
         <div className="flex justify-between items-center">
-          <h3 className="font-bold text-secondary font-marcellus">{candidate.name}</h3>
+          <h3 className="font-bold text-secondary font-marcellus">{candidate.full_name}</h3>
           <span className={`px-2 py-1 rounded-full text-xs font-marcellus flex items-center ${getStatusColor(candidate.status)}`}>
             <SafeIcon icon={getStatusIcon(candidate.status)} className="mr-1" />
             {candidate.status}
           </span>
         </div>
-        <p className="text-sm text-primary font-marcellus mt-1">{candidate.position}</p>
+        <p className="text-sm text-primary font-marcellus mt-1">{candidate.position_applied_for}</p>
       </div>
 
       {/* Body */}
-      <div className="p-4 space-y-3">
-        <div className="flex items-center text-sm text-gray-600">
-          <SafeIcon icon={FiMail} className="mr-2" />
-          <span>{candidate.email}</span>
-        </div>
-        
-        <div className="flex items-center text-sm text-gray-600">
-          <SafeIcon icon={FiPhone} className="mr-2" />
-          <span>{candidate.phone}</span>
-        </div>
-
-        <div className="grid grid-cols-2 gap-2 text-xs">
-          <div>
-            <span className="font-semibold">Membership:</span>
-            <p>{candidate.membershipNumber}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Duration:</span>
-            <p>{candidate.membershipDuration}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Shares:</span>
-            <p>{candidate.shares}</p>
-          </div>
-          <div>
-            <span className="font-semibold">Savings:</span>
-            <p>{candidate.savings}</p>
-          </div>
-        </div>
-
-        <div className="text-xs">
-          <span className="font-semibold">Education:</span>
-          <p className="mt-1 text-gray-600 line-clamp-2">{candidate.education}</p>
-        </div>
-
-        <div className="text-xs">
-          <span className="font-semibold">Experience:</span>
-          <p className="mt-1 text-gray-600 line-clamp-3">{candidate.experience}</p>
-        </div>
+      <div className="p-4 space-y-2 text-xs">
+        <div><span className="font-semibold">Timestamp:</span> {candidate.timestamp}</div>
+        <div><span className="font-semibold">Membership Number:</span> {candidate.membership_number}</div>
+        <div><span className="font-semibold">Email:</span> {candidate.email_address}</div>
+        <div><span className="font-semibold">Phone:</span> {candidate.phone_number}</div>
+        <div><span className="font-semibold">Membership Duration (Years):</span> {candidate.membership_duration_years}</div>
+        <div><span className="font-semibold">Current Number of Shares:</span> {candidate.current_number_of_shares}</div>
+        <div><span className="font-semibold">Current Savings Balance (UGX):</span> {candidate.current_savings_balance_ugx}</div>
+        <div><span className="font-semibold">Language Proficiency:</span> {candidate.language_proficiency}</div>
+        <div><span className="font-semibold">Educational Qualifications:</span> {candidate.educational_qualifications}</div>
+        <div><span className="font-semibold">Leadership & Cooperative Experience:</span> {candidate.leadership_and_cooperative_experience}</div>
+        <div><span className="font-semibold">Additional Qualifications & Skills:</span> {candidate.additional_qualifications_and_skills}</div>
+        <div><span className="font-semibold">Vision for the Position:</span> {candidate.vision_for_the_position}</div>
       </div>
 
       {/* Actions */}
