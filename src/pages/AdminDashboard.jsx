@@ -16,6 +16,7 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('members')
   const [members, setMembers] = useState([])
   const [candidates, setCandidates] = useState([])
+  const CANDIDATE_SHEET_ID = '1czCxA7nld7qTZdu9AnRxC0iRJuDvtXr9EG-VJ327CqA';
   const [loading, setLoading] = useState(true)
   const [selectedMembers, setSelectedMembers] = useState([])
   const [selectedCandidates, setSelectedCandidates] = useState([])
@@ -38,17 +39,45 @@ const AdminDashboard = () => {
     fetchData()
   }, [])
 
+  // Fetch candidates from Google Sheet (Leadership Candidates)
+  const fetchCandidatesFromSheet = async () => {
+    const url = `https://docs.google.com/spreadsheets/d/${CANDIDATE_SHEET_ID}/gviz/tq?tqx=out:json`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Candidate sheet fetch failed: ${res.status}`);
+    const text = await res.text();
+    const jsonText = text.replace(/^.*?setResponse\(/s, '').replace(/\);\s*$/s, '');
+    const data = JSON.parse(jsonText);
+    const cols = data.table.cols.map(c => (c.label || c.id || '').trim());
+    const rows = data.table.rows || [];
+    const candidates = rows.map((r, idx) => {
+      const obj = { id: `candidate-sheet-${idx + 1}` };
+      (r.c || []).forEach((cell, i) => {
+        const keyRaw = cols[i] || `col${i}`;
+        const key = keyRaw.toLowerCase().replace(/\s+/g, '_');
+        obj[key] = cell && cell.v !== null ? cell.v : '';
+      });
+      // Normalize status
+      if (!obj.status) obj.status = 'pending';
+      return obj;
+    });
+    try { localStorage.setItem('cms_candidates', JSON.stringify(candidates)); } catch (e) { console.warn('Could not persist candidates', e); }
+    return candidates;
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true)
-      
-      // Try to import members from Google Sheet first
+      // Fetch members
       const sheetMembers = await fetchMembersFromSheet().catch(err => {
         console.warn('Failed to fetch members from Google Sheet:', err);
         return null;
       });
-
-      // Use mock data only if sheet data is not available
+      // Fetch candidates
+      const sheetCandidates = await fetchCandidatesFromSheet().catch(err => {
+        console.warn('Failed to fetch candidates from Google Sheet:', err);
+        return null;
+      });
+      // Fallback mock data
       const mockMembers = [
         {
           id: 1,
@@ -73,7 +102,6 @@ const AdminDashboard = () => {
           savings: 'UGX 250,000'
         }
       ];
-
       const mockCandidates = [
         {
           id: 1,
@@ -106,16 +134,12 @@ const AdminDashboard = () => {
           appliedAt: '2024-01-14'
         }
       ];
-      
-      setMembers(mockMembers);
-      setCandidates(mockCandidates);
-      calculateStats(mockMembers, mockCandidates);
-      // If sheetMembers available, use it and recalc
-      if (sheetMembers && Array.isArray(sheetMembers) && sheetMembers.length > 0) {
-        setMembers(sheetMembers);
-        calculateStats(sheetMembers, mockCandidates);
-      }
-      
+      setMembers(sheetMembers && sheetMembers.length > 0 ? sheetMembers : mockMembers);
+      setCandidates(sheetCandidates && sheetCandidates.length > 0 ? sheetCandidates : mockCandidates);
+      calculateStats(
+        sheetMembers && sheetMembers.length > 0 ? sheetMembers : mockMembers,
+        sheetCandidates && sheetCandidates.length > 0 ? sheetCandidates : mockCandidates
+      );
     } catch (error) {
       console.error('Error fetching data:', error)
       toast.error('Failed to load data')
@@ -208,20 +232,28 @@ const AdminDashboard = () => {
   };
 
   const filteredCandidates = candidates.filter(candidate => {
-    const matchesSearch = candidate.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         candidate.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         candidate.position.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = filterStatus === 'all' || candidate.status === filterStatus
-    return matchesSearch && matchesStatus
-  })
+    const name = candidate.name || '';
+    const email = candidate.email || '';
+    const position = candidate.position || '';
+    const status = candidate.status || '';
+    const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         position.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'all' || status === filterStatus;
+    return matchesSearch && matchesStatus;
+  });
 
   const filteredMembers = members.filter(member => {
-    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         member.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         member.membershipNumber.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = filterStatus === 'all' || member.status === filterStatus
-    return matchesSearch && matchesStatus
-  })
+    const name = member.name || '';
+    const email = member.email || '';
+    const membershipNumber = member.membershipNumber || member.membership_number || '';
+    const status = member.status || '';
+    const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         membershipNumber.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'all' || status === filterStatus;
+    return matchesSearch && matchesStatus;
+  });
 
   if (loading) {
     return (
@@ -402,15 +434,44 @@ const AdminDashboard = () => {
         )}
 
         {activeTab === 'candidates' && (
-          <CandidatesSection 
-            candidates={filteredCandidates}
-            onApprove={handleApproveCandidate}
-            onReject={handleRejectCandidate}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            filterStatus={filterStatus}
-            setFilterStatus={setFilterStatus}
-          />
+          <>
+            <div className="flex justify-end mb-4">
+              <button
+                onClick={async () => {
+                  try {
+                    setRefreshing(true);
+                    const sheetCandidates = await fetchCandidatesFromSheet();
+                    if (sheetCandidates && sheetCandidates.length > 0) {
+                      setCandidates(sheetCandidates);
+                      calculateStats(members, sheetCandidates);
+                      toast.success('Imported candidates from Google Sheet');
+                    } else {
+                      toast('No candidates found in sheet');
+                    }
+                  } catch (e) {
+                    console.error(e);
+                    toast.error('Failed to import candidates from sheet');
+                  } finally {
+                    setRefreshing(false);
+                  }
+                }}
+                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors font-marcellus"
+                disabled={refreshing}
+              >
+                <SafeIcon icon={FiRefreshCw} className={refreshing ? 'animate-spin' : ''} />
+                <span>Import from Google Sheet</span>
+              </button>
+            </div>
+            <CandidatesSection 
+              candidates={filteredCandidates}
+              onApprove={handleApproveCandidate}
+              onReject={handleRejectCandidate}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              filterStatus={filterStatus}
+              setFilterStatus={setFilterStatus}
+            />
+          </>
         )}
 
         {activeTab === 'cms' && <AdminCMS />}
