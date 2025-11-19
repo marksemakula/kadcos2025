@@ -9,69 +9,88 @@ const Governance = () => {
   });
 
   useEffect(() => {
-    const savedLeadership = JSON.parse(localStorage.getItem('cms_leadership') || '[]');
-    
-    if (savedLeadership.length === 0) {
-      // Use default data if no CMS data exists
-      const defaultExecutiveCommittee = [
-        {
-          id: 1,
-          name: "Mrs. Nseerikomawa Josephine",
-          position: "Board Chairperson",
-          image: "/images/Nseerikomawa_Josephine.jpg",
-          bio: "Experienced leader providing strategic direction and oversight.",
-          category: "executive"
-        },
-        {
-          id: 2,
-          name: "Council Jude Mbabaali",
-          position: "Vice Chairperson",
-          image: "/images/Jude_Mbabaali.jpg",
-          bio: "Supports the chairperson in governance and strategic planning.",
-          category: "executive"
-        }
-      ];
+      function loadLeadership() {
+        const savedLeadership = JSON.parse(localStorage.getItem('cms_leadership') || '[]');
+        console.log('[Governance] Loaded cms_leadership:', savedLeadership);
+        if (savedLeadership.length === 0) {
+          // Use default data if no CMS data exists
+          const defaultExecutiveCommittee = [
+            {
+              id: 1,
+              name: "Mrs. Nseerikomawa Josephine",
+              position: "Board Chairperson",
+              image: "/images/Nseerikomawa_Josephine.jpg",
+              bio: "Experienced leader providing strategic direction and oversight.",
+              category: "executive"
+            },
+            {
+              id: 2,
+              name: "Council Jude Mbabaali",
+              position: "Vice Chairperson",
+              image: "/images/Jude_Mbabaali.jpg",
+              bio: "Supports the chairperson in governance and strategic planning.",
+              category: "executive"
+            }
+          ];
 
-      const defaultSupervisoryCommittee = [
-        {
-          id: 1,
-          name: "Mr. Gerald Katusabe",
-          position: "Supervisory Committee",
-          image: "/images/Gerald_Katusabe.jpg",
-          bio: "Oversees compliance and operational integrity.",
-          category: "supervisory"
-        }
-      ];
+          const defaultSupervisoryCommittee = [
+            {
+              id: 1,
+              name: "Mr. Gerald Katusabe",
+              position: "Supervisory Committee",
+              image: "/images/Gerald_Katusabe.jpg",
+              bio: "Oversees compliance and operational integrity.",
+              category: "supervisory"
+            }
+          ];
 
-      const defaultManagementStaff = [
-        {
-          id: 1,
-          name: "Mr. Dumba Patrick",
-          position: "Manager",
-          image: "/images/PatrickDdumba.png",
-          bio: "Business development specialist focused on expanding cooperative services.",
-          category: "management"
-        }
-      ];
+          const defaultManagementStaff = [
+            {
+              id: 1,
+              name: "Mr. Dumba Patrick",
+              position: "Manager",
+              image: "/images/PatrickDdumba.png",
+              bio: "Business development specialist focused on expanding cooperative services.",
+              category: "management"
+            }
+          ];
 
-      setLeadershipData({
-        executive: defaultExecutiveCommittee,
-        supervisory: defaultSupervisoryCommittee,
-        management: defaultManagementStaff
-      });
-    } else {
-      // Group CMS data by category
-      const executive = savedLeadership.filter(item => item.category === 'executive');
-      const supervisory = savedLeadership.filter(item => item.category === 'supervisory');
-      const management = savedLeadership.filter(item => item.category === 'management');
-      
-      setLeadershipData({
-        executive,
-        supervisory,
-        management
-      });
-    }
-  }, []);
+          setLeadershipData({
+            executive: defaultExecutiveCommittee,
+            supervisory: defaultSupervisoryCommittee,
+            management: defaultManagementStaff
+          });
+        } else {
+          // Group CMS data by category
+          const executive = savedLeadership.filter(item => item.category === 'executive');
+          const supervisory = savedLeadership.filter(item => item.category === 'supervisory');
+          const management = savedLeadership.filter(item => item.category === 'management');
+          console.log('[Governance] Grouped:', { executive, supervisory, management });
+          setLeadershipData({
+            executive,
+            supervisory,
+            management
+          });
+        }
+      }
+      loadLeadership();
+      // Listen for localStorage changes (from other tabs/windows)
+      function handleStorage(e) {
+        if (e.key === 'cms_leadership') {
+          loadLeadership();
+        }
+      }
+      window.addEventListener('storage', handleStorage);
+      // Also update when window regains focus (for single-tab edits)
+      function handleFocus() {
+        loadLeadership();
+      }
+      window.addEventListener('focus', handleFocus);
+      return () => {
+        window.removeEventListener('storage', handleStorage);
+        window.removeEventListener('focus', handleFocus);
+      };
+    }, []);
 
   const renderLeadershipSection = (title, description, members, delay = 0) => {
     if (members.length === 0) return null;
