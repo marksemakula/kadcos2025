@@ -28,6 +28,14 @@ const AdminCMS = () => {
     loadData();
   }, []);
 
+  // Auto-restore leadership defaults if missing when switching to Leadership section
+  useEffect(() => {
+    if (activeSection === 'leadership' && leadership.length === 0) {
+      handleRestoreLeadership();
+    }
+    // eslint-disable-next-line
+  }, [activeSection]);
+
   const loadData = async () => {
     setLoading(true);
     try {
@@ -38,8 +46,11 @@ const AdminCMS = () => {
   const savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
   const savedSavings = JSON.parse(localStorage.getItem('cms_savingsFeatures') || '[]');
 
-      // If no leadership in localStorage, use the same default as Governance page
-      if (savedLeadership.length === 0) {
+      // If no leadership in localStorage, or missing any category, use the full default set
+      const hasExec = savedLeadership.some(l => l.category === 'executive');
+      const hasSuper = savedLeadership.some(l => l.category === 'supervisory');
+      const hasMgmt = savedLeadership.some(l => l.category === 'management');
+      if (savedLeadership.length === 0 || !hasExec || !hasSuper || !hasMgmt) {
         savedLeadership = [
           // Executive Committee
           { id: 1, name: "Mrs. Nseerikomawa Josephine", position: "Board Chairperson", image: "/images/Nseerikomawa_Josephine.jpg", bio: "Experienced leader providing strategic direction and oversight.", category: "executive" },
@@ -295,6 +306,38 @@ const AdminCMS = () => {
     toast.success('Services reset');
   };
 
+  const handleRestoreLeadership = () => {
+    const defaultLeadership = [
+      { id: 1, name: "Mrs. Nseerikomawa Josephine", position: "Board Chairperson", image: "/images/Nseerikomawa_Josephine.jpg", bio: "Experienced leader providing strategic direction and oversight.", category: "executive" },
+      { id: 2, name: "Council Jude Mbabaali", position: "Vice Chairperson", image: "/images/Jude_Mbabaali.jpg", bio: "Supports the chairperson in governance and strategic planning.", category: "executive" },
+      { id: 3, name: "Ms. Namaganda Justine", position: "Secretary", image: "", bio: "Responsible for documentation and official communications.", category: "executive" },
+      { id: 4, name: "Mr. Tenywa Herman Musisi", position: "Treasurer", image: "", bio: "Manages financial oversight and fiscal responsibility.", category: "executive" },
+      { id: 5, name: "Mr. Budde Harry Dominic", position: "Member", image: "", bio: "Committee member contributing to strategic decisions.", category: "executive" },
+      { id: 6, name: "Mrs. Kalanda Annette Kizza", position: "Member", image: "", bio: "Committee member with focus on member welfare.", category: "executive" },
+      { id: 7, name: "Mr. Ssekamatte Patrick", position: "Member", image: "", bio: "Committee member providing operational insights.", category: "executive" },
+      { id: 8, name: "Mr. Mutebi Emmanuel", position: "Member", image: "", bio: "Committee member with community development expertise.", category: "executive" },
+      { id: 9, name: "Mr. Mukalazi Vienny", position: "Member", image: "", bio: "Committee member focused on growth initiatives.", category: "executive" },
+      { id: 10, name: "Mr. Gerald Katusabe", position: "Supervisory Committee", image: "/images/Gerald_Katusabe.jpg", bio: "Oversees compliance and operational integrity.", category: "supervisory" },
+      { id: 11, name: "Mrs. Josephine Sekatuba", position: "Supervisory Committee", image: "", bio: "Ensures regulatory compliance and best practices.", category: "supervisory" },
+      { id: 12, name: "Mrs. Rose Ssali", position: "Supervisory Committee", image: "", bio: "Monitors operational efficiency and member satisfaction.", category: "supervisory" },
+      { id: 13, name: "Mr. Dumba Patrick", position: "Manager", image: "/images/PatrickDdumba.png", bio: "Business development specialist focused on expanding cooperative services.", category: "management" },
+      { id: 14, name: "Ms. Nyago Mary Goretti", position: "Accountant", image: "", bio: "Manages financial records and reporting.", category: "management" },
+      { id: 15, name: "Ms. Namukasa Proscovia", position: "Credit Officer", image: "", bio: "Handles credit assessments and loan management.", category: "management" },
+      { id: 16, name: "Ms. Kansiime Anna", position: "Assistant Credit Officer", image: "", bio: "Supports credit operations and member services.", category: "management" },
+      { id: 17, name: "Ms. Namugga Maria", position: "Cashier", image: "", bio: "Manages daily transactions and member accounts.", category: "management" },
+      { id: 18, name: "Ms. Nanyonga Gladys", position: "Cashier", image: "", bio: "Handles financial transactions and customer service.", category: "management" },
+      { id: 19, name: "Ms. Nyago Grace", position: "Support Staff", image: "", bio: "Provides operational support and maintenance.", category: "management" },
+      { id: 20, name: "Ms. Nabagereka Victoria", position: "Office Attendant/Receptionist", image: "", bio: "Dedicated to providing exceptional service and support to our members.", category: "management" }
+    ];
+    try {
+      saveData('cms_leadership', defaultLeadership);
+    } catch (e) {
+      console.warn('Failed to restore leadership defaults', e);
+    }
+    setLeadership(defaultLeadership);
+    toast.success('Leadership defaults restored');
+  };
+
   const getDefaultItem = (section) => {
     const defaults = {
       blog: {
@@ -480,6 +523,15 @@ const AdminCMS = () => {
 
             {activeSection === 'leadership' && (
               <div>
+                <div className="flex items-center justify-end mb-4">
+                  <button
+                    onClick={handleRestoreLeadership}
+                    className="flex items-center space-x-2 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors font-marcellus"
+                  >
+                    <SafeIcon icon={FiX} />
+                    <span>Restore Leadership Defaults</span>
+                  </button>
+                </div>
                 {['executive', 'supervisory', 'management'].map((cat) => {
                   const catLabel =
                     cat === 'executive' ? 'Executive Committee'
@@ -716,10 +768,114 @@ const ContentForm = ({ section, item, onSave, onCancel }) => {
 
     switch (section) {
       case 'blog':
-        // ...existing code...
         return (
           <>
-            {/* ...existing blog fields... */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                Title *
+              </label>
+              <input
+                type="text"
+                value={formData.title || ''}
+                onChange={(e) => handleChange('title', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                Excerpt / Summary
+              </label>
+              <input
+                type="text"
+                value={formData.excerpt || ''}
+                onChange={(e) => handleChange('excerpt', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">Author</label>
+                <input
+                  type="text"
+                  value={formData.author || ''}
+                  onChange={(e) => handleChange('author', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">Date</label>
+                <input
+                  type="date"
+                  value={formData.date || new Date().toISOString().split('T')[0]}
+                  onChange={(e) => handleChange('date', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">Content</label>
+              <textarea
+                value={formData.content || ''}
+                onChange={(e) => handleChange('content', e.target.value)}
+                rows={6}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">Thumbnail (image or video)</label>
+              <input
+                type="file"
+                accept="image/*,video/*"
+                onChange={e => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      const isVideo = file.type.startsWith('video/');
+                      if (isVideo) {
+                        handleChange('video', reader.result);
+                        handleChange('image', formData.image || ''); // keep image if already set
+                        handleChange('mediaType', 'video');
+                      } else {
+                        handleChange('image', reader.result);
+                        handleChange('mediaType', 'image');
+                      }
+                      handleChange('mediaName', file.name);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+              />
+              {formData.mediaName && (
+                <div className="mt-2">
+                  <span className="text-xs text-green-600">File selected: {formData.mediaName}</span>
+                </div>
+              )}
+            </div>
+
+            { /* show existing image preview if available */ }
+            {formData.image && (
+              <div className="mt-3">
+                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">Image Preview</label>
+                <img src={formData.image} alt="preview" className="w-48 h-32 object-cover rounded" />
+              </div>
+            )}
+
+            { /* show existing video preview if available */ }
+            {formData.video && (
+              <div className="mt-3">
+                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">Video Preview</label>
+                <video src={formData.video} controls className="w-64 h-40 rounded" />
+              </div>
+            )}
+
+            {commonFields}
           </>
         );
 
