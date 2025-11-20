@@ -74,10 +74,26 @@ exports.handler = async function (event, context) {
       return { statusCode: 500, body: 'Failed to commit file to GitHub' };
     }
 
-    // Return the web path where the image will be served from
+    // Build raw.githubusercontent URL so the frontend can use the file immediately
+    const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${BRANCH}/public/images/${encodeURIComponent(filename)}`;
+
+    // Optionally trigger a Netlify build hook so the deployed site picks up the new file
+    const NETLIFY_BUILD_HOOK = process.env.NETLIFY_BUILD_HOOK;
+    if (NETLIFY_BUILD_HOOK) {
+      try {
+        // Fire-and-forget: trigger build hook but don't fail the upload if it errors
+        fetch(NETLIFY_BUILD_HOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, path: `/images/${filename}`, rawUrl }) })
+          .then(res => console.log('Triggered Netlify build hook', res.status))
+          .catch(err => console.warn('Netlify build hook failed', err));
+      } catch (e) {
+        console.warn('Error triggering Netlify build hook', e);
+      }
+    }
+
+    // Return both the local path and the raw URL
     return {
       statusCode: 200,
-      body: JSON.stringify({ path: `/images/${filename}` })
+      body: JSON.stringify({ path: `/images/${filename}`, rawUrl })
     };
   } catch (error) {
     console.error('upload-image error', error);

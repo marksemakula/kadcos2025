@@ -243,7 +243,7 @@ const AdminCMS = () => {
           let ext = mime.split('/')[1] || 'bin';
           if (ext === 'jpeg') ext = 'jpg';
           const safeName = (formData.fileName || 'resource').replace(/[^a-z0-9-_\.]/gi, '_');
-          const filename = `${Date.now()}_${safeName}`;
+          const filename = `${Date.now()}_${safeName}.${ext}`;
 
           const uploadRes = await fetch('/.netlify/functions/upload-image', {
             method: 'POST',
@@ -253,7 +253,7 @@ const AdminCMS = () => {
 
           if (uploadRes.ok) {
             const json = await uploadRes.json();
-            formData.fileUrl = json.path; // e.g. /images/filename.pdf
+            formData.fileUrl = json.rawUrl || json.path; // prefer raw.githubusercontent URL
             delete formData.fileData;
           } else {
             const text = await uploadRes.text();
@@ -286,7 +286,7 @@ const AdminCMS = () => {
 
           if (uploadRes.ok) {
             const json = await uploadRes.json();
-            formData.image = json.path; // e.g. /images/filename.jpg
+            formData.image = json.rawUrl || json.path; // prefer raw.githubusercontent URL so front-end shows immediately
           } else {
             const text = await uploadRes.text();
             console.error('Image upload failed', text);
