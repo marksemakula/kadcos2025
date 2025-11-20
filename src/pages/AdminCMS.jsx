@@ -221,10 +221,10 @@ const AdminCMS = () => {
     setShowForm(true);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
       const updatedData = getCurrentData().filter(item => item.id !== id);
-      updateData(updatedData);
+      await updateData(updatedData);
       toast.success('Item deleted successfully');
     }
   };
@@ -315,7 +315,7 @@ const AdminCMS = () => {
       updatedData = [...currentData, newItem];
     }
 
-    updateData(updatedData);
+    await updateData(updatedData);
     setShowForm(false);
     setEditingItem(null);
     toast.success('Item saved successfully');
@@ -332,7 +332,7 @@ const AdminCMS = () => {
     }
   };
 
-  const updateData = (updatedData) => {
+  const updateData = async (updatedData) => {
     const key = `cms_${activeSection}`;
     switch (activeSection) {
       case 'blog':
@@ -357,6 +357,29 @@ const AdminCMS = () => {
           saveData('cms_services', updatedData);
         }
         break;
+    }
+
+    // Attempt to commit CMS JSON to repository so public site can pick up changes.
+    try {
+      const commitPath = `public/data/cms_${activeSection}.json`;
+      const content = JSON.stringify(updatedData, null, 2);
+      // Fire the commit function
+      const res = await fetch('/.netlify/functions/commit-json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: commitPath, content, message: `Update cms_${activeSection}` })
+      });
+      if (!res.ok) {
+        const txt = await res.text();
+        console.error('commit-json failed', res.status, txt);
+        toast.error('Failed to persist CMS changes to repository');
+      } else {
+        console.log('Committed cms data to repo');
+        toast.success('CMS changes committed and deploy triggered');
+      }
+    } catch (e) {
+      console.error('Error committing cms json', e);
+      toast.error('Failed to persist CMS changes to repository');
     }
   };
 
