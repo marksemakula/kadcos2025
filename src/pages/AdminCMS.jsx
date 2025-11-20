@@ -258,7 +258,7 @@ const AdminCMS = () => {
           } else {
             const text = await uploadRes.text();
             console.error('Resource file upload failed', text);
-            toast.error('Failed to upload resource file to repository');
+            toast.error(`Failed to upload resource file: ${text.substring(0,200)}`);
           }
         }
       } catch (e) {
@@ -290,7 +290,7 @@ const AdminCMS = () => {
           } else {
             const text = await uploadRes.text();
             console.error('Image upload failed', text);
-            toast.error('Failed to upload image to repository');
+            toast.error(`Failed to upload image: ${text.substring(0,200)}`);
           }
         }
       } catch (e) {
@@ -372,7 +372,7 @@ const AdminCMS = () => {
       if (!res.ok) {
         const txt = await res.text();
         console.error('commit-json failed', res.status, txt);
-        toast.error('Failed to persist CMS changes to repository');
+        toast.error(`Failed to persist CMS changes: ${txt.substring(0,200)}`);
       } else {
         console.log('Committed cms data to repo');
         toast.success('CMS changes committed and deploy triggered');

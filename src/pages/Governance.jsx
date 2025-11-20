@@ -9,7 +9,25 @@ const Governance = () => {
   });
 
   React.useEffect(() => {
-    function loadLeadership() {
+    async function loadLeadership() {
+      // First try to fetch committed JSON from the deployed site
+      try {
+        const resp = await fetch('/data/cms_leadership.json', { cache: 'no-store' });
+        if (resp.ok) {
+          const remote = await resp.json();
+          if (Array.isArray(remote) && remote.length > 0) {
+            const executive = remote.filter(item => item.category === 'executive');
+            const supervisory = remote.filter(item => item.category === 'supervisory');
+            const management = remote.filter(item => item.category === 'management');
+            setLeadershipData({ executive, supervisory, management });
+            return;
+          }
+        }
+      } catch (e) {
+        // ignore fetch errors and fall back to localStorage
+        // console.debug('[Governance] Remote fetch failed', e);
+      }
+
       const savedLeadership = JSON.parse(localStorage.getItem('cms_leadership') || '[]');
       if (savedLeadership.length === 0) {
         // Use default data if no CMS data exists
