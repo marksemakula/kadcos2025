@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
+import SEOHead from '../components/SEOHead';
 
 const { FiPhone, FiMail, FiMapPin, FiClock, FiUser, FiSend } = FiIcons;
 
@@ -92,6 +93,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead page="contact" />
       {/* Hero Section */}
       <section className="bg-primary py-20 pt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
+import SEOHead from '../components/SEOHead';
 
 const { FiDownload, FiFileText, FiBookOpen, FiCalendar, FiUser } = FiIcons;
 
@@ -110,6 +111,7 @@ const ResourcesELib = () => {
 
   return (
     <div className="min-h-screen pt-20">
+      <SEOHead page="resources" />
       {/* Hero Section */}
       <section className="bg-primary py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

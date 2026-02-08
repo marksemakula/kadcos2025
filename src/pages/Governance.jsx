@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SEOHead from '../components/SEOHead';
 
 const Governance = () => {
   const [leadershipData, setLeadershipData] = React.useState({
@@ -186,6 +187,7 @@ const Governance = () => {
 
       return (
         <div className="min-h-screen bg-white pt-20">
+          <SEOHead page="governance" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

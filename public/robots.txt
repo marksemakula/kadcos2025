@@ -1,0 +1,36 @@
+# KADCOS - Lubaga Cooperative Society Ltd
+# Robots.txt for SEO optimization
+
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin
+Disallow: /admin-cms
+Disallow: /api/
+
+# Allow specific crawlers with full access
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://kadcoslubaga.co.ug/sitemap.xml
+
+# Crawl delay (optional - for server load management)
+Crawl-delay: 1

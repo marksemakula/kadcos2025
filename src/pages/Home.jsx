@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import InterestWidget from '../components/InterestWidget';
+import SEOHead from '../components/SEOHead';
 
 const { FiUsers, FiDollarSign, FiTrendingUp, FiShield, FiArrowRight, FiCheckCircle, FiPlay, FiPause } = FiIcons;
 
@@ -104,6 +105,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen font-urbanist">
+      <SEOHead page="home" />
       <InterestWidget />
       
       {/* Hero Section - Modified for consistent yellow and no gap */}

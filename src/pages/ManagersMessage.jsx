@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SEOHead from '../components/SEOHead';
 
 const ManagersMessage = () => {
   return (
     <div className="min-h-screen">
+      <SEOHead page="managersMessage" />
       {/* Hero Section */}
       <section className="bg-primary py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

@@ -1,8 +1,10 @@
 import React from 'react';
+import SEOHead from '../components/SEOHead';
 
 const BoardChairMessage = () => {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead page="boardChairMessage" />
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-secondary to-gray-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

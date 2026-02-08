@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://kadcoslubaga.co.ug/images/kadcos_lubaga_co_operative_society_cover.jpeg</image:loc>
+      <image:title>KADCOS - Leading SACCO in Uganda</image:title>
+      <image:caption>KADCOS Lubaga Cooperative Society - Trusted Savings and Credit Cooperative in Kampala, Uganda</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- About Page -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/about</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://kadcoslubaga.co.ug/images/kadcos_lubaga_co_operative_society_cover.jpeg</image:loc>
+      <image:title>About KADCOS SACCO Uganda</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Services Page -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/services</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Membership Page -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/membership</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Contact Page -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/contact</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Blog/News Page -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/blog</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Governance Page -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/governance</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Resources & E-Library Page -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/resources-e-lib</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Manager's Message Page -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/managers-message</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Board Chair Message Page -->
+  <url>
+    <loc>https://kadcoslubaga.co.ug/board-chair-message</loc>
+    <lastmod>2026-02-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

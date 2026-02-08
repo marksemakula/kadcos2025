@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
+import SEOHead from '../components/SEOHead';
 
 const { FiTarget, FiEye, FiUsers, FiTrendingUp } = FiIcons;
 
@@ -39,6 +40,7 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead page="about" />
       {/* Hero Section with Image Carousel */}
       <section className="relative bg-primary h-[45vh] min-h-[400px] w-full overflow-hidden">
         {/* Image Carousel with Optimized Zoom Out Effect */}
