@@ -37,7 +37,7 @@ const Governance = () => {
             id: 1,
             name: "Mrs. Nseerikomawa Josephine",
             position: "Board Chairperson",
-            image: "/images/Nseerikomawa_Josephine.jpg",
+            image: "/images/Mrs.Nseerikomawa Josephine.jpeg",
             bio: "Experienced leader providing strategic direction and oversight.",
             category: "executive"
           },
@@ -45,7 +45,7 @@ const Governance = () => {
             id: 2,
             name: "Council Jude Mbabaali",
             position: "Vice Chairperson",
-            image: "/images/Jude_Mbabaali.jpg",
+            image: "/images/Counsel Jude Mbabaali.jpeg",
             bio: "Supports the chairperson in governance and strategic planning.",
             category: "executive"
           },
@@ -53,7 +53,7 @@ const Governance = () => {
             id: 3,
             name: "Ms. Namaganda Justine",
             position: "Secretary",
-            image: "/images/Namaganda_Justine.jpg",
+            image: "/images/Miss.Namaganda Justine.jpeg",
             bio: "Responsible for documentation and official communications.",
             category: "executive"
           },
@@ -61,7 +61,7 @@ const Governance = () => {
             id: 4,
             name: "Mr. Tenywa Herman Musisi",
             position: "Treasurer",
-            image: "/images/Herman_Musisi_Tenywa.jpg",
+            image: "/images/Mr. Herman Musisi Tenywa.jpeg",
             bio: "Manages financial oversight and fiscal responsibility.",
             category: "executive"
           },
@@ -69,7 +69,39 @@ const Governance = () => {
             id: 5,
             name: "Mr. Budde Harry Dominic",
             position: "Member",
-            image: "/images/Harry_Dominic_Budde_Kigonya.jpg",
+            image: "/images/Mr.Harry Dominic Budde Kigonya.jpeg",
+            bio: "Committee member contributing to strategic decisions.",
+            category: "executive"
+          },
+          {
+            id: 6,
+            name: "Mrs. Kalanda Annette Kizza",
+            position: "Member",
+            image: "/images/Mrs.Kizza Annette Kalanda.jpeg",
+            bio: "Committee member contributing to strategic decisions.",
+            category: "executive"
+          },
+          {
+            id: 7,
+            name: "Mr. Ssekamatte Patrick",
+            position: "Member",
+            image: "/images/Mr.Ssekamate Patrick.jpeg",
+            bio: "Committee member contributing to strategic decisions.",
+            category: "executive"
+          },
+          {
+            id: 8,
+            name: "Mr. Mutebi Emmanuel",
+            position: "Member",
+            image: "/images/Mr.Mutebi Ronald.jpeg",
+            bio: "Committee member contributing to strategic decisions.",
+            category: "executive"
+          },
+          {
+            id: 9,
+            name: "Mr. Mukalazi Vienny",
+            position: "Member",
+            image: "/images/Mr.Mukalazi John Vianney.jpeg",
             bio: "Committee member contributing to strategic decisions.",
             category: "executive"
           }
@@ -79,7 +111,23 @@ const Governance = () => {
             id: 1,
             name: "Mr. Gerald Katusabe",
             position: "Supervisory Committee",
-            image: "/images/Gerald_Katusabe.jpg",
+            image: "/images/Mr. Gerald Katusabe.jpeg",
+            bio: "Oversees compliance and operational integrity.",
+            category: "supervisory"
+          },
+          {
+            id: 2,
+            name: "Mrs. Josephine Sekatuba",
+            position: "Supervisory Committee",
+            image: "/images/Mrs.Josephine Ssekatuba.jpeg",
+            bio: "Oversees compliance and operational integrity.",
+            category: "supervisory"
+          },
+          {
+            id: 3,
+            name: "Mrs. Rose Ssali",
+            position: "Supervisory Committee",
+            image: "/images/Miss. Rose Ssali.jpeg",
             bio: "Oversees compliance and operational integrity.",
             category: "supervisory"
           }
@@ -89,8 +137,64 @@ const Governance = () => {
             id: 1,
             name: "Mr. Dumba Patrick",
             position: "Manager",
-            image: "/images/PatrickDdumba.png",
-            bio: "Business development specialist focused on expanding cooperative services.",
+            image: "/images/Dumba Patrick.jpg",
+            bio: "Leads the cooperative's daily operations and strategic implementation.",
+            category: "management"
+          },
+          {
+            id: 2,
+            name: "Ms. Nyago Mary Goretti",
+            position: "Accountant",
+            image: "/images/Nyago Mary Gorreti.jpeg",
+            bio: "Manages financial records and accounting operations.",
+            category: "management"
+          },
+          {
+            id: 3,
+            name: "Ms. Namukasa Proscovia",
+            position: "Credit Officer",
+            image: "/images/Namukasa Proscovia.JPG",
+            bio: "Handles loan applications and credit assessments.",
+            category: "management"
+          },
+          {
+            id: 4,
+            name: "Ms. Kansiime Anna",
+            position: "Assistant Credit Officer",
+            image: "/images/Kansiime AnnaMaria.jpg",
+            bio: "Assists with loan processing and member support.",
+            category: "management"
+          },
+          {
+            id: 5,
+            name: "Ms. Namugga Maria",
+            position: "Cashier",
+            image: "/images/Namugga Maria.jpg",
+            bio: "Handles member transactions and cash management.",
+            category: "management"
+          },
+          {
+            id: 6,
+            name: "Ms. Nanyonga Gladys",
+            position: "Cashier",
+            image: "/images/Nanyonga Gladys.jpg",
+            bio: "Handles member transactions and cash management.",
+            category: "management"
+          },
+          {
+            id: 7,
+            name: "Ms. Nyago Grace",
+            position: "Support Staff",
+            image: "/images/Ms.Nyago Grace.JPG",
+            bio: "Provides operational support for daily activities.",
+            category: "management"
+          },
+          {
+            id: 8,
+            name: "Ms. Nabagereka Victoria",
+            position: "Office Attendant/Receptionist",
+            image: "/images/Nabagereka Victoria.jpg",
+            bio: "Welcomes visitors and manages front office operations.",
             category: "management"
           }
         ];
@@ -186,9 +290,9 @@ const Governance = () => {
       };
 
       return (
-        <div className="min-h-screen bg-white pt-20">
+        <div className="min-h-screen bg-white pt-6">
           <SEOHead page="governance" />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
