@@ -35,7 +35,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
           {/* Company Info */}
           <div className="col-span-1">
             <div className="flex flex-col items-start mb-4">
@@ -57,27 +57,10 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="flex flex-col md:pl-4">
-            <h4 className="text-lg font-normal mb-3 font-marcellus">Quick Links</h4>
-            <ul className="space-y-2">
-              {['About Us', 'Services', 'Membership', 'News Updates', 'Contact'].map((item) => (
-                <li key={item}>
-                  <Link 
-                    to={`/${item.toLowerCase().replace(' ', '')}`}
-                    className="text-gray-400 hover:text-primary transition-colors duration-300 font-marcellus"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Office Locations */}
-          <div className="flex flex-col md:pl-2">
+          {/* Office Locations - Single column with internal 2-column grid */}
+          <div className="col-span-1">
             <h4 className="text-lg font-normal mb-3 font-marcellus">Office Locations</h4>
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-2">
               {offices.map((office, index) => (
                 <div key={index} className="bg-gray-750 p-2 rounded-lg">
                   <h5 className="font-medium text-primary font-marcellus text-sm">{office.name}</h5>
@@ -141,28 +124,6 @@ const Footer = () => {
                 </motion.a>
               </div>
             </div>
-
-            {/* ISO Certification Section */}
-            <div className="pt-6 mt-4 border-t border-gray-700">
-              <div className="flex justify-center space-x-6">
-                <div className="flex flex-col items-center">
-                  <img 
-                    src="/images/ISO-27001.png" 
-                    alt="ISO 27001 Certified" 
-                    className="h-14 w-auto mb-1" 
-                  />
-                  <span className="text-gray-400 text-xs font-marcellus">ISO 27001</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <img 
-                    src="/images/ISO22301.png" 
-                    alt="ISO 22301 Certified" 
-                    className="h-14 w-auto mb-1" 
-                  />
-                  <span className="text-gray-400 text-xs font-marcellus">ISO 22301</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -170,6 +131,27 @@ const Footer = () => {
           <p className="text-gray-400 font-marcellus text-justify text-sm">
             © 2026 KADCOS Lubaga Cooperative Society Ltd. All rights reserved.
           </p>
+          
+          {/* ISO Certification - moved to footer row */}
+          <div className="flex items-center space-x-4 mt-4 md:mt-0">
+            <div className="flex items-center space-x-2">
+              <img 
+                src="/images/ISO-27001.png" 
+                alt="ISO 27001 Certified" 
+                className="h-8 w-auto" 
+              />
+              <span className="text-gray-400 text-xs font-marcellus">ISO 27001</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <img 
+                src="/images/ISO22301.png" 
+                alt="ISO 22301 Certified" 
+                className="h-8 w-auto" 
+              />
+              <span className="text-gray-400 text-xs font-marcellus">ISO 22301</span>
+            </div>
+          </div>
+          
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <span className="text-gray-400 text-xs font-marcellus">Powered by</span>
             <img 
