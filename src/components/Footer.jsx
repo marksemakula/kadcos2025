@@ -166,7 +166,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="mt-2 pt-2 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 font-marcellus text-justify text-sm">
             © 2026 KADCOS Lubaga Cooperative Society Ltd. All rights reserved.
           </p>
