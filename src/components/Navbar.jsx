@@ -12,11 +12,27 @@ const Navbar = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false)
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
   const location = useLocation()
   const aboutDropdownRef = useRef(null)
   const servicesDropdownRef = useRef(null)
   const aboutTimeoutRef = useRef(null)
   const servicesTimeoutRef = useRef(null)
+
+  // Check if on home page (transparent navbar only on home)
+  const isHomePage = location.pathname === '/'
+  
+  // Use transparent style only on home page when not scrolled
+  const useTransparentStyle = isHomePage && !isScrolled
+
+  // Detect scroll to change navbar style
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -110,7 +126,7 @@ const Navbar = () => {
   }, [])
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${useTransparentStyle ? 'bg-transparent' : 'bg-white shadow-lg'}`}>
       <div className="max-w-8xl mx-auto px-6 sm:px-8 lg:px-10 relative">
         {/* Main navigation container with proper alignment */}
         <div className="flex items-start lg:items-center h-24 lg:h-16">
@@ -123,8 +139,8 @@ const Navbar = () => {
                 className="h-16 w-auto"
               />
               <div className="flex flex-col">
-                <span className="text-2xl font-bold text-secondary font-ubuntu">KADCOS</span>
-                <span className="text-sm text-gray-600 font-ubuntu">Lubaga Cooperative Society</span>
+                <span className={`text-2xl font-bold font-ubuntu transition-colors duration-300 ${useTransparentStyle ? 'text-white' : 'text-secondary'}`}>KADCOS</span>
+                <span className={`text-sm font-ubuntu transition-colors duration-300 ${useTransparentStyle ? 'text-white/80' : 'text-gray-600'}`}>Lubaga Cooperative Society</span>
               </div>
             </Link>
           </div>
@@ -145,7 +161,7 @@ const Navbar = () => {
                       (item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) || 
                       (item.name === 'Services & Products' && (isActive('/services') || isActive('/resources-e-lib')))
                         ? 'text-primary border-b-2 border-primary' 
-                        : 'text-black hover:text-primary'
+                        : useTransparentStyle ? 'text-white hover:text-primary' : 'text-black hover:text-primary'
                     }`}>
                       {item.name}
                       <FiChevronDown className="ml-1" />
@@ -218,7 +234,7 @@ const Navbar = () => {
                     className={`font-urbanist transition-colors duration-300 text-sm font-bold ${
                       isActive(item.path)
                         ? 'text-primary border-b-2 border-primary'
-                        : 'text-black hover:text-primary'
+                        : useTransparentStyle ? 'text-white hover:text-primary' : 'text-black hover:text-primary'
                     }`}
                   >
                     {item.name}
@@ -231,7 +247,7 @@ const Navbar = () => {
                 href="https://mail.kadcoslubaga.co.ug"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center font-urbanist transition-colors duration-300 text-sm font-bold text-black hover:text-primary"
+                className={`flex items-center font-urbanist transition-colors duration-300 text-sm font-bold hover:text-primary ${useTransparentStyle ? 'text-white' : 'text-black'}`}
               >
                 <FiMail className="mr-1" />
                 Mail
@@ -250,7 +266,7 @@ const Navbar = () => {
 
             <Link
               to="/admin"
-              className="text-gray-500 hover:text-secondary transition-colors duration-300 p-2"
+              className={`hover:text-secondary transition-colors duration-300 p-2 ${useTransparentStyle ? 'text-white/70' : 'text-gray-500'}`}
               title="Admin Login"
             >
               <SafeIcon icon={FiSettings} />
@@ -261,7 +277,7 @@ const Navbar = () => {
           <div className="lg:hidden ml-auto pt-4 lg:pt-0">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-black hover:text-primary"
+              className={`hover:text-primary transition-colors duration-300 ${useTransparentStyle ? 'text-white' : 'text-black'}`}
             >
               <SafeIcon icon={isOpen ? FiX : FiMenu} className="h-6 w-6" />
             </button>

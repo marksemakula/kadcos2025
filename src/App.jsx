@@ -83,19 +83,19 @@ function AppContent() {
               element={
                 <>
                   <Navbar />
-                  <div className="pt-0">
+                  <div>
                     <Routes>
                       <Route path="/" element={<Home />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/services" element={<Services />} />
-                      <Route path="/membership" element={<Membership />} />
-                      <Route path="/contact" element={<Contact />} />
-                      <Route path="/blog" element={<Blog />} />
-                      <Route path="/governance" element={<Governance />} />
-                      <Route path="/resources-e-lib" element={<ResourcesELib />} />
-                      <Route path="/managers-message" element={<ManagersMessage />} />
-                      <Route path="/board-chair-message" element={<BoardChairMessage />} />
-                      <Route path="/vote" element={<Vote />} />
+                      <Route path="/about" element={<div className="pt-24"><About /></div>} />
+                      <Route path="/services" element={<div className="pt-24"><Services /></div>} />
+                      <Route path="/membership" element={<div className="pt-24"><Membership /></div>} />
+                      <Route path="/contact" element={<div className="pt-24"><Contact /></div>} />
+                      <Route path="/blog" element={<div className="pt-24"><Blog /></div>} />
+                      <Route path="/governance" element={<div className="pt-24"><Governance /></div>} />
+                      <Route path="/resources-e-lib" element={<div className="pt-24"><ResourcesELib /></div>} />
+                      <Route path="/managers-message" element={<div className="pt-24"><ManagersMessage /></div>} />
+                      <Route path="/board-chair-message" element={<div className="pt-24"><BoardChairMessage /></div>} />
+                      <Route path="/vote" element={<div className="pt-24"><Vote /></div>} />
                     </Routes>
                   </div>
                   <Footer />

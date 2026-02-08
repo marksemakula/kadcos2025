@@ -108,8 +108,8 @@ const Home = () => {
       <SEOHead page="home" />
       <InterestWidget />
       
-      {/* Hero Section - Modified for consistent yellow and no gap */}
-      <section className="bg-[#035D75] py-16 -mt-4"> {/* Changed to solid color margin */}
+      {/* Hero Section - Merged background with navbar */}
+      <section className="bg-[#035D75] pt-32 pb-16"> {/* Added top padding to account for fixed navbar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
