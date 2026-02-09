@@ -8,23 +8,33 @@
     <!-- Netlify Identity Widget for authentication -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-      /* Add KADCOS logo next to Decap logo */
-      [class*="AppHeader"] > a:first-child,
-      .css-1d3cc3o > a:first-child {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+      /* Custom styling for login page */
+      /* Hide the default Decap/Netlify CMS logo */
+      [class*="AppHeader"] img,
+      [class*="LoginPage"] img[src*="netlify"],
+      [class*="LoginPage"] img[src*="decap"],
+      [class*="Logo"] {
+        display: none !important;
       }
-      [class*="AppHeader"] > a:first-child::before,
-      .css-1d3cc3o > a:first-child::before {
-        content: '';
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        background-image: url('/images/KADCOS-02.png');
+      
+      /* Add KADCOS logo before the login form */
+      [class*="LoginPage"]::before {
+        content: "";
+        display: block;
+        width: 120px;
+        height: 120px;
+        background-image: url("/images/KADCOS-02.png");
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+        margin: 0 auto 20px auto;
+      }
+      
+      /* Style the login container */
+      [class*="LoginPage"] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
     </style>
   </head>
