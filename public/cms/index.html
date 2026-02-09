@@ -9,55 +9,62 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
       /* Custom branding for KADCOS CMS */
-      [class*="AppHeader"] [class*="AppHeaderLogo"] {
+      /* Hide Decap logo and replace with KADCOS logo */
+      [class*="AppHeader"] img,
+      [class*="Logo"] {
         display: none !important;
       }
-      [class*="AppHeader"]::before {
+      
+      /* Add KADCOS logo before the header */
+      [class*="AppHeader"]::before,
+      .css-1f0hzhi::before {
         content: '';
+        display: block;
+        width: 120px;
+        height: 50px;
         background-image: url('/images/KADCOS-02.png');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
-        width: 50px;
-        height: 50px;
-        display: block;
         margin-right: 10px;
       }
-      /* Login page logo replacement */
-      [class*="LoginPage"] [class*="CustomLogoIcon"],
-      [class*="LoginPage"] svg[class*="CustomIconWrapper"] {
-        display: none !important;
-      }
-      [class*="LoginPage"] [class*="GoBackButton"] ~ div:first-of-type,
-      [class*="LoginPage"] > div > div:first-child {
-        position: relative;
-      }
-      [class*="LoginPage"]::before,
-      [class*="AuthenticationPage"]::before {
+      
+      /* Style the login page */
+      [class*="Login"]::before {
         content: '';
+        display: block;
+        width: 150px;
+        height: 150px;
         background-image: url('/images/KADCOS-02.png');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
-        width: 150px;
-        height: 150px;
-        display: block;
-        margin: 20px auto;
+        margin: 0 auto 20px auto;
       }
-      /* Hide default Decap logo on auth screens */
-      [class*="AuthenticationPage"] svg,
-      [class*="LoginButton"] svg:first-child {
+      
+      /* Hide the Netlify Identity logo and add KADCOS logo */
+      .netlify-identity-menu-logo,
+      .netlify-identity-widget .logo {
         display: none !important;
       }
-      /* Add KADCOS branding text */
-      [class*="AuthenticationPage"]::after {
-        content: 'KADCOS Content Manager';
+      
+      /* Custom styles for login modal */
+      .netlify-identity-signup-login {
+        background: linear-gradient(135deg, #035D75 0%, #024657 100%) !important;
+      }
+      
+      /* Add logo to identity widget */
+      .netlify-identity-login::before,
+      .netlify-identity-signup::before {
+        content: '';
         display: block;
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        color: #1e3a5f;
-        margin-bottom: 20px;
+        width: 120px;
+        height: 120px;
+        background-image: url('/images/KADCOS-02.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 0 auto 20px auto;
       }
     </style>
   </head>

@@ -102,10 +102,27 @@ const Blog = () => {
   return (
     <div className="min-h-screen">
       <SEOHead page="blog" />
+      {/* Hero Section */}
+      <section className="bg-primary py-20 pt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl lg:text-5xl font-bold text-dark mb-6 font-marcellus">
+              KADCOS Blog
+            </h1>
+            <p className="text-xl text-gray-700 font-marcellus max-w-3xl mx-auto">
+              Stay informed with the latest news, insights, and stories from our cooperative community
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Featured Post - Show first post as featured */}
       {posts.length > 0 && (
-        <section className="pt-10 pb-20 bg-white">
+        <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
