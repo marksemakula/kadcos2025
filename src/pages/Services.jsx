@@ -13,7 +13,25 @@ const Services = () => {
   });
 
   useEffect(() => {
-    const loadServices = () => {
+    const loadServices = async () => {
+      // First try to fetch committed JSON from the deployed site
+      try {
+        const resp = await fetch('/data/cms_services.json', { cache: 'no-store' });
+        if (resp.ok) {
+          const remote = await resp.json();
+          if (remote && remote.loanProducts && remote.loanProducts.length > 0) {
+            setServicesData({
+              loanProducts: remote.loanProducts || [],
+              savingsFeatures: remote.savingsFeatures || []
+            });
+            return;
+          }
+        }
+      } catch (e) {
+        // ignore fetch errors and fall back to localStorage
+      }
+
+      // Fall back to localStorage
       const savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
       const savedSavings = JSON.parse(localStorage.getItem('cms_savingsFeatures') || '[]');
 

@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 const { FiFileText, FiUsers, FiSettings, FiBookOpen, FiEdit, FiSave, FiX, FiImage, FiPlus, FiTrash2 } = FiIcons;
 
 const AdminCMS = () => {
-  const [activeSection, setActiveSection] = useState('blog');
+  const [activeSection, setActiveSection] = useState('resources');
   const [blogPosts, setBlogPosts] = useState([]);
   const [resources, setResources] = useState([]);
   const [leadership, setLeadership] = useState([]);
@@ -361,8 +361,20 @@ const AdminCMS = () => {
 
     // Attempt to commit CMS JSON to repository so public site can pick up changes.
     try {
-      const commitPath = `public/data/cms_${activeSection}.json`;
-      const content = JSON.stringify(updatedData, null, 2);
+      let commitPath = `public/data/cms_${activeSection}.json`;
+      let contentToCommit = updatedData;
+
+      // For services, commit both loanProducts and savingsFeatures together
+      if (activeSection === 'services') {
+        const currentLoanProducts = servicesSubSection === 'savingsFeatures' ? loanProducts : updatedData;
+        const currentSavingsFeatures = servicesSubSection === 'savingsFeatures' ? updatedData : savingsFeatures;
+        contentToCommit = {
+          loanProducts: currentLoanProducts,
+          savingsFeatures: currentSavingsFeatures
+        };
+      }
+
+      const content = JSON.stringify(contentToCommit, null, 2);
       // Fire the commit function
       const res = await fetch('/.netlify/functions/commit-json', {
         method: 'POST',
@@ -477,7 +489,6 @@ const AdminCMS = () => {
   };
 
   const sections = [
-    { id: 'blog', name: 'Blog/News', icon: FiFileText, description: 'Manage blog posts and news updates' },
     { id: 'resources', name: 'Resources', icon: FiBookOpen, description: 'Manage resources and documents' },
     { id: 'leadership', name: 'Leadership', icon: FiUsers, description: 'Manage leadership team information' },
     { id: 'services', name: 'Services', icon: FiSettings, description: 'Manage services and loan products' }

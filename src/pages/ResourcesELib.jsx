@@ -11,36 +11,55 @@ const ResourcesELib = () => {
   const [activeCategory, setActiveCategory] = useState('All Resources');
 
   useEffect(() => {
-    const savedResources = JSON.parse(localStorage.getItem('cms_resources') || '[]');
-    
-    if (savedResources.length === 0) {
-      // Use default data if no CMS data exists
-      const defaultResources = [
-        {
-          id: 1,
-          title: 'Annual Report 2023',
-          description: 'Comprehensive overview of KADCOS activities, financial performance, and achievements in 2023',
-          date: '2024-03-15',
-          type: 'PDF',
-          size: '2.4 MB',
-          author: 'KADCOS Management',
-          category: 'Financial Reports'
-        },
-        {
-          id: 2,
-          title: 'Cooperative Savings Guide',
-          description: 'Comprehensive guide to maximizing your savings with KADCOS',
-          date: '2024-03-01',
-          type: 'PDF',
-          size: '1.5 MB',
-          author: 'Financial Education Team',
-          category: 'Educational Materials'
+    async function loadResources() {
+      // First try to fetch committed JSON from the deployed site
+      try {
+        const resp = await fetch('/data/cms_resources.json', { cache: 'no-store' });
+        if (resp.ok) {
+          const remote = await resp.json();
+          if (Array.isArray(remote) && remote.length > 0) {
+            setResources(remote);
+            return;
+          }
         }
-      ];
-      setResources(defaultResources);
-    } else {
-      setResources(savedResources);
+      } catch (e) {
+        // ignore fetch errors and fall back to localStorage
+      }
+
+      // Fall back to localStorage
+      const savedResources = JSON.parse(localStorage.getItem('cms_resources') || '[]');
+      
+      if (savedResources.length === 0) {
+        // Use default data if no CMS data exists
+        const defaultResources = [
+          {
+            id: 1,
+            title: 'Annual Report 2023',
+            description: 'Comprehensive overview of KADCOS activities, financial performance, and achievements in 2023',
+            date: '2024-03-15',
+            type: 'PDF',
+            size: '2.4 MB',
+            author: 'KADCOS Management',
+            category: 'Financial Reports'
+          },
+          {
+            id: 2,
+            title: 'Cooperative Savings Guide',
+            description: 'Comprehensive guide to maximizing your savings with KADCOS',
+            date: '2024-03-01',
+            type: 'PDF',
+            size: '1.5 MB',
+            author: 'Financial Education Team',
+            category: 'Educational Materials'
+          }
+        ];
+        setResources(defaultResources);
+      } else {
+        setResources(savedResources);
+      }
     }
+
+    loadResources();
   }, []);
 
   // Get unique categories from resources
