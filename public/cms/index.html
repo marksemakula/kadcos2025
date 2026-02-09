@@ -8,35 +8,25 @@
     <!-- Netlify Identity Widget for authentication -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-      /* Custom logo styling for login page */
-      .kadcos-logo-container {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 9999;
+      /* Custom styling to add KADCOS logo next to Decap logo */
+      [class*="AppHeader"] > a:first-child {
         display: flex;
         align-items: center;
         gap: 12px;
       }
-      .kadcos-logo-container img {
-        height: 50px;
-        width: auto;
-      }
-      .kadcos-logo-container span {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 18px;
-        font-weight: bold;
-        color: #1a365d;
+      [class*="AppHeader"] > a:first-child::before {
+        content: '';
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-image: url('/images/KADCOS-02.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
       }
     </style>
   </head>
   <body>
-    <!-- KADCOS Logo -->
-    <div class="kadcos-logo-container">
-      <img src="/images/KADCOS-02.png" alt="KADCOS Logo" />
-      <span>KADCOS CMS</span>
-    </div>
-    
     <!-- Decap CMS (formerly Netlify CMS) -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
