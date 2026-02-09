@@ -7,66 +7,6 @@
     <title>KADCOS CMS - Content Manager</title>
     <!-- Netlify Identity Widget for authentication -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <style>
-      /* Custom branding for KADCOS CMS */
-      /* Hide Decap logo and replace with KADCOS logo */
-      [class*="AppHeader"] img,
-      [class*="Logo"] {
-        display: none !important;
-      }
-      
-      /* Add KADCOS logo before the header */
-      [class*="AppHeader"]::before,
-      .css-1f0hzhi::before {
-        content: '';
-        display: block;
-        width: 120px;
-        height: 50px;
-        background-image: url('/images/KADCOS-02.png');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        margin-right: 10px;
-      }
-      
-      /* Style the login page */
-      [class*="Login"]::before {
-        content: '';
-        display: block;
-        width: 150px;
-        height: 150px;
-        background-image: url('/images/KADCOS-02.png');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        margin: 0 auto 20px auto;
-      }
-      
-      /* Hide the Netlify Identity logo and add KADCOS logo */
-      .netlify-identity-menu-logo,
-      .netlify-identity-widget .logo {
-        display: none !important;
-      }
-      
-      /* Custom styles for login modal */
-      .netlify-identity-signup-login {
-        background: linear-gradient(135deg, #035D75 0%, #024657 100%) !important;
-      }
-      
-      /* Add logo to identity widget */
-      .netlify-identity-login::before,
-      .netlify-identity-signup::before {
-        content: '';
-        display: block;
-        width: 120px;
-        height: 120px;
-        background-image: url('/images/KADCOS-02.png');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        margin: 0 auto 20px auto;
-      }
-    </style>
   </head>
   <body>
     <!-- Decap CMS (formerly Netlify CMS) -->

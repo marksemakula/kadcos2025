@@ -16,7 +16,7 @@
   to = "/cms/index.html"
   status = 200
 
-# SPA fallback - must come after cms redirect
+# SPA fallback - must come after CMS redirect
 [[redirects]]
   from = "/*"
   to = "/index.html"
