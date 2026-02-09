@@ -7,8 +7,68 @@
     <title>KADCOS CMS - Content Manager</title>
     <!-- Netlify Identity Widget for authentication -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+      /* Custom styling for login page */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Marcellus', serif;
+      }
+      
+      /* Logo container above CMS */
+      .cms-logo-header {
+        background: #035D75;
+        padding: 20px;
+        text-align: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+      }
+      
+      .cms-logo-header img {
+        height: 60px;
+        width: auto;
+      }
+      
+      .cms-logo-header .logo-text {
+        color: white;
+        text-align: left;
+      }
+      
+      .cms-logo-header .logo-text h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      
+      .cms-logo-header .logo-text p {
+        margin: 5px 0 0 0;
+        font-size: 12px;
+        opacity: 0.8;
+      }
+      
+      /* Push CMS content down to account for fixed header */
+      #nc-root {
+        padding-top: 100px;
+      }
+    </style>
   </head>
   <body>
+    <!-- Custom logo header -->
+    <div class="cms-logo-header">
+      <img src="/images/KADCOS-02.png" alt="KADCOS Logo" />
+      <div class="logo-text">
+        <h1>KADCOS</h1>
+        <p>Content Management System</p>
+      </div>
+    </div>
+    
     <!-- Decap CMS (formerly Netlify CMS) -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
