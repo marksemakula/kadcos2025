@@ -8,48 +8,87 @@ const { FiCalendar, FiUser, FiArrowRight, FiEdit } = FiIcons;
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedPosts = JSON.parse(localStorage.getItem('cms_blogPosts') || '[]');
-    // If no CMS data exists, use default posts
-    if (savedPosts.length === 0) {
-      const defaultPosts = [
-        {
-          id: 1,
-          title: 'Understanding Cooperative Banking in Uganda',
-          excerpt: 'Learn about the role of cooperative societies in Uganda\'s financial sector and how they contribute to economic development.',
-          author: 'Dumba Patrick',
-          date: '2024-01-15',
-          image: '/images/mohammadreza-charkhgard-L5Hdw0o6cKg-unsplash.jpg',
-          content: 'Cooperative banking has been a cornerstone of Uganda\'s financial inclusion strategy...'
-        },
-        {
-          id: 2,
-          title: 'The Importance of Savings Culture in Faith Communities',
-          excerpt: 'Discover how faith-based savings groups are transforming lives in Kampala Archdiocese through collective financial empowerment.',
-          author: 'KADCOS Team',
-          date: '2024-01-10',
-          image: '/images/jonathan-velasquez-c1ZN57GfDB0-unsplash.jpg',
-          content: 'Building a savings culture within faith communities requires dedication and proper guidance...'
-        },
-        {
-          id: 3,
-          title: 'Financial Literacy: Your Path to Economic Freedom',
-          excerpt: 'Essential financial literacy tips for KADCOS members to make informed decisions about savings, loans, and investments.',
-          author: 'Financial Education Team',
-          date: '2024-01-05',
-          image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-          content: 'Financial literacy is the foundation of sound financial decision-making...'
+    async function loadPosts() {
+      try {
+        // Try to fetch blog posts from JSON files
+        const blogFiles = [
+          'understanding-cooperative-banking-in-uganda',
+          'the-importance-of-savings-culture-in-faith-communities',
+          'financial-literacy-your-path-to-economic-freedom'
+        ];
+        
+        const loadedPosts = [];
+        
+        for (const file of blogFiles) {
+          try {
+            const response = await fetch(`/data/blog/${file}.json`);
+            if (response.ok) {
+              const post = await response.json();
+              loadedPosts.push(post);
+            }
+          } catch (e) {
+            console.log(`Could not load ${file}:`, e);
+          }
         }
-      ];
-      setPosts(defaultPosts);
-    } else {
-      setPosts(savedPosts);
+        
+        if (loadedPosts.length > 0) {
+          // Sort by date (newest first)
+          loadedPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+          setPosts(loadedPosts);
+        } else {
+          // Fall back to localStorage CMS data or default posts
+          const savedPosts = JSON.parse(localStorage.getItem('cms_blogPosts') || '[]');
+          if (savedPosts.length > 0) {
+            setPosts(savedPosts);
+          } else {
+            // Use default posts as final fallback
+            const defaultPosts = [
+              {
+                id: 1,
+                title: 'Understanding Cooperative Banking in Uganda',
+                excerpt: 'Learn about the role of cooperative societies in Uganda\'s financial sector and how they contribute to economic development.',
+                author: 'Dumba Patrick',
+                date: '2024-01-15',
+                image: '/images/mohammadreza-charkhgard-L5Hdw0o6cKg-unsplash.jpg',
+                content: 'Cooperative banking has been a cornerstone of Uganda\'s financial inclusion strategy...'
+              },
+              {
+                id: 2,
+                title: 'The Importance of Savings Culture in Faith Communities',
+                excerpt: 'Discover how faith-based savings groups are transforming lives in Kampala Archdiocese through collective financial empowerment.',
+                author: 'KADCOS Team',
+                date: '2024-01-10',
+                image: '/images/jonathan-velasquez-c1ZN57GfDB0-unsplash.jpg',
+                content: 'Building a savings culture within faith communities requires dedication and proper guidance...'
+              },
+              {
+                id: 3,
+                title: 'Financial Literacy: Your Path to Economic Freedom',
+                excerpt: 'Essential financial literacy tips for KADCOS members to make informed decisions about savings, loans, and investments.',
+                author: 'Financial Education Team',
+                date: '2024-01-05',
+                image: '/images/peter-thomas-OUfn4MNUGA4-unsplash.jpg',
+                content: 'Financial literacy is the foundation of sound financial decision-making...'
+              }
+            ];
+            setPosts(defaultPosts);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
     }
+    
+    loadPosts();
   }, []);
 
-  // If no posts, show loading
-  if (posts.length === 0) {
+  // Show loading state
+  if (loading) {
     return (
       <div className="min-h-screen pt-20 flex items-center justify-center">
         <div className="text-center">

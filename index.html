@@ -300,12 +300,28 @@
       ]
     }
     </script>
+    
+    <!-- Netlify Identity Widget for CMS authentication -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
     <div id="root"></div>
     
     <!-- Main App Script -->
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Handle Netlify Identity redirect after login/invite -->
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/cms/";
+            });
+          }
+        });
+      }
+    </script>
     
     <!-- Google Tag Manager (noscript) - Add your GTM ID when available -->
     <noscript>

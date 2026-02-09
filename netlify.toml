@@ -10,6 +10,13 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# CMS page should serve its own index.html
+[[redirects]]
+  from = "/cms/*"
+  to = "/cms/index.html"
+  status = 200
+
+# SPA fallback - must come after cms redirect
 [[redirects]]
   from = "/*"
   to = "/index.html"
