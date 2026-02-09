@@ -7,8 +7,43 @@
     <title>KADCOS CMS - Content Manager</title>
     <!-- Netlify Identity Widget for authentication -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+      /* Custom branding for KADCOS CMS */
+      .kadcos-branding {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: #035D75;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
+      .kadcos-branding img {
+        height: 50px;
+        margin-right: 15px;
+      }
+      .kadcos-branding span {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      /* Push CMS content down to make room for header */
+      body {
+        padding-top: 90px !important;
+      }
+    </style>
   </head>
   <body>
+    <!-- KADCOS Branding Header -->
+    <div class="kadcos-branding">
+      <img src="/images/KADCOS-02.png" alt="KADCOS Logo" />
+      <span>KADCOS CMS</span>
+    </div>
+    
     <!-- Decap CMS (formerly Netlify CMS) -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
