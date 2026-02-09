@@ -8,38 +8,31 @@
     <!-- Netlify Identity Widget for authentication -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-      /* Custom branding for KADCOS CMS */
-      .kadcos-branding {
+      /* Custom logo styling for login page */
+      .kadcos-logo-container {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 9999;
         display: flex;
         align-items: center;
-        justify-content: center;
-        padding: 20px;
-        background: #035D75;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
+        gap: 12px;
       }
-      .kadcos-branding img {
+      .kadcos-logo-container img {
         height: 50px;
-        margin-right: 15px;
+        width: auto;
       }
-      .kadcos-branding span {
-        color: white;
-        font-size: 24px;
-        font-weight: bold;
+      .kadcos-logo-container span {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-      /* Push CMS content down to make room for header */
-      body {
-        padding-top: 90px !important;
+        font-size: 18px;
+        font-weight: bold;
+        color: #1a365d;
       }
     </style>
   </head>
   <body>
-    <!-- KADCOS Branding Header -->
-    <div class="kadcos-branding">
+    <!-- KADCOS Logo -->
+    <div class="kadcos-logo-container">
       <img src="/images/KADCOS-02.png" alt="KADCOS Logo" />
       <span>KADCOS CMS</span>
     </div>
