@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   // Hardcoded credentials
   const ADMIN_CREDENTIALS = {
     email: 'admin@kadcoslubaga.co.ug',
-    password: '@student1705'
+    password: '@Student1705'
   };
 
   const signIn = async (email, password) => {
