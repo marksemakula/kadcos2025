@@ -8,37 +8,29 @@
     <!-- Netlify Identity Widget for authentication -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-      /* Custom styling for login page */
-      /* Hide the default Decap/Netlify CMS logo */
-      [class*="AppHeader"] img,
-      [class*="LoginPage"] img[src*="netlify"],
-      [class*="LoginPage"] img[src*="decap"],
-      [class*="Logo"] {
-        display: none !important;
-      }
-      
-      /* Add KADCOS logo before the login form */
-      [class*="LoginPage"]::before {
-        content: "";
-        display: block;
-        width: 120px;
-        height: 120px;
-        background-image: url("/images/KADCOS-02.png");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        margin: 0 auto 20px auto;
-      }
-      
-      /* Style the login container */
-      [class*="LoginPage"] {
+      /* Custom KADCOS logo container */
+      #kadcos-logo-container {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        justify-content: center;
+        padding: 30px 0 20px 0;
+        background: #fff;
+      }
+      #kadcos-logo-container img {
+        width: 120px;
+        height: auto;
+      }
+      /* Hide once logged in (when CMS frame loads) */
+      body.cms-loaded #kadcos-logo-container {
+        display: none;
       }
     </style>
   </head>
   <body>
+    <!-- KADCOS Logo for login page -->
+    <div id="kadcos-logo-container">
+      <img src="/images/KADCOS-02.png" alt="KADCOS Logo" />
+    </div>
+    
     <!-- Decap CMS (formerly Netlify CMS) -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
@@ -49,9 +41,22 @@
             window.netlifyIdentity.on("login", () => {
               document.location.href = "/cms/";
             });
+          } else {
+            // User is logged in, hide the logo
+            document.body.classList.add('cms-loaded');
           }
         });
       }
+      
+      // Also hide logo when CMS fully loads
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var frame = document.querySelector('[class*="AppMain"]');
+          if (frame) {
+            document.body.classList.add('cms-loaded');
+          }
+        }, 1000);
+      });
     </script>
   </body>
 </html>
