@@ -2,6 +2,9 @@ backend:
   name: git-gateway
   branch: main
 
+# Custom logo for KADCOS
+logo_url: /images/KADCOS-02.png
+
 # Media files will be stored in the public/images folder
 media_folder: "public/images/blog"
 public_folder: "/images/blog"
