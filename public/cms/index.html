@@ -8,13 +8,15 @@
     <!-- Netlify Identity Widget for authentication -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-      /* Custom styling to add KADCOS logo next to Decap logo */
-      [class*="AppHeader"] > a:first-child {
+      /* Add KADCOS logo next to Decap logo */
+      [class*="AppHeader"] > a:first-child,
+      .css-1d3cc3o > a:first-child {
         display: flex;
         align-items: center;
         gap: 12px;
       }
-      [class*="AppHeader"] > a:first-child::before {
+      [class*="AppHeader"] > a:first-child::before,
+      .css-1d3cc3o > a:first-child::before {
         content: '';
         display: inline-block;
         width: 40px;
