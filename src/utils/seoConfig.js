@@ -95,6 +95,12 @@ export const pageSEO = {
     description: 'Read the message from KADCOS Board Chairman about our cooperative society\'s vision, strategic direction, and commitment to members.',
     keywords: 'KADCOS chairman, SACCO board chair, cooperative chairman message Uganda',
     canonicalPath: '/board-chair-message'
+  },
+  vote: {
+    title: 'Member Voting & Elections | KADCOS SACCO Uganda Democratic Process',
+    description: 'Participate in KADCOS democratic elections and voting. Cast your vote for board members and important cooperative decisions. Active member engagement.',
+    keywords: 'KADCOS voting, SACCO elections Uganda, cooperative democracy, member voting, board elections SACCO',
+    canonicalPath: '/vote'
   }
 };
 

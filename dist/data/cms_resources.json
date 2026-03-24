@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Annual Report 2023",
+    "description": "Comprehensive overview of KADCOS activities, financial performance, and achievements in 2023",
+    "date": "2024-03-15",
+    "type": "PDF",
+    "size": "2.4 MB",
+    "author": "KADCOS Management",
+    "category": "Financial Reports"
+  },
+  {
+    "id": 2,
+    "title": "Cooperative Savings Guide",
+    "description": "Comprehensive guide to maximizing your savings with KADCOS",
+    "date": "2024-03-01",
+    "type": "PDF",
+    "size": "1.5 MB",
+    "author": "Financial Education Team",
+    "category": "Educational Materials"
+  },
+  {
+    "id": 3,
+    "title": "Loan Application Guidelines",
+    "description": "Step-by-step guide to applying for loans at KADCOS",
+    "date": "2024-02-15",
+    "type": "PDF",
+    "size": "800 KB",
+    "author": "Credit Department",
+    "category": "Member Guides"
+  },
+  {
+    "id": 4,
+    "title": "Membership Handbook",
+    "description": "Everything you need to know about being a KADCOS member",
+    "date": "2024-01-10",
+    "type": "PDF",
+    "size": "1.2 MB",
+    "author": "Membership Committee",
+    "category": "Member Guides"
+  }
+]

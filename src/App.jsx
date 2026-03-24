@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast'
 import { useAuth, AuthProvider } from './hooks/useAuth.jsx' // Updated import
 import Navbar from './components/Navbar'
+import Breadcrumb from './components/Breadcrumb'
 import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
 import AdminLogin from './components/AdminLogin'
@@ -83,6 +84,7 @@ function AppContent() {
               element={
                 <>
                   <Navbar />
+                  <Breadcrumb />
                   <div>
                     <Routes>
                       <Route path="/" element={<Home />} />

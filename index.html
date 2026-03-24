@@ -65,6 +65,89 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
+    <!-- Structured Data - WebSite Schema with SitelinksSearchBox -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://kadcoslubaga.co.ug/#website",
+      "name": "KADCOS - Lubaga Cooperative Society Ltd",
+      "alternateName": ["KADCOS", "Lubaga SACCO", "KADCOS SACCO Uganda"],
+      "url": "https://kadcoslubaga.co.ug",
+      "description": "KADCOS is a leading Savings and Credit Cooperative Society (SACCO) in Uganda offering micro-lending, savings accounts, and loan products.",
+      "publisher": {
+        "@id": "https://kadcoslubaga.co.ug/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://kadcoslubaga.co.ug/blog?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "inLanguage": "en-UG"
+    }
+    </script>
+
+    <!-- Structured Data - SiteNavigationElement for Sitelinks -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SiteNavigationElement",
+          "@id": "https://kadcoslubaga.co.ug/#main-nav",
+          "name": "Main Navigation",
+          "hasPart": [
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Services & Products",
+              "description": "Explore KADCOS loan products and savings services",
+              "url": "https://kadcoslubaga.co.ug/services"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Membership",
+              "description": "Join KADCOS SACCO and become a member",
+              "url": "https://kadcoslubaga.co.ug/membership"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Blog & Updates",
+              "description": "Latest news and financial tips from KADCOS",
+              "url": "https://kadcoslubaga.co.ug/blog"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Vote",
+              "description": "Member voting and elections",
+              "url": "https://kadcoslubaga.co.ug/vote"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Contact Us",
+              "description": "Contact KADCOS offices in Kampala Uganda",
+              "url": "https://kadcoslubaga.co.ug/contact"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "About Us",
+              "description": "Learn about KADCOS Lubaga Cooperative Society",
+              "url": "https://kadcoslubaga.co.ug/about"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Resources & E-Library",
+              "description": "Financial education materials and documents",
+              "url": "https://kadcoslubaga.co.ug/resources-e-lib"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
     <!-- Structured Data - Organization Schema -->
     <script type="application/ld+json">
     {
@@ -211,11 +294,12 @@
     }
     </script>
     
-    <!-- Structured Data - BreadcrumbList -->
+    <!-- Structured Data - BreadcrumbList (Enhanced) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
+      "@id": "https://kadcoslubaga.co.ug/#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -226,26 +310,44 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "About KADCOS",
-          "item": "https://kadcoslubaga.co.ug/about"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Services",
+          "name": "Services & Products",
           "item": "https://kadcoslubaga.co.ug/services"
         },
         {
           "@type": "ListItem",
-          "position": 4,
+          "position": 3,
           "name": "Membership",
           "item": "https://kadcoslubaga.co.ug/membership"
         },
         {
           "@type": "ListItem",
+          "position": 4,
+          "name": "Blog & Updates",
+          "item": "https://kadcoslubaga.co.ug/blog"
+        },
+        {
+          "@type": "ListItem",
           "position": 5,
-          "name": "Contact",
+          "name": "Vote",
+          "item": "https://kadcoslubaga.co.ug/vote"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Contact Us",
           "item": "https://kadcoslubaga.co.ug/contact"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "About KADCOS",
+          "item": "https://kadcoslubaga.co.ug/about"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Resources & E-Library",
+          "item": "https://kadcoslubaga.co.ug/resources-e-lib"
         }
       ]
     }
@@ -305,6 +407,23 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
+    <!-- Noscript Navigation Fallback for Search Engines -->
+    <noscript>
+      <nav aria-label="Main Navigation">
+        <ul>
+          <li><a href="/">Home - KADCOS Lubaga Cooperative Society</a></li>
+          <li><a href="/services">Services & Products - Loans and Savings</a></li>
+          <li><a href="/membership">Membership - Join KADCOS SACCO</a></li>
+          <li><a href="/blog">Blog & Updates - Financial News</a></li>
+          <li><a href="/vote">Vote - Member Elections</a></li>
+          <li><a href="/contact">Contact Us - Kampala Offices</a></li>
+          <li><a href="/about">About Us - Our Story</a></li>
+          <li><a href="/governance">Governance - Leadership Team</a></li>
+          <li><a href="/resources-e-lib">Resources & E-Library</a></li>
+        </ul>
+      </nav>
+    </noscript>
+    
     <div id="root"></div>
     
     <!-- Main App Script -->

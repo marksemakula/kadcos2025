@@ -1,0 +1,41 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Media files will be stored in the public/images folder
+media_folder: "public/images/blog"
+public_folder: "/images/blog"
+
+# Site URL for preview
+site_url: https://kadcoslubaga.co.ug
+
+# Editorial workflow for draft/review/publish
+publish_mode: editorial_workflow
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "public/data/blog"
+    create: true
+    extension: "json"
+    format: "json"
+    slug: "{{slug}}"
+    fields:
+      - { label: "ID", name: "id", widget: "string", default: "", hint: "Leave empty for auto-generation" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Author", name: "author", widget: "string", default: "KADCOS Team" }
+      - { label: "Featured Image", name: "image", widget: "image", required: false }
+      - { label: "Excerpt", name: "excerpt", widget: "text" }
+      - { label: "Content", name: "content", widget: "markdown" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "News", value: "news" }
+          - { label: "Updates", value: "updates" }
+          - { label: "Financial Tips", value: "financial-tips" }
+          - { label: "Community", value: "community" }
+          - { label: "Events", value: "events" }
+        default: "news"
+      - { label: "Featured", name: "featured", widget: "boolean", default: false, required: false }
