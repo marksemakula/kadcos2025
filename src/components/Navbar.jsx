@@ -21,7 +21,7 @@ const Navbar = () => {
 
   // Check if on home page (transparent navbar only on home)
   const isHomePage = location.pathname === '/'
-  
+
   // Use transparent style only on home page when not scrolled
   const useTransparentStyle = isHomePage && !isScrolled
 
@@ -36,14 +36,14 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { 
-      name: 'About', 
+    {
+      name: 'About',
       hasDropdown: true,
       items: [
         { name: 'About Us', path: '/about' },
         { name: 'Governance', path: '/governance' },
-        { 
-          name: 'Messages', 
+        {
+          name: 'Messages',
           hasNestedDropdown: true,
           items: [
             { name: "Manager's Message", path: '/managers-message' },
@@ -52,8 +52,8 @@ const Navbar = () => {
         }
       ]
     },
-    { 
-      name: 'Services & Products', 
+    {
+      name: 'Services & Products',
       hasDropdown: true,
       items: [
         { name: 'Our Services', path: '/services' },
@@ -133,9 +133,9 @@ const Navbar = () => {
           {/* Logo on left side - positioned properly */}
           <div className="flex-shrink-0 lg:absolute lg:left-6 lg:top-0 z-10 pt-4 lg:pt-0">
             <Link to="/" className="flex items-center space-x-3 bg-transparent">
-              <img 
-                src="/images/KADCOS-02.png" 
-                alt="KADCOS Logo" 
+              <img
+                src="/images/KADCOS-02.png"
+                alt="KADCOS Logo"
                 className="h-16 w-auto"
               />
               <div className="flex flex-col">
@@ -150,26 +150,25 @@ const Navbar = () => {
             <div className="flex items-center space-x-8 pt-4 lg:pt-0">
               {navItems.map((item) => (
                 item.hasDropdown ? (
-                  <div 
+                  <div
                     key={item.name}
                     className="relative group"
                     ref={item.name === 'About' ? aboutDropdownRef : servicesDropdownRef}
                     onMouseEnter={item.name === 'About' ? handleAboutMouseEnter : handleServicesMouseEnter}
                     onMouseLeave={item.name === 'About' ? handleAboutMouseLeave : handleServicesMouseLeave}
                   >
-                    <button className={`flex items-center font-urbanist transition-colors duration-300 text-sm font-bold ${
-                      (item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) || 
-                      (item.name === 'Services & Products' && (isActive('/services') || isActive('/resources-e-lib')))
-                        ? 'text-primary border-b-2 border-primary' 
+                    <button className={`flex items-center font-urbanist transition-colors duration-300 text-sm font-bold ${(item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) ||
+                        (item.name === 'Services & Products' && (isActive('/services') || isActive('/resources-e-lib')))
+                        ? 'text-primary border-b-2 border-primary'
                         : useTransparentStyle ? 'text-white hover:text-primary' : 'text-black hover:text-primary'
-                    }`}>
+                      }`}>
                       {item.name}
                       <FiChevronDown className="ml-1" />
                     </button>
-                    
+
                     <AnimatePresence>
                       {(item.name === 'About' && isAboutOpen) || (item.name === 'Services & Products' && isServicesOpen) ? (
-                        <motion.div 
+                        <motion.div
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
@@ -190,11 +189,10 @@ const Navbar = () => {
                                     <Link
                                       key={nestedItem.name}
                                       to={nestedItem.path}
-                                      className={`block px-4 py-2 text-sm font-urbanist font-bold ${
-                                        isActive(nestedItem.path)
+                                      className={`block px-4 py-2 text-sm font-urbanist font-bold ${isActive(nestedItem.path)
                                           ? 'text-primary bg-orange-50'
                                           : 'text-black hover:bg-gray-50 hover:text-primary'
-                                      }`}
+                                        }`}
                                       onClick={() => {
                                         if (item.name === 'About') setIsAboutOpen(false)
                                         if (item.name === 'Services & Products') setIsServicesOpen(false)
@@ -209,11 +207,10 @@ const Navbar = () => {
                               <Link
                                 key={dropdownItem.name}
                                 to={dropdownItem.path}
-                                className={`block px-4 py-2 text-sm font-urbanist font-bold ${
-                                  isActive(dropdownItem.path)
+                                className={`block px-4 py-2 text-sm font-urbanist font-bold ${isActive(dropdownItem.path)
                                     ? 'text-primary bg-orange-50'
                                     : 'text-black hover:bg-gray-50 hover:text-primary'
-                                }`}
+                                  }`}
                                 onClick={() => {
                                   if (item.name === 'About') setIsAboutOpen(false)
                                   if (item.name === 'Services & Products') setIsServicesOpen(false)
@@ -231,20 +228,19 @@ const Navbar = () => {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`font-urbanist transition-colors duration-300 text-sm font-bold ${
-                      isActive(item.path)
+                    className={`font-urbanist transition-colors duration-300 text-sm font-bold ${isActive(item.path)
                         ? 'text-primary border-b-2 border-primary'
                         : useTransparentStyle ? 'text-white hover:text-primary' : 'text-black hover:text-primary'
-                    }`}
+                      }`}
                   >
                     {item.name}
                   </Link>
                 )
               ))}
-              
+
               {/* Mail Link - External */}
               <a
-                href="https://mail.kadcoslubaga.co.ug"
+                href="https://mail.mxlogin.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`flex items-center font-urbanist transition-colors duration-300 text-sm font-bold hover:text-primary ${useTransparentStyle ? 'text-white' : 'text-black'}`}
@@ -306,18 +302,16 @@ const Navbar = () => {
                           setIsMobileAboutOpen(false)
                         }
                       }}
-                      className={`flex items-center justify-between w-full px-3 py-2 font-urbanist font-bold ${
-                        (item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) ||
-                        (item.name === 'Services & Products' && (isActive('/services') || isActive('/resources-e-lib')))
+                      className={`flex items-center justify-between w-full px-3 py-2 font-urbanist font-bold ${(item.name === 'About' && (isActive('/about') || isActive('/leadership') || isMessageActive())) ||
+                          (item.name === 'Services & Products' && (isActive('/services') || isActive('/resources-e-lib')))
                           ? 'text-primary bg-orange-50'
                           : 'text-black hover:text-primary hover:bg-gray-50'
-                      }`}
+                        }`}
                     >
                       <span>{item.name}</span>
-                      <FiChevronDown className={`transform transition-transform ${
-                        (item.name === 'About' && isMobileAboutOpen) || 
-                        (item.name === 'Services & Products' && isMobileServicesOpen) ? 'rotate-180' : ''
-                      }`} />
+                      <FiChevronDown className={`transform transition-transform ${(item.name === 'About' && isMobileAboutOpen) ||
+                          (item.name === 'Services & Products' && isMobileServicesOpen) ? 'rotate-180' : ''
+                        }`} />
                     </button>
                     {(item.name === 'About' && isMobileAboutOpen) || (item.name === 'Services & Products' && isMobileServicesOpen) ? (
                       <div className="pl-6">
@@ -332,11 +326,10 @@ const Navbar = () => {
                                     nestedItems.classList.toggle('hidden');
                                   }
                                 }}
-                                className={`flex items-center justify-between w-full px-3 py-2 font-urbanist font-bold ${
-                                  isMessageActive()
+                                className={`flex items-center justify-between w-full px-3 py-2 font-urbanist font-bold ${isMessageActive()
                                     ? 'text-primary bg-orange-50'
                                     : 'text-black hover:text-primary hover:bg-gray-50'
-                                }`}
+                                  }`}
                               >
                                 <span>{dropdownItem.name}</span>
                                 <FiChevronDown className="transform transition-transform" />
@@ -351,11 +344,10 @@ const Navbar = () => {
                                       setIsMobileAboutOpen(false)
                                       setIsMobileServicesOpen(false)
                                     }}
-                                    className={`block px-3 py-2 font-urbanist font-bold ${
-                                      isActive(nestedItem.path)
+                                    className={`block px-3 py-2 font-urbanist font-bold ${isActive(nestedItem.path)
                                         ? 'text-primary bg-orange-50'
                                         : 'text-black hover:text-primary hover:bg-gray-50'
-                                    }`}
+                                      }`}
                                   >
                                     {nestedItem.name}
                                   </Link>
@@ -371,11 +363,10 @@ const Navbar = () => {
                                 setIsMobileAboutOpen(false)
                                 setIsMobileServicesOpen(false)
                               }}
-                              className={`block px-3 py-2 font-urbanist font-bold ${
-                                isActive(dropdownItem.path)
+                              className={`block px-3 py-2 font-urbanist font-bold ${isActive(dropdownItem.path)
                                   ? 'text-primary bg-orange-50'
                                   : 'text-black hover:text-primary hover:bg-gray-50'
-                              }`}
+                                }`}
                             >
                               {dropdownItem.name}
                             </Link>
@@ -389,17 +380,16 @@ const Navbar = () => {
                     key={item.name}
                     to={item.path}
                     onClick={() => setIsOpen(false)}
-                    className={`block px-3 py-2 font-urbanist font-bold ${
-                      isActive(item.path)
+                    className={`block px-3 py-2 font-urbanist font-bold ${isActive(item.path)
                         ? 'text-primary bg-orange-50'
                         : 'text-black hover:text-primary hover:bg-gray-50'
-                    }`}
+                      }`}
                   >
                     {item.name}
                   </Link>
                 )
               ))}
-              
+
               {/* Mail Link in Mobile */}
               <a
                 href="https://mail.kadcoslubaga.co.ug"
@@ -411,7 +401,7 @@ const Navbar = () => {
                 <FiMail className="mr-2" />
                 Mail
               </a>
-              
+
               <Link
                 to="/membership"
                 onClick={() => setIsOpen(false)}
