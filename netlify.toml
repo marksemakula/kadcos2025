@@ -10,14 +10,15 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# SPA fallback - redirect all non-existent routes to index.html for React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
 # CMS page should serve its own index.html
 [[redirects]]
   from = "/cms/*"
   to = "/cms/index.html"
-  status = 200
-
-# SPA fallback - must come after CMS redirect
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
   status = 200
