@@ -116,14 +116,30 @@ const ResourcesELib = () => {
         }`}>
           {resource.category}
         </span>
-        <button className={`flex items-center transition-colors font-marcellus ${
-          isPublication 
-            ? 'text-accent hover:text-secondary' 
-            : 'text-primary hover:text-secondary'
-        }`}>
-          <SafeIcon icon={FiDownload} className="mr-2" />
-          Download
-        </button>
+        {(resource.fileUrl || resource.fileData) ? (
+          <a
+            href={resource.fileUrl || resource.fileData}
+            download={resource.fileName || `${resource.title}.${(resource.type || 'pdf').toLowerCase()}`}
+            target={resource.fileUrl ? '_blank' : undefined}
+            rel="noopener noreferrer"
+            className={`flex items-center transition-colors font-marcellus ${
+              isPublication
+                ? 'text-accent hover:text-secondary'
+                : 'text-primary hover:text-secondary'
+            }`}
+          >
+            <SafeIcon icon={FiDownload} className="mr-2" />
+            Download
+          </a>
+        ) : (
+          <span
+            title="File not yet uploaded — add it via the admin dashboard (Content Management → Resources)"
+            className="flex items-center text-gray-400 cursor-not-allowed font-marcellus"
+          >
+            <SafeIcon icon={FiDownload} className="mr-2" />
+            Coming soon
+          </span>
+        )}
       </div>
     </motion.div>
   );
@@ -233,9 +249,12 @@ const ResourcesELib = () => {
             <p className="text-xl text-gray-300 mb-8 font-marcellus max-w-3xl mx-auto">
               Contact us if you need specific information or documents not available in our e-library
             </p>
-            <button className="bg-primary text-white px-8 py-4 rounded-full font-marcellus hover:bg-orange-500 transition-colors duration-300">
+            <a
+              href="/contact"
+              className="inline-block bg-primary text-white px-8 py-4 rounded-full font-marcellus hover:bg-orange-500 transition-colors duration-300"
+            >
               Contact Our Team
-            </button>
+            </a>
           </motion.div>
         </div>
       </section>

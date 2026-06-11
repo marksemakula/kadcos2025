@@ -241,10 +241,13 @@ const Blog = () => {
             <p className="text-xl text-gray-300 mb-8 font-marcellus max-w-3xl mx-auto">
               We'd love to feature your success story or insights from your journey with KADCOS. Contact us to contribute to our blog.
             </p>
-            <button className="inline-flex items-center space-x-2 bg-primary text-dark px-8 py-4 rounded-full font-marcellus hover:bg-yellow-600 transition-colors duration-300">
+            <a
+              href={`mailto:admin@kadcoslubaga.co.ug?cc=kadcoslubaga.sacco@gmail.com&subject=${encodeURIComponent('Blog Contribution - KADCOS Website')}&body=${encodeURIComponent('Hello KADCOS team,\n\nI would like to contribute a story/article to the KADCOS blog.\n\nMy name: \nMembership number (if member): \nProposed topic/title: \nShort summary: \n\nThank you.')}`}
+              className="inline-flex items-center space-x-2 bg-primary text-dark px-8 py-4 rounded-full font-marcellus hover:bg-yellow-600 transition-colors duration-300"
+            >
               <SafeIcon icon={FiEdit} />
               <span>Contribute to Blog</span>
-            </button>
+            </a>
           </motion.div>
         </div>
       </section>

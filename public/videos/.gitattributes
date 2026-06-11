@@ -1,3 +1,4 @@
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-KADCOS[[:space:]]HOME[[:space:]]PAGE.mp4 filter=lfs diff=lfs merge=lfs -text
-KADCOS[[:space:]]MEMBERSHIP.mp4 filter=lfs diff=lfs merge=lfs -text
+# LFS tracking disabled: Netlify deploys LFS pointer files instead of the real
+# videos, which is why they never played on the live site. The mp4s (12MB, 8MB)
+# are committed as normal git files instead.
+# After pulling this change run:  git add --renormalize public/videos

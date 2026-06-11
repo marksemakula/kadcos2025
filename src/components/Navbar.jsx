@@ -392,7 +392,7 @@ const Navbar = () => {
 
               {/* Mail Link in Mobile */}
               <a
-                href="https://mail.kadcoslubaga.co.ug"
+                href="https://mail.mxlogin.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}

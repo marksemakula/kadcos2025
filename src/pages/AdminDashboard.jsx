@@ -106,8 +106,32 @@ const AdminDashboard = () => {
       if (!obj.status) obj.status = 'pending';
       return obj;
     });
-    try { localStorage.setItem('cms_candidates', JSON.stringify(candidates)); } catch (e) { console.warn('Could not persist candidates', e); }
-    return candidates;
+    // Re-apply saved approve/reject decisions (the Google Sheet has no status
+    // column, so without this every refresh resets candidates to "pending")
+    const withStatuses = applyStatusOverrides(candidates);
+    try { localStorage.setItem('cms_candidates', JSON.stringify(withStatuses)); } catch (e) { console.warn('Could not persist candidates', e); }
+    return withStatuses;
+  };
+
+  // ---- Candidate status persistence (localStorage) ----
+  const candidateKey = (c) =>
+    `${c.membership_number || ''}|${c.email_address || c.email || ''}|${c.full_name || c.name || ''}`;
+
+  const getStatusOverrides = () => {
+    try { return JSON.parse(localStorage.getItem('cms_candidate_status_overrides') || '{}'); }
+    catch { return {}; }
+  };
+
+  const applyStatusOverrides = (list) => {
+    const overrides = getStatusOverrides();
+    return list.map(c => overrides[candidateKey(c)] ? { ...c, status: overrides[candidateKey(c)] } : c);
+  };
+
+  const saveStatusOverride = (candidate, status) => {
+    const overrides = getStatusOverrides();
+    overrides[candidateKey(candidate)] = status;
+    try { localStorage.setItem('cms_candidate_status_overrides', JSON.stringify(overrides)); }
+    catch (e) { console.warn('Could not save candidate status', e); }
   };
 
   const fetchData = async () => {
@@ -242,13 +266,17 @@ const AdminDashboard = () => {
 
   const handleApproveCandidate = async (candidateId) => {
     try {
-      setCandidates(prev => 
-        prev.map(candidate => 
-          candidate.id === candidateId 
+      setCandidates(prev => {
+        const updated = prev.map(candidate =>
+          candidate.id === candidateId
             ? { ...candidate, status: 'approved' }
             : candidate
-        )
-      );
+        );
+        const target = prev.find(c => c.id === candidateId);
+        if (target) saveStatusOverride(target, 'approved');
+        calculateStats(members, updated);
+        return updated;
+      });
       toast.success('Candidate approved successfully');
     } catch (error) {
       console.error('Error approving candidate:', error);
@@ -258,13 +286,17 @@ const AdminDashboard = () => {
 
   const handleRejectCandidate = async (candidateId) => {
     try {
-      setCandidates(prev => 
-        prev.map(candidate => 
-          candidate.id === candidateId 
+      setCandidates(prev => {
+        const updated = prev.map(candidate =>
+          candidate.id === candidateId
             ? { ...candidate, status: 'rejected' }
             : candidate
-        )
-      );
+        );
+        const target = prev.find(c => c.id === candidateId);
+        if (target) saveStatusOverride(target, 'rejected');
+        calculateStats(members, updated);
+        return updated;
+      });
       toast.success('Candidate rejected successfully');
     } catch (error) {
       console.error('Error rejecting candidate:', error);

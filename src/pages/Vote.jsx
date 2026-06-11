@@ -206,23 +206,30 @@ KADCOS Leadership Portal
     const emailSubject = `KADCOS Leadership Application - ${position?.title || 'Leadership Position'} - ${applicationData.fullName}`;
 
     try {
-      // Create form data for email submission with attachment
-      const emailFormData = new FormData();
-      emailFormData.append('applicantName', applicationData.fullName);
-      emailFormData.append('applicantEmail', applicationData.email);
-      emailFormData.append('position', position?.title || 'Not specified');
-      emailFormData.append('subject', emailSubject);
-      emailFormData.append('body', emailBody);
-      
+      // Build JSON payload (attachment as base64) for the Netlify function
+      const payload = {
+        applicantName: applicationData.fullName,
+        applicantEmail: applicationData.email,
+        position: position?.title || 'Not specified',
+        subject: emailSubject,
+        body: emailBody
+      };
+
       if (file) {
-        emailFormData.append('attachment', file);
-        emailFormData.append('fileName', file.name);
+        payload.fileName = file.name;
+        payload.fileData = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result); // data URL; function strips the prefix
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
       }
 
-      // Submit to our backend API
-      const emailResponse = await fetch('/api/send-application-email', {
+      // Submit to the Netlify function
+      const emailResponse = await fetch('/.netlify/functions/send-application-email', {
         method: 'POST',
-        body: emailFormData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
       if (emailResponse.ok) {
@@ -444,9 +451,10 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file size (max 10MB)
-      if (file.size > 10 * 1024 * 1024) {
-        alert('File size must be less than 10MB.');
+      // Validate file size (max 4MB — Netlify functions limit request bodies
+      // to ~6MB and base64 encoding adds ~33% overhead)
+      if (file.size > 4 * 1024 * 1024) {
+        alert('File size must be less than 4MB.');
         e.target.value = '';
         return;
       }
@@ -763,7 +771,7 @@ const ApplicationSection = ({ positions, positionQualifications, onApply, submit
                 disabled={submitting}
               />
               <p className="text-xs text-gray-500 mt-1">
-                Maximum file size: 10MB. Supported formats: PDF, Word documents, JPEG, PNG.
+                Maximum file size: 4MB. Supported formats: PDF, Word documents, JPEG, PNG.
                 You can attach your CV, application letter, or other supporting documents.
               </p>
               {attachment && (
