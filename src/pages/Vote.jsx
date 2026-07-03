@@ -225,8 +225,8 @@ KADCOS Leadership Portal
         });
       }
 
-      // Submit to the Netlify function
-      const emailResponse = await fetch('/.netlify/functions/send-application-email', {
+      // Submit to the serverless function (/api on Vercel)
+      const emailResponse = await fetch('/api/send-application-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

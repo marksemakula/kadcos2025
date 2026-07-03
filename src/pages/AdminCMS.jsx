@@ -245,7 +245,7 @@ const AdminCMS = () => {
           const safeName = (formData.fileName || 'resource').replace(/[^a-z0-9-_\.]/gi, '_');
           const filename = `${Date.now()}_${safeName}.${ext}`;
 
-          const uploadRes = await fetch('/.netlify/functions/upload-image', {
+          const uploadRes = await fetch('/api/upload-image', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ filename, content: base64 })
@@ -278,7 +278,7 @@ const AdminCMS = () => {
           const safeName = (formData.name || 'profile').replace(/[^a-z0-9-_\.]/gi, '_');
           const filename = `${Date.now()}_${safeName}.${ext}`;
 
-          const uploadRes = await fetch('/.netlify/functions/upload-image', {
+          const uploadRes = await fetch('/api/upload-image', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ filename, content: base64 })
@@ -376,7 +376,7 @@ const AdminCMS = () => {
 
       const content = JSON.stringify(contentToCommit, null, 2);
       // Fire the commit function
-      const res = await fetch('/.netlify/functions/commit-json', {
+      const res = await fetch('/api/commit-json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ path: commitPath, content, message: `Update cms_${activeSection}` })
