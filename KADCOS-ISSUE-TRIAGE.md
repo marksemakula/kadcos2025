@@ -74,3 +74,25 @@ Not in `public/data/cms_services.json` (loan list: Personal, School Fees, Busine
 `netlify.toml`, `public/videos/.gitattributes`, `netlify/functions/send-application-email.js` (new), `src/pages/Vote.jsx`, `src/pages/AdminDashboard.jsx`, `src/pages/ResourcesELib.jsx`, `src/pages/Blog.jsx`, `src/components/Navbar.jsx`.
 
 Dead code worth deleting later: `src/pages/api/send-application-email.js`, `src/pages/Leadership.jsx` (not routed), mock data in `src/lib/supabase.js` (unused mock client).
+
+---
+
+## Status update — 3 Jul 2026
+
+Verified against the live site (kadcoslubaga.co.ug):
+
+**Working in production:** `/data/cms_*.json` serve correctly (force-redirect fix is live) and both videos stream as real mp4s.
+
+**NOT working:** `/.netlify/functions/commit-json` returns the SPA page — **no serverless functions are deployed**. The likely cause: the last deploy was a manual upload of the local `dist/` folder (which is also why videos work live while the repo still had LFS pointers — `dist/` had the real files). A manual dist upload never includes functions, so CMS saves ("failed to persist") and application-email attachments will keep failing until the site is deployed properly.
+
+**Fixed today (committed locally, needs `git push`):** `public/videos/*.mp4` were still 133-byte LFS pointers; replaced with the real files (checksums verified against the pointers) and LFS tracking fully removed. `package.json` bumps (nodemailer 9, echarts 6) committed. Commit `f170233`.
+
+**Remaining actions (all yours, Mark):**
+
+1. `git push` (1 commit ahead of origin).
+2. In Netlify: connect the site to the GitHub repo (Site configuration → Build & deploy → Link repository) so deploys build from Git and include the functions in `netlify/functions/`. Stop deploying by manual dist upload.
+3. Set Netlify env vars: `GITHUB_TOKEN`, `GITHUB_REPO=marksemakula/kadcos2025`, `GITHUB_BRANCH=main`, `NETLIFY_BUILD_HOOK`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`.
+4. Link-share the candidates Google Sheet ("Anyone with link – Viewer").
+5. Share admin@kadcoslubaga.co.ug credentials with Amos privately (phone/WhatsApp).
+6. Zukuka Tukole loan: still absent from `cms_services.json` — add via Admin → Services once step 3 is done, or send me the product details (interest rate, max period, requirements) and I'll commit it directly.
+7. Resources still have no attached files (`fileUrl` count: 0) — re-upload via Admin → Content Management → Resources after step 3.
