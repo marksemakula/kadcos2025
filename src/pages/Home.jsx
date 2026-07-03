@@ -6,7 +6,7 @@ import * as FiIcons from 'react-icons/fi';
 import InterestWidget from '../components/InterestWidget';
 import SEOHead from '../components/SEOHead';
 
-const { FiUsers, FiDollarSign, FiTrendingUp, FiShield, FiArrowRight, FiCheckCircle, FiPlay, FiPause } = FiIcons;
+const { FiUsers, FiDollarSign, FiTrendingUp, FiShield, FiArrowRight, FiCheckCircle, FiPlay, FiPause, FiAward, FiMapPin } = FiIcons;
 
 const Home = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
@@ -20,7 +20,7 @@ const Home = () => {
       description: "Discover our financial services and community"
     },
     {
-      src: "/videos/KADCOS MEMBERSHIP.mp4", 
+      src: "/videos/KADCOS MEMBERSHIP.mp4",
       title: "Membership Benefits",
       description: "Learn about the advantages of joining KADCOS"
     }
@@ -28,19 +28,19 @@ const Home = () => {
 
   const keyBenefits = [
     {
-      icon: FiCheckCircle,
-      title: '17+ Years Experience',
-      description: 'Trusted financial service since 2007.',
+      icon: FiAward,
+      title: '17+ Years of Excellence',
+      description: 'A proven track record of trusted financial service to our community since 2007.',
     },
     {
       icon: FiShield,
       title: 'Secure & Regulated',
-      description: 'Protected under cooperative society framework.',
+      description: 'Fully protected under Uganda\'s cooperative society regulatory framework.',
     },
     {
       icon: FiTrendingUp,
       title: 'Competitive Returns',
-      description: 'Earn up to 2% monthly interest.',
+      description: 'Grow your savings with returns of up to 2% monthly interest.',
     }
   ];
 
@@ -49,6 +49,12 @@ const Home = () => {
     { number: '17+', label: 'Years of Service' },
     { number: '4', label: 'Parish Branches' },
     { number: '2%', label: 'Monthly Interest' },
+  ];
+
+  const trustPoints = [
+    { icon: FiShield, text: 'Regulated SACCO' },
+    { icon: FiUsers, text: '1,700+ Members' },
+    { icon: FiMapPin, text: '4 Parish Branches' },
   ];
 
   // Array of partner logos using local images from public/images folder
@@ -67,7 +73,7 @@ const Home = () => {
 
   const handleVideoEnd = () => {
     // When video ends, move to next video
-    setCurrentVideoIndex((prevIndex) => 
+    setCurrentVideoIndex((prevIndex) =>
       prevIndex === videos.length - 1 ? 0 : prevIndex + 1
     );
     // Reset playing state for next video
@@ -107,69 +113,89 @@ const Home = () => {
     <div className="min-h-screen font-urbanist">
       <SEOHead page="home" />
       <InterestWidget />
-      
-      {/* Hero Section - Merged background with navbar */}
-      <section className="bg-[#035D75] pt-32 pb-16"> {/* Added top padding to account for fixed navbar */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      {/* Hero Section - deep corporate navy with subtle brand accents */}
+      <section className="relative bg-secondary pt-36 pb-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-secondary via-[#0F2240] to-[#0A1930]"></div>
+        {/* Subtle decorative glows */}
+        <div className="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-primary opacity-[0.12] rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-96 bg-primary opacity-[0.08] rounded-full blur-3xl"></div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-4xl lg:text-6xl font-bold text-secondary mb-6 font-arthelo">
-                Your Trusted <span className="text-white font-urbanist">Financial Partner</span>
+              <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold tracking-widest uppercase text-[#7FD0EA] bg-primary/10 border border-primary/30 rounded-full px-4 py-2 mb-6">
+                Savings &amp; Credit Co-operative &bull; Est. 2007
+              </span>
+              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Your Trusted <span className="text-[#5BC0DE]">Financial Partner</span>
               </h1>
-              <p className="text-xl text-gray-800 mb-8 font-marcellus leading-relaxed">
-                Financially empowering people through cooperative effort and savings culture since 2007.
+              <p className="text-lg lg:text-xl text-slate-300 mb-10 leading-relaxed max-w-xl">
+                Financially empowering people through cooperative effort and a strong savings culture since 2007.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 mb-10">
                 <Link
                   to="/membership"
-                  className="bg-secondary text-white px-8 py-4 rounded-full font-marcellus hover:bg-blue-800 transition-colors duration-300 text-center"
+                  className="inline-flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold shadow-lg shadow-primary/25 hover:bg-[#1B6E8A] transition-colors duration-300 text-center"
                 >
-                  Become a Member
+                  <span>Become a Member</span>
+                  <SafeIcon icon={FiArrowRight} />
                 </Link>
                 <Link
                   to="/services"
-                  className="border-2 border-secondary text-secondary px-8 py-4 rounded-full font-marcellus hover:bg-secondary hover:text-white transition-colors duration-300 text-center"
+                  className="inline-flex items-center justify-center border border-white/30 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-300 text-center"
                 >
-                  Our Services
+                  Explore Our Services
                 </Link>
+              </div>
+              {/* Trust indicators */}
+              <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-white/10 pt-6">
+                {trustPoints.map((point, index) => (
+                  <div key={index} className="flex items-center gap-2 text-slate-300 text-sm">
+                    <SafeIcon icon={point.icon} className="text-[#5BC0DE]" />
+                    <span>{point.text}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex justify-center"
+              className="hidden lg:flex justify-center"
             >
-              <img 
-                src="/images/KADCOS-02.png"
-                alt="KADCOS Logo" 
-                className="h-64 w-auto"
-              />
+              <div className="bg-white/[0.06] border border-white/10 rounded-2xl p-12 backdrop-blur-sm shadow-2xl">
+                <img
+                  src="/images/KADCOS-02.png"
+                  alt="KADCOS Logo"
+                  className="h-56 w-auto"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* Stats Band - elevated card overlapping the hero */}
+      <section className="relative z-20 -mt-16 pb-6 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-gray-100">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
+                className="text-center py-10 px-4"
               >
-                <h3 className="text-3xl lg:text-4xl font-bold text-primary mb-2 font-marcellus">
+                <h3 className="text-3xl lg:text-4xl font-bold text-secondary mb-2">
                   {stat.number}
                 </h3>
-                <p className="text-gray-600 font-marcellus">{stat.label}</p>
+                <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-gray-500">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -185,9 +211,11 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-arthelo">
+            <span className="text-primary text-sm font-semibold tracking-widest uppercase">Why KADCOS</span>
+            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mt-3 mb-4">
               Why Choose KADCOS Lubaga Co-operative Society?
             </h2>
+            <div className="w-16 h-1 bg-primary mx-auto rounded-full"></div>
           </motion.div>
 
           {/* Split Layout */}
@@ -200,8 +228,8 @@ const Home = () => {
               className="space-y-6"
             >
               {/* Video Player */}
-              <div className="relative rounded-xl overflow-hidden shadow-lg bg-black">
-                <video 
+              <div className="relative rounded-2xl overflow-hidden shadow-lg bg-black ring-1 ring-gray-200">
+                <video
                   ref={videoRef}
                   key={videos[currentVideoIndex].src}
                   className="w-full h-auto max-h-96 object-cover"
@@ -214,21 +242,21 @@ const Home = () => {
                   <source src={videos[currentVideoIndex].src} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
-                
+
                 {/* Video Controls */}
                 <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
                   <button
                     onClick={togglePlayPause}
-                    className="bg-primary bg-opacity-80 hover:bg-opacity-100 text-white p-2 rounded-full transition-all duration-300"
+                    className="bg-primary bg-opacity-90 hover:bg-opacity-100 text-white p-2.5 rounded-full shadow-md transition-all duration-300"
                   >
-                    {isPlaying ? 
-                      <SafeIcon icon={FiPause} className="text-lg" /> : 
+                    {isPlaying ?
+                      <SafeIcon icon={FiPause} className="text-lg" /> :
                       <SafeIcon icon={FiPlay} className="text-lg" />
                     }
                   </button>
-                  
+
                   <div className="bg-black bg-opacity-60 text-white px-3 py-1 rounded-full">
-                    <span className="text-sm font-marcellus">
+                    <span className="text-sm">
                       {currentVideoIndex + 1} / {videos.length}
                     </span>
                   </div>
@@ -241,37 +269,31 @@ const Home = () => {
                   <button
                     key={index}
                     onClick={() => handleVideoSelect(index)}
-                    className={`flex flex-col items-center p-3 rounded-lg transition-all duration-300 ${
-                      index === currentVideoIndex 
-                        ? 'bg-primary text-white' 
-                        : 'bg-white text-gray-700 hover:bg-gray-100'
+                    className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                      index === currentVideoIndex
+                        ? 'bg-secondary text-white shadow-md'
+                        : 'bg-white text-gray-600 border border-gray-200 hover:border-primary hover:text-primary'
                     }`}
                   >
-                    <div className="w-3 h-3 rounded-full bg-current mb-2"></div>
-                    <span className="text-sm font-marcellus whitespace-nowrap">
-                      {video.title}
-                    </span>
+                    {video.title}
                   </button>
                 ))}
               </div>
 
               {/* Current Video Info */}
               <div className="text-center">
-                <h3 className="text-xl font-marcellus text-secondary mb-2">
-                  {videos[currentVideoIndex].title}
-                </h3>
-                <p className="text-gray-600 font-marcellus">
+                <p className="text-gray-500 text-sm">
                   {videos[currentVideoIndex].description}
                 </p>
               </div>
             </motion.div>
 
-            {/* Right: Minimalist Benefits */}
+            {/* Right: Benefits */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-8"
+              className="space-y-6"
             >
               {keyBenefits.map((benefit, index) => (
                 <motion.div
@@ -279,16 +301,16 @@ const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="flex items-start space-x-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                  className="flex items-start space-x-5 p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
                 >
-                  <div className="bg-primary bg-opacity-10 p-3 rounded-full flex-shrink-0">
+                  <div className="bg-primary/10 p-3.5 rounded-lg flex-shrink-0">
                     <SafeIcon icon={benefit.icon} className="text-primary text-xl" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-marcellus text-secondary mb-2">
+                    <h3 className="text-lg font-bold text-secondary mb-1.5">
                       {benefit.title}
                     </h3>
-                    <p className="text-gray-600 font-marcellus leading-relaxed">
+                    <p className="text-gray-600 leading-relaxed text-[15px]">
                       {benefit.description}
                     </p>
                   </div>
@@ -300,11 +322,11 @@ const Home = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="text-center pt-4"
+                className="pt-2"
               >
                 <Link
                   to="/about"
-                  className="inline-flex items-center space-x-2 bg-secondary text-white px-6 py-3 rounded-full font-marcellus hover:bg-blue-800 transition-colors duration-300"
+                  className="inline-flex items-center space-x-2 text-primary font-semibold hover:text-secondary transition-colors duration-300"
                 >
                   <span>Learn More About Us</span>
                   <SafeIcon icon={FiArrowRight} />
@@ -315,8 +337,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Logo Carousel Section - Moved to bottom */}
-      <section className="py-12 bg-white">
+      {/* Logo Carousel Section */}
+      <section className="py-16 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -324,32 +346,32 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-urbanist">
-              Our Partners
-            </h2>
+            <span className="text-sm font-semibold tracking-widest uppercase text-gray-400">
+              Trusted By &amp; Working With Leading Institutions
+            </span>
           </motion.div>
-          
+
           {/* Carousel Container - Fixed for seamless looping */}
           <div className="relative w-full overflow-hidden">
             <div className="flex animate-scroll">
               {/* Combine original and duplicated logos in a single continuous flex container */}
               {[...partnerLogos, ...partnerLogos].map((logo, index) => (
                 <div key={index} className="flex-shrink-0 px-8">
-                  <img 
-                    src={logo} 
-                    alt={`Partner ${index % partnerLogos.length + 1}`} 
-                    className="h-12 w-auto opacity-80 hover:opacity-100 transition-opacity duration-300 object-contain"
+                  <img
+                    src={logo}
+                    alt={`Partner ${index % partnerLogos.length + 1}`}
+                    className="h-12 w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 object-contain"
                   />
                 </div>
               ))}
             </div>
-            
+
             {/* Gradient fade effects */}
             <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent"></div>
             <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent"></div>
           </div>
         </div>
-        
+
         {/* Animation styles for seamless looping */}
         <style>{`
           @keyframes scroll {
@@ -377,26 +399,36 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-secondary text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative py-24 bg-secondary text-white overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-secondary via-[#0F2240] to-[#0A1930]"></div>
+        <div className="absolute -top-24 right-1/4 w-96 h-96 bg-primary opacity-10 rounded-full blur-3xl"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6 font-marcellus">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
               Ready to Join Our Community?
             </h2>
-            <p className="text-xl text-gray-300 mb-8 font-marcellus max-w-3xl mx-auto">
+            <p className="text-lg lg:text-xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed">
               Start your journey towards financial empowerment with KADCOS. Join over 1,700 members who trust us with their financial future.
             </p>
-            <Link
-              to="/membership"
-              className="inline-flex items-center space-x-2 bg-primary text-secondary px-8 py-4 rounded-full font-arthelo hover:bg-orange-500 transition-colors duration-300"
-            >
-              <span className="font-arthelo">Get Started Today</span>
-              <SafeIcon icon={FiArrowRight} className="font-arthelo" />
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/membership"
+                className="inline-flex items-center justify-center space-x-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold shadow-lg shadow-primary/25 hover:bg-[#1B6E8A] transition-colors duration-300"
+              >
+                <span>Get Started Today</span>
+                <SafeIcon icon={FiArrowRight} />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center border border-white/30 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-300"
+              >
+                Talk to Our Team
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
