@@ -96,3 +96,27 @@ Verified against the live site (kadcoslubaga.co.ug):
 5. Share admin@kadcoslubaga.co.ug credentials with Amos privately (phone/WhatsApp).
 6. Zukuka Tukole loan: still absent from `cms_services.json` — add via Admin → Services once step 3 is done, or send me the product details (interest rate, max period, requirements) and I'll commit it directly.
 7. Resources still have no attached files (`fileUrl` count: 0) — re-upload via Admin → Content Management → Resources after step 3.
+
+---
+
+## Vercel migration — 3 Jul 2026 (site moving from Netlify to Vercel)
+
+The serverless functions have been ported to Vercel's `api/` directory (commit `c382482`): `api/commit-json.js`, `api/upload-image.js`, `api/send-application-email.js`. The frontend now calls `/api/...` instead of `/.netlify/functions/...` (a redirect in `netlify.toml` keeps Netlify working too, if ever needed). `vercel.json` already handles the SPA rewrites; on Vercel, static files and `/api` functions take precedence over the catch-all rewrite, so videos and `/data/*.json` are safe.
+
+### Vercel setup steps (do in this order)
+
+1. **Push:** `git push` (repo is ahead of origin).
+2. **Create the project:** vercel.com → Add New → Project → Import `marksemakula/kadcos2025`. Framework preset: Vite. Build command and output dir are read from `vercel.json` automatically.
+3. **Environment variables** (Project → Settings → Environment Variables, apply to Production + Preview):
+   - `GITHUB_TOKEN` — GitHub → Settings → Developer settings → Fine-grained tokens → new token, repository access: only `kadcos2025`, permission: Contents = Read and write.
+   - `GITHUB_REPO` = `marksemakula/kadcos2025`
+   - `GITHUB_BRANCH` = `main`
+   - `SMTP_HOST`, `SMTP_PORT` (587), `SMTP_USER`, `SMTP_PASS` — the MXroute mailbox credentials (e.g. noreply@kadcoslubaga.co.ug).
+   - No build hook needed: CMS saves commit to GitHub, and the Git-connected Vercel project redeploys automatically on every commit.
+4. **Redeploy** after adding env vars (Deployments → ⋯ → Redeploy) — env vars only apply to new deployments.
+5. **Domain:** Project → Settings → Domains → add `kadcoslubaga.co.ug` and `www.kadcoslubaga.co.ug`. Then at the DNS provider for the domain, set the records Vercel shows (A record `76.76.21.21` for the apex, CNAME `cname.vercel-dns.com` for www). Until DNS is switched, the site keeps serving from Netlify.
+6. **Test on the vercel.app URL first** (before switching DNS): videos on Home, a CMS save in Admin (should say "committed and deploy triggered"), a resource upload + download, a test leadership application with a small PDF (< 4MB).
+
+### Netlify functions folder
+
+`netlify/functions/` is kept for fallback. `mxroute-auth.js` / `mxroute-proxy.js` are not called by the frontend and were not ported.
