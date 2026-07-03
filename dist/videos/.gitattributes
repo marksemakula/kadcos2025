@@ -1,3 +1,1 @@
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-KADCOS[[:space:]]HOME[[:space:]]PAGE.mp4 filter=lfs diff=lfs merge=lfs -text
-KADCOS[[:space:]]MEMBERSHIP.mp4 filter=lfs diff=lfs merge=lfs -text
+# LFS tracking disabled: real mp4 files are committed directly (see public/videos/.gitattributes)
