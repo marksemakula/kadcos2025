@@ -114,12 +114,11 @@ const Home = () => {
       <SEOHead page="home" />
       <InterestWidget />
 
-      {/* Hero Section - deep corporate navy with subtle brand accents */}
-      <section className="relative bg-secondary pt-36 pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-secondary via-[#0F2240] to-[#0A1930]"></div>
-        {/* Subtle decorative glows */}
-        <div className="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-primary opacity-[0.12] rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-96 bg-primary opacity-[0.08] rounded-full blur-3xl"></div>
+      {/* Hero Section - original brand teal with corporate refinements */}
+      <section className="relative bg-[#035D75] pt-36 pb-32 overflow-hidden">
+        {/* Subtle decorative glows for depth */}
+        <div className="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-white opacity-[0.06] rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 left-1/4 w-96 h-96 bg-black opacity-[0.10] rounded-full blur-3xl"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -128,35 +127,35 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold tracking-widest uppercase text-[#7FD0EA] bg-primary/10 border border-primary/30 rounded-full px-4 py-2 mb-6">
+              <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold tracking-widest uppercase text-white bg-white/10 border border-white/25 rounded-full px-4 py-2 mb-6">
                 Savings &amp; Credit Co-operative &bull; Est. 2007
               </span>
-              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                Your Trusted <span className="text-[#5BC0DE]">Financial Partner</span>
+              <h1 className="text-4xl lg:text-6xl font-bold text-secondary mb-6 leading-tight">
+                Your Trusted <span className="text-white">Financial Partner</span>
               </h1>
-              <p className="text-lg lg:text-xl text-slate-300 mb-10 leading-relaxed max-w-xl">
+              <p className="text-lg lg:text-xl text-gray-100 mb-10 leading-relaxed max-w-xl">
                 Financially empowering people through cooperative effort and a strong savings culture since 2007.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-10">
                 <Link
                   to="/membership"
-                  className="inline-flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold shadow-lg shadow-primary/25 hover:bg-[#1B6E8A] transition-colors duration-300 text-center"
+                  className="inline-flex items-center justify-center gap-2 bg-secondary text-white px-8 py-4 rounded-lg font-semibold shadow-lg shadow-black/20 hover:bg-blue-900 transition-colors duration-300 text-center"
                 >
                   <span>Become a Member</span>
                   <SafeIcon icon={FiArrowRight} />
                 </Link>
                 <Link
                   to="/services"
-                  className="inline-flex items-center justify-center border border-white/30 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-300 text-center"
+                  className="inline-flex items-center justify-center border border-white/40 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-300 text-center"
                 >
                   Explore Our Services
                 </Link>
               </div>
               {/* Trust indicators */}
-              <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-white/10 pt-6">
+              <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-white/20 pt-6">
                 {trustPoints.map((point, index) => (
-                  <div key={index} className="flex items-center gap-2 text-slate-300 text-sm">
-                    <SafeIcon icon={point.icon} className="text-[#5BC0DE]" />
+                  <div key={index} className="flex items-center gap-2 text-gray-100 text-sm">
+                    <SafeIcon icon={point.icon} className="text-white" />
                     <span>{point.text}</span>
                   </div>
                 ))}
@@ -168,13 +167,11 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="hidden lg:flex justify-center"
             >
-              <div className="bg-white/[0.06] border border-white/10 rounded-2xl p-12 backdrop-blur-sm shadow-2xl">
-                <img
-                  src="/images/KADCOS-02.png"
-                  alt="KADCOS Logo"
-                  className="h-56 w-auto"
-                />
-              </div>
+              <img
+                src="/images/KADCOS-02.png"
+                alt="KADCOS Logo"
+                className="h-[28rem] max-w-full w-auto drop-shadow-2xl"
+              />
             </motion.div>
           </div>
         </div>
