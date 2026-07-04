@@ -137,8 +137,9 @@
     {
       "id": 3,
       "title": "Flexible Withdrawals",
-      "description": "Access your savings when you need them (minimum balance: 20,000 UGX)",
-      "icon": "FiClock"
+      "description": "Access your savings when you need them (a minimum balance: 20,000 UGX)",
+      "icon": "FiClock",
+      "updatedAt": "2026-07-04T05:27:40.494Z"
     }
   ]
 }
