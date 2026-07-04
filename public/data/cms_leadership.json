@@ -131,10 +131,11 @@
   {
     "id": 17,
     "name": "Ms. Namugga Maria",
-    "position": "Cashier",
+    "position": "cCashier",
     "image": "",
     "bio": "Manages daily transactions and member accounts.",
-    "category": "management"
+    "category": "management",
+    "updatedAt": "2026-07-04T05:34:06.317Z"
   },
   {
     "id": 18,
