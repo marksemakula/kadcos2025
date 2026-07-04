@@ -158,15 +158,5 @@
     "image": "",
     "bio": "Dedicated to providing exceptional service and support to our members.",
     "category": "management"
-  },
-  {
-    "name": "Admin Testing",
-    "position": "Admin",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1783144560761_Admin_Testing.png",
-    "bio": "manages daily operations ",
-    "category": "management",
-    "id": "1783144563112",
-    "createdAt": "2026-07-04T05:56:03.112Z",
-    "updatedAt": "2026-07-04T05:56:03.112Z"
   }
 ]
