@@ -101,8 +101,7 @@
     "position": "Manager",
     "image": "/images/PatrickDdumba.png",
     "bio": "Business development specialist focused on expanding cooperative services.",
-    "category": "management",
-    "updatedAt": "2026-07-04T05:47:32.444Z"
+    "category": "management"
   },
   {
     "id": 14,
@@ -134,8 +133,7 @@
     "position": "Cashier",
     "image": "",
     "bio": "Manages daily transactions and member accounts.",
-    "category": "management",
-    "updatedAt": "2026-07-04T05:35:55.568Z"
+    "category": "management"
   },
   {
     "id": 18,
@@ -152,5 +150,23 @@
     "image": "",
     "bio": "Provides operational support and maintenance.",
     "category": "management"
+  },
+  {
+    "id": 20,
+    "name": "Ms. Nabagereka Victoria",
+    "position": "Office Attendant/Receptionist",
+    "image": "",
+    "bio": "Dedicated to providing exceptional service and support to our members.",
+    "category": "management"
+  },
+  {
+    "name": "Admin Testing",
+    "position": "Admin",
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1783144560761_Admin_Testing.png",
+    "bio": "manages daily operations ",
+    "category": "management",
+    "id": "1783144563112",
+    "createdAt": "2026-07-04T05:56:03.112Z",
+    "updatedAt": "2026-07-04T05:56:03.112Z"
   }
 ]
