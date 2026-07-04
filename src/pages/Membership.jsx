@@ -144,13 +144,14 @@ const Membership = () => {
         ...formData
       }
 
-      // Submit to Google Apps Script Web App
-      const response = await fetch(currentMembership.formUrl, {
+      // Submit via our serverless proxy (avoids browser CORS issues with
+      // script.google.com). Data still lands in the same Google Sheets.
+      const response = await fetch('/api/submit-membership', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: new URLSearchParams(submissionData)
+        body: JSON.stringify(submissionData)
       })
 
       const result = await response.json()

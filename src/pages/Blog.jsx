@@ -1,19 +1,90 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import SEOHead from '../components/SEOHead';
 
-const { FiCalendar, FiUser, FiArrowRight, FiEdit } = FiIcons;
+const { FiCalendar, FiUser, FiArrowRight, FiEdit, FiX, FiSend } = FiIcons;
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showContribute, setShowContribute] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [contribution, setContribution] = useState({
+    name: '',
+    email: '',
+    membership: '',
+    topic: '',
+    summary: ''
+  });
+
+  const handleContributionChange = (field, value) => {
+    setContribution(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleContributionSubmit = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    try {
+      const body = [
+        'New blog contribution proposal from the website:',
+        '',
+        `Name: ${contribution.name}`,
+        `Email: ${contribution.email}`,
+        `Membership number: ${contribution.membership || 'N/A'}`,
+        `Proposed topic/title: ${contribution.topic}`,
+        '',
+        'Summary:',
+        contribution.summary
+      ].join('\n');
+
+      const res = await fetch('/api/send-application-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          applicantName: contribution.name,
+          applicantEmail: contribution.email,
+          subject: `Blog Contribution - ${contribution.topic}`,
+          body
+        })
+      });
+
+      if (res.ok) {
+        toast.success('Thank you! Your contribution proposal has been sent.');
+        setShowContribute(false);
+        setContribution({ name: '', email: '', membership: '', topic: '', summary: '' });
+      } else {
+        toast.error('Could not send your proposal. Please try again later.');
+      }
+    } catch (err) {
+      console.error('Contribution submit failed', err);
+      toast.error('Could not send your proposal. Please try again later.');
+    } finally {
+      setSending(false);
+    }
+  };
 
   useEffect(() => {
     async function loadPosts() {
       try {
-        // Try to fetch blog posts from JSON files
+        // 1) Prefer posts managed via the Admin CMS (committed to /data/cms_blog.json)
+        try {
+          const cmsResp = await fetch('/data/cms_blog.json', { cache: 'no-store' });
+          if (cmsResp.ok) {
+            const cmsPosts = await cmsResp.json();
+            if (Array.isArray(cmsPosts) && cmsPosts.length > 0) {
+              cmsPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+              setPosts(cmsPosts);
+              return;
+            }
+          }
+        } catch (e) {
+          // fall through to legacy sources
+        }
+
+        // 2) Legacy per-article JSON files
         const blogFiles = [
           'understanding-cooperative-banking-in-uganda',
           'the-importance-of-savings-culture-in-faith-communities',
@@ -124,7 +195,8 @@ const Blog = () => {
                     alt={posts[0].title}
                     className="w-full h-96 object-cover rounded-lg shadow-lg"
                     onError={(e) => {
-                      e.target.src = '/images/placeholder-blog.jpg';
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = '/images/placeholder-blog.jpg';
                     }}
                   />
                 </div>
@@ -187,7 +259,8 @@ const Blog = () => {
                   alt={post.title}
                   className="w-full h-48 object-cover"
                   onError={(e) => {
-                    e.target.src = '/images/placeholder-blog.jpg';
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = '/images/placeholder-blog.jpg';
                   }}
                 />
                 <div className="p-6">
@@ -241,16 +314,107 @@ const Blog = () => {
             <p className="text-xl text-gray-300 mb-8 font-marcellus max-w-3xl mx-auto">
               We'd love to feature your success story or insights from your journey with KADCOS. Contact us to contribute to our blog.
             </p>
-            <a
-              href={`mailto:admin@kadcoslubaga.co.ug?cc=kadcoslubaga.sacco@gmail.com&subject=${encodeURIComponent('Blog Contribution - KADCOS Website')}&body=${encodeURIComponent('Hello KADCOS team,\n\nI would like to contribute a story/article to the KADCOS blog.\n\nMy name: \nMembership number (if member): \nProposed topic/title: \nShort summary: \n\nThank you.')}`}
-              className="inline-flex items-center space-x-2 bg-primary text-dark px-8 py-4 rounded-full font-marcellus hover:bg-yellow-600 transition-colors duration-300"
+            <button
+              onClick={() => setShowContribute(true)}
+              className="inline-flex items-center space-x-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#1B6E8A] transition-colors duration-300"
             >
               <SafeIcon icon={FiEdit} />
               <span>Contribute to Blog</span>
-            </a>
+            </button>
           </motion.div>
         </div>
       </section>
+
+      {/* Contribution Form Modal */}
+      {showContribute && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+          >
+            <div className="flex justify-between items-center border-b border-gray-200 px-6 py-4">
+              <h2 className="text-xl font-semibold text-secondary">Contribute to Our Blog</h2>
+              <button
+                onClick={() => setShowContribute(false)}
+                className="text-gray-400 hover:text-gray-600"
+                aria-label="Close"
+              >
+                <SafeIcon icon={FiX} className="text-xl" />
+              </button>
+            </div>
+            <form onSubmit={handleContributionSubmit} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Your Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={contribution.name}
+                  onChange={(e) => handleContributionChange('name', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Your Email *</label>
+                <input
+                  type="email"
+                  required
+                  value={contribution.email}
+                  onChange={(e) => handleContributionChange('email', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Membership Number (if member)</label>
+                <input
+                  type="text"
+                  value={contribution.membership}
+                  onChange={(e) => handleContributionChange('membership', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Proposed Topic / Title *</label>
+                <input
+                  type="text"
+                  required
+                  value={contribution.topic}
+                  onChange={(e) => handleContributionChange('topic', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Short Summary *</label>
+                <textarea
+                  required
+                  rows={4}
+                  value={contribution.summary}
+                  onChange={(e) => handleContributionChange('summary', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Tell us briefly what your story or article is about..."
+                />
+              </div>
+              <div className="flex justify-end space-x-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowContribute(false)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className="inline-flex items-center space-x-2 bg-primary text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#1B6E8A] disabled:opacity-50"
+                >
+                  <SafeIcon icon={FiSend} />
+                  <span>{sending ? 'Sending...' : 'Send Proposal'}</span>
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

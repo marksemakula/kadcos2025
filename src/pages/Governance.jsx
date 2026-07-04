@@ -262,12 +262,14 @@ const Governance = () => {
                   className="bg-white rounded-lg shadow-lg overflow-hidden card-hover text-center"
                 >
                   <div className="h-64 bg-gray-200 overflow-hidden">
-                    <img 
-                      src={member.image} 
+                    <img
+                      src={member.image || '/images/placeholder-profile.jpg'}
                       alt={member.name}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.target.src = '/images/placeholder-profile.jpg';
+                        // Prevent infinite reload loop if the placeholder itself fails
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/images/placeholder-profile.jpg';
                       }}
                     />
                   </div>

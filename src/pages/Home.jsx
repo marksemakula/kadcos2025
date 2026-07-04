@@ -357,7 +357,7 @@ const Home = () => {
                   <img
                     src={logo}
                     alt={`Partner ${index % partnerLogos.length + 1}`}
-                    className="h-12 w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 object-contain"
+                    className="h-12 w-auto opacity-90 hover:opacity-100 transition-opacity duration-300 object-contain"
                   />
                 </div>
               ))}

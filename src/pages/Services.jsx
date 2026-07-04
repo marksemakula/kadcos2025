@@ -363,7 +363,8 @@ const Services = () => {
                 alt="Financial Planning" 
                 className="rounded-lg shadow-lg w-full h-96 object-cover"
                 onError={(e) => {
-                  e.target.src = '/images/placeholder-service.jpg';
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/images/placeholder-service.jpg';
                 }}
               />
             </motion.div>
