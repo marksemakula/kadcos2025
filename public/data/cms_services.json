@@ -13,8 +13,7 @@
         "At least one guarantor",
         "Application letter & form",
         "Collateral for loans above 2.5m"
-      ],
-      "updatedAt": "2026-07-04T06:44:32.054Z"
+      ]
     },
     {
       "id": 2,
@@ -138,8 +137,17 @@
     {
       "id": 3,
       "title": "Flexible Withdrawals",
-      "description": "Access your savings when you need them (minimum balance: 20,000 UGX)",
-      "icon": "FiClock"
+      "description": "Access your savings when you need them (a minimum balance: 20,000 UGX)",
+      "icon": "FiClock",
+      "updatedAt": "2026-07-04T05:27:40.494Z"
+    },
+    {
+      "title": "Mobile banking",
+      "description": "save at you convinience ",
+      "icon": "FiDollarSign",
+      "id": "1783274836294",
+      "createdAt": "2026-07-05T18:07:16.294Z",
+      "updatedAt": "2026-07-05T18:07:16.294Z"
     }
   ]
 }
