@@ -133,8 +133,9 @@
     "id": 19,
     "name": "Ms. Nyago Grace",
     "position": "Support Staff",
-    "image": "",
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1783411081142_Ms._Nyago_Grace.jpg",
     "bio": "Provides operational support and maintenance.",
-    "category": "management"
+    "category": "management",
+    "updatedAt": "2026-07-07T07:58:06.850Z"
   }
 ]
