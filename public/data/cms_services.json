@@ -100,16 +100,17 @@
       "id": 7,
       "title": "Loans in Kind",
       "description": "Capital for business expansion and development (in-kind)",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months",
       "interestRate": "3% per month",
       "icon": "FiCreditCard",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
-        "At least one guarantor",
+        "At least two guarantors",
         "Application letter & form",
         "Collateral for loans above 2.5m"
-      ]
+      ],
+      "updatedAt": "2026-07-07T12:50:47.547Z"
     },
     {
       "id": 8,
