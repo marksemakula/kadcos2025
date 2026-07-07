@@ -37,16 +37,17 @@
       "id": 3,
       "title": "Business Loan",
       "description": "Capital for business expansion and development",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months",
       "interestRate": "2% per month",
       "icon": "FiCreditCard",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
-        "At least one guarantor",
+        "At least two guarantors",
         "Application letter & form",
         "Collateral for loans above 2.5m"
-      ]
+      ],
+      "updatedAt": "2026-07-07T12:40:00.278Z"
     },
     {
       "id": 4,
