@@ -129,13 +129,15 @@
     {
       "title": "Zukuuka Tukole Loan",
       "description": "unique product",
-      "maxPeriod": "6 months",
+      "maxPeriod": "Not exceeding 6 months",
       "interestRate": "1% per month",
       "icon": "FiDollarSign",
-      "requirements": [],
+      "requirements": [
+        ""
+      ],
       "id": "1783412843322",
       "createdAt": "2026-07-07T08:27:23.322Z",
-      "updatedAt": "2026-07-07T08:27:23.322Z"
+      "updatedAt": "2026-07-07T12:48:42.032Z"
     }
   ],
   "savingsFeatures": [
