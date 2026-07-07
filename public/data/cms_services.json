@@ -117,7 +117,7 @@
       "id": 8,
       "title": "Emergency Loan",
       "description": "Quick loans for unexpected expenses",
-      "maxPeriod": "4 months",
+      "maxPeriod": "6 months",
       "interestRate": "3% per month",
       "icon": "FiDollarSign",
       "requirements": [
@@ -127,7 +127,7 @@
         "Application letter & form",
         "Collateral for loans above 2.5m"
       ],
-      "updatedAt": "2026-07-07T12:49:18.630Z"
+      "updatedAt": "2026-07-07T12:55:55.049Z"
     },
     {
       "title": "Zukuuka Tukole Loan",
