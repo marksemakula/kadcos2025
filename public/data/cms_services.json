@@ -85,16 +85,17 @@
       "id": 6,
       "title": "Weekend Loan",
       "description": "Special rates for members",
-      "maxPeriod": "12 months",
+      "maxPeriod": "Not exceeding 2 weeks",
       "interestRate": "1% per week",
       "icon": "FiPercent",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
-        "At least one guarantor",
+        "At least two guarantors",
         "Application letter & form",
         "Collateral for loans above 2.5m"
-      ]
+      ],
+      "updatedAt": "2026-07-07T12:52:26.485Z"
     },
     {
       "id": 7,
