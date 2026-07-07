@@ -4,16 +4,18 @@
       "id": 1,
       "title": "Personal Loan",
       "description": "For home renovation, buying furniture, and personal needs",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months",
       "interestRate": "2% per month",
       "icon": "FiDollarSign",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
-        "At least one guarantor",
+        "At least two guarantor",
         "Application letter & form",
-        "Collateral for loans above 2.5m"
-      ]
+        "Collateral for loans above 2.5m",
+        "LC 1 letter "
+      ],
+      "updatedAt": "2026-07-07T08:46:43.818Z"
     },
     {
       "id": 2,
