@@ -53,16 +53,17 @@
       "id": 4,
       "title": "Agricultural/Farming Loan",
       "description": "Support for agricultural activities and farming",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months with 5 months grace period",
       "interestRate": "2% per month",
       "icon": "FiTrendingUp",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
-        "At least one guarantor",
+        "At least two guarantors",
         "Application letter & form",
         "Collateral for loans above 2.5m"
-      ]
+      ],
+      "updatedAt": "2026-07-07T12:41:01.359Z"
     },
     {
       "id": 5,
