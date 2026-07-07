@@ -69,16 +69,17 @@
       "id": 5,
       "title": "Construction Loan",
       "description": "Financing for construction and building projects",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months",
       "interestRate": "2% per month",
       "icon": "FiTrendingUp",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
-        "At least one guarantor",
+        "At least two guarantors",
         "Application letter & form",
         "Collateral for loans above 2.5m"
-      ]
+      ],
+      "updatedAt": "2026-07-07T12:42:21.976Z"
     },
     {
       "id": 6,
