@@ -21,16 +21,17 @@
       "id": 2,
       "title": "School Fees Loan",
       "description": "Educational financing for your children's future",
-      "maxPeriod": "6 months",
+      "maxPeriod": "9 months",
       "interestRate": "2% per month",
       "icon": "FiClock",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
-        "At least one guarantor",
+        "At least two guarantors",
         "Application letter & form",
         "Collateral for loans above 2.5m"
-      ]
+      ],
+      "updatedAt": "2026-07-07T12:39:18.792Z"
     },
     {
       "id": 3,
