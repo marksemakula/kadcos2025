@@ -4,121 +4,143 @@
       "id": 1,
       "title": "Personal Loan",
       "description": "For home renovation, buying furniture, and personal needs",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months",
       "interestRate": "2% per month",
       "icon": "FiDollarSign",
       "requirements": [
         "Full membership",
-        "Regular savings for at least a period of 3 months",
-        "At least one guarantor who is fully registered and in good standing with the cooperative",
-        "Loan application letter and a fully filled loan application form",
-        "Collateral on loans above 2.5 million"
-      ]
+        "3+ months regular savings",
+        "At least two guarantors",
+        "Application letter & form",
+        "Collateral for loans above 2.5m",
+        "LC 1 letter "
+      ],
+      "updatedAt": "2026-07-07T12:39:29.567Z"
     },
     {
       "id": 2,
       "title": "School Fees Loan",
       "description": "Educational financing for your children's future",
-      "maxPeriod": "6 months",
+      "maxPeriod": "9 months",
       "interestRate": "2% per month",
       "icon": "FiClock",
       "requirements": [
         "Full membership",
-        "Regular savings for at least a period of 3 months",
-        "At least one guarantor who is fully registered and in good standing with the cooperative",
-        "Loan application letter and a fully filled loan application form",
-        "Collateral on loans above 2.5 million"
-      ]
+        "3+ months regular savings",
+        "At least two guarantors",
+        "Application letter & form",
+        "Collateral for loans above 2.5m"
+      ],
+      "updatedAt": "2026-07-07T12:39:18.792Z"
     },
     {
       "id": 3,
       "title": "Business Loan",
       "description": "Capital for business expansion and development",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months",
       "interestRate": "2% per month",
       "icon": "FiCreditCard",
       "requirements": [
         "Full membership",
-        "Regular savings for at least a period of 3 months",
-        "At least one guarantor who is fully registered and in good standing with the cooperative",
-        "Loan application letter and a fully filled loan application form",
-        "Collateral on loans above 2.5 million"
-      ]
+        "3+ months regular savings",
+        "At least two guarantors",
+        "Application letter & form",
+        "Collateral for loans above 2.5m"
+      ],
+      "updatedAt": "2026-07-07T12:40:00.278Z"
     },
     {
       "id": 4,
       "title": "Agricultural/Farming Loan",
       "description": "Support for agricultural activities and farming",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months with 5 months grace period",
       "interestRate": "2% per month",
-      "icon": "FiTrendingUp",
+      "icon": "FiSun",
       "requirements": [
         "Full membership",
-        "Regular savings for at least a period of 3 months",
-        "At least one guarantor who is fully registered and in good standing with the cooperative",
-        "Loan application letter and a fully filled loan application form",
-        "Collateral on loans above 2.5 million"
-      ]
+        "3+ months regular savings",
+        "At least two guarantors",
+        "Application letter & form",
+        "Collateral for loans above 2.5m"
+      ],
+      "updatedAt": "2026-07-07T12:41:01.359Z"
     },
     {
       "id": 5,
       "title": "Construction Loan",
       "description": "Financing for construction and building projects",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months",
       "interestRate": "2% per month",
-      "icon": "FiTrendingUp",
+      "icon": "FiHome",
       "requirements": [
         "Full membership",
-        "Regular savings for at least a period of 3 months",
-        "At least one guarantor who is fully registered and in good standing with the cooperative",
-        "Loan application letter and a fully filled loan application form",
-        "Collateral on loans above 2.5 million"
-      ]
+        "3+ months regular savings",
+        "At least two guarantors",
+        "Application letter & form",
+        "Collateral for loans above 2.5m"
+      ],
+      "updatedAt": "2026-07-07T12:42:21.976Z"
     },
     {
       "id": 6,
       "title": "Weekend Loan",
       "description": "Special rates for members",
-      "maxPeriod": "12 months",
+      "maxPeriod": "Not exceeding 2 weeks",
       "interestRate": "1% per week",
       "icon": "FiPercent",
       "requirements": [
         "Full membership",
-        "Regular savings for at least a period of 3 months",
-        "At least one guarantor who is fully registered and in good standing with the cooperative",
-        "Loan application letter and a fully filled loan application form",
-        "Collateral on loans above 2.5 million"
-      ]
+        "3+ months regular savings",
+        "At least two guarantors",
+        "Application letter & form",
+        "Collateral for loans above 2.5m"
+      ],
+      "updatedAt": "2026-07-07T12:52:26.485Z"
     },
     {
       "id": 7,
       "title": "Loans in Kind",
       "description": "Capital for business expansion and development (in-kind)",
-      "maxPeriod": "12 months",
+      "maxPeriod": "16 months",
       "interestRate": "3% per month",
-      "icon": "FiCreditCard",
+      "icon": "FiGift",
       "requirements": [
         "Full membership",
-        "Regular savings for at least a period of 3 months",
-        "At least one guarantor who is fully registered and in good standing with the cooperative",
-        "Loan application letter and a fully filled loan application form",
-        "Collateral on loans above 2.5 million"
-      ]
+        "3+ months regular savings",
+        "At least two guarantors",
+        "Application letter & form",
+        "Collateral for loans above 2.5m"
+      ],
+      "updatedAt": "2026-07-07T12:50:47.547Z"
     },
     {
       "id": 8,
       "title": "Emergency Loan",
       "description": "Quick loans for unexpected expenses",
-      "maxPeriod": "3 months",
+      "maxPeriod": "6 months",
       "interestRate": "3% per month",
-      "icon": "FiDollarSign",
+      "icon": "FiZap",
       "requirements": [
         "Full membership",
-        "Regular savings for at least a period of 3 months",
-        "At least one guarantor who is fully registered and in good standing with the cooperative",
-        "Loan application letter and a fully filled loan application form",
-        "Collateral on loans above 2.5 million"
-      ]
+        "3+ months regular savings",
+        "At least two guarantors",
+        "Application letter & form",
+        "Collateral for loans above 2.5m"
+      ],
+      "updatedAt": "2026-07-07T12:55:55.049Z"
+    },
+    {
+      "title": "Zukuuka Tukole Loan",
+      "description": "unique product",
+      "maxPeriod": "Not exceeding 6 months",
+      "interestRate": "1% per month",
+      "icon": "FiTrendingUp",
+      "requirements": [
+        ""
+      ],
+      "id": "1783412843322",
+      "createdAt": "2026-07-07T08:27:23.322Z",
+      "updatedAt": "2026-07-07T12:48:42.032Z"
     }
   ],
   "savingsFeatures": [
@@ -137,8 +159,9 @@
     {
       "id": 3,
       "title": "Flexible Withdrawals",
-      "description": "Access your savings when you need them (minimum balance: 20,000 UGX)",
-      "icon": "FiClock"
+      "description": "Access your savings when you need them (a minimum balance: 20,000 UGX)",
+      "icon": "FiClock",
+      "updatedAt": "2026-07-04T05:27:40.494Z"
     }
   ]
 }

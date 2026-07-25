@@ -55,7 +55,7 @@
       "description": "Support for agricultural activities and farming",
       "maxPeriod": "16 months with 5 months grace period",
       "interestRate": "2% per month",
-      "icon": "FiTrendingUp",
+      "icon": "FiSun",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
@@ -71,7 +71,7 @@
       "description": "Financing for construction and building projects",
       "maxPeriod": "16 months",
       "interestRate": "2% per month",
-      "icon": "FiTrendingUp",
+      "icon": "FiHome",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
@@ -103,7 +103,7 @@
       "description": "Capital for business expansion and development (in-kind)",
       "maxPeriod": "16 months",
       "interestRate": "3% per month",
-      "icon": "FiCreditCard",
+      "icon": "FiGift",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
@@ -119,7 +119,7 @@
       "description": "Quick loans for unexpected expenses",
       "maxPeriod": "6 months",
       "interestRate": "3% per month",
-      "icon": "FiDollarSign",
+      "icon": "FiZap",
       "requirements": [
         "Full membership",
         "3+ months regular savings",
@@ -134,7 +134,7 @@
       "description": "unique product",
       "maxPeriod": "Not exceeding 6 months",
       "interestRate": "1% per month",
-      "icon": "FiDollarSign",
+      "icon": "FiTrendingUp",
       "requirements": [
         ""
       ],

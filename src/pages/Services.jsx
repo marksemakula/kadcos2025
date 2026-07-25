@@ -4,7 +4,7 @@ import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import SEOHead from '../components/SEOHead';
 
-const { FiDollarSign, FiCreditCard, FiTrendingUp, FiCalendar, FiPercent, FiClock } = FiIcons;
+const { FiDollarSign, FiCreditCard, FiTrendingUp, FiCalendar, FiPercent, FiClock, FiUsers, FiUserCheck, FiShield, FiBriefcase, FiHome, FiSun, FiZap, FiGift } = FiIcons;
 
 const Services = () => {
   const [servicesData, setServicesData] = useState({
@@ -77,7 +77,7 @@ const Services = () => {
           description: 'Support for agricultural activities and farming',
           maxPeriod: '12 months',
           interestRate: '2% per month',
-          icon: 'FiTrendingUp',
+          icon: 'FiSun',
           requirements: commonRequirements
         },
         {
@@ -86,7 +86,7 @@ const Services = () => {
           description: 'Financing for construction and building projects',
           maxPeriod: '12 months',
           interestRate: '2% per month',
-          icon: 'FiTrendingUp',
+          icon: 'FiHome',
           requirements: commonRequirements
         },
         {
@@ -104,7 +104,7 @@ const Services = () => {
           description: 'Capital for business expansion and development (in-kind)',
           maxPeriod: '12 months',
           interestRate: '3% per month',
-          icon: 'FiCreditCard',
+          icon: 'FiGift',
           requirements: commonRequirements
         },
         {
@@ -113,7 +113,7 @@ const Services = () => {
           description: 'Quick loans for unexpected expenses',
           maxPeriod: '3 months',
           interestRate: '3% per month',
-          icon: 'FiDollarSign',
+          icon: 'FiZap',
           requirements: commonRequirements
         }
       ];
@@ -180,10 +180,16 @@ const Services = () => {
       FiCreditCard,
       FiTrendingUp,
       FiPercent,
-      FiClock
+      FiClock,
+      FiHome,
+      FiSun,
+      FiZap,
+      FiGift
     };
     return iconMap[iconName] || FiDollarSign;
   };
+
+  const badgePalette = ['bg-primary bg-opacity-10 text-primary', 'bg-secondary bg-opacity-10 text-secondary', 'bg-amber-500 bg-opacity-10 text-amber-500', 'bg-emerald-500 bg-opacity-10 text-emerald-500', 'bg-purple-500 bg-opacity-10 text-purple-500'];
 
   return (
     <div className="min-h-screen">
@@ -224,7 +230,7 @@ const Services = () => {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
               {servicesData.savingsFeatures.map((feature, index) => (
                 <motion.div
                   key={feature.id}
@@ -233,8 +239,8 @@ const Services = () => {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="bg-gray-50 p-8 rounded-lg shadow-lg card-hover"
                 >
-                  <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                    <SafeIcon icon={getIconComponent(feature.icon)} className="text-primary text-2xl" />
+                  <div className={`${badgePalette[index % badgePalette.length]} p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6`}>
+                    <SafeIcon icon={getIconComponent(feature.icon)} className="text-2xl" />
                   </div>
                   <h3 className="text-xl font-semibold text-dark mb-4 font-marcellus">
                     {feature.title}
@@ -245,6 +251,23 @@ const Services = () => {
                 </motion.div>
               ))}
             </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="max-w-4xl mx-auto"
+            >
+              <h3 className="text-2xl font-bold text-dark mb-4 font-marcellus text-center">
+                Saving Advice from KADCOS
+              </h3>
+              <div className="rounded-2xl overflow-hidden shadow-lg bg-black ring-1 ring-gray-200">
+                <video controls playsInline className="w-full h-auto max-h-[420px]" preload="metadata">
+                  <source src="/videos/Saving Advice.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </motion.div>
           </div>
         </section>
       )}
@@ -276,8 +299,8 @@ const Services = () => {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="bg-white p-8 rounded-lg shadow-lg card-hover"
                 >
-                  <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                    <SafeIcon icon={getIconComponent(loan.icon)} className="text-primary text-2xl" />
+                  <div className={`${badgePalette[index % badgePalette.length]} p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6`}>
+                    <SafeIcon icon={getIconComponent(loan.icon)} className="text-2xl" />
                   </div>
                   <h3 className="text-xl font-semibold text-dark mb-4 font-marcellus">
                     {loan.title}
@@ -389,27 +412,31 @@ const Services = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {[
-              { title: 'AGM', frequency: 'Once a year' },
-              { title: 'Executive Board', frequency: 'Once a month' },
-              { title: 'Supervisory Board', frequency: 'Once a month' },
-              { title: 'Committees', frequency: 'Once a month' }
-            ].map((meeting, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-gray-800 p-6 rounded-lg text-center"
-              >
-                <div className="bg-primary bg-opacity-10 p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
-                  <SafeIcon icon={FiCalendar} className="text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2 font-marcellus">{meeting.title}</h3>
-                <p className="text-gray-300 font-marcellus">{meeting.frequency}</p>
-              </motion.div>
-            ))}
+              { title: 'AGM', frequency: 'Once a year', icon: FiCalendar },
+              { title: 'Executive Board', frequency: 'Once a month', icon: FiUsers },
+              { title: 'Management', frequency: 'Weekly', icon: FiUserCheck },
+              { title: 'Supervisory Board', frequency: 'Quarterly', icon: FiShield },
+              { title: 'Committees', frequency: 'Once a month', icon: FiBriefcase }
+            ].map((meeting, index) => {
+              const badgeColors = ['bg-primary bg-opacity-10 text-primary', 'bg-secondary bg-opacity-10 text-secondary', 'bg-amber-500 bg-opacity-10 text-amber-500', 'bg-emerald-500 bg-opacity-10 text-emerald-500', 'bg-purple-500 bg-opacity-10 text-purple-500'];
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-gray-800 p-6 rounded-lg text-center"
+                >
+                  <div className={`${badgeColors[index % badgeColors.length]} p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4`}>
+                    <SafeIcon icon={meeting.icon} />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 font-marcellus">{meeting.title}</h3>
+                  <p className="text-gray-300 font-marcellus">{meeting.frequency}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

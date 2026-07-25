@@ -1,1 +1,4 @@
-# LFS tracking disabled: real mp4 files are committed directly (see public/videos/.gitattributes)
+# LFS tracking disabled: Netlify deploys LFS pointer files instead of the real
+# videos, which is why they never played on the live site. The mp4s (12MB, 8MB)
+# are committed as normal git files instead.
+# After pulling this change run:  git add --renormalize public/videos

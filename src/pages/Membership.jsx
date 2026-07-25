@@ -7,21 +7,51 @@ import SEOHead from '../components/SEOHead'
 
 const { FiUser, FiUsers, FiUserPlus, FiCheckCircle } = FiIcons
 
+const BRANCHES = [
+  'Lubaga (Head Office)',
+  'Mt Carmel Busega Parish',
+  'Our Lady of Assumption Buyege Parish',
+  'St Bruno Sserunkuuma Kasenge Parish'
+]
+
+// Uganda NIN: 2 letters followed by 12 alphanumeric characters (14 total).
+// This is a format check only, not a live NIRA lookup.
+const NIN_REGEX = /^[A-Z]{2}[A-Z0-9]{12}$/
+
+const MAX_PHOTO_BYTES = 800 * 1024 // ~800KB per photo, keeps combined email attachments under Vercel's request body limit
+
+const NIN_FIELDS_BY_TYPE = {
+  individual: ['nin'],
+  joint: ['signatory1NIN', 'signatory2NIN'],
+  group: ['signatory1NIN', 'signatory2NIN', 'signatory3NIN']
+}
+
+const PHOTO_KEYS_BY_TYPE = {
+  individual: ['individual'],
+  joint: ['signatory1', 'signatory2'],
+  group: ['signatory1', 'signatory2', 'signatory3']
+}
+
 const Membership = () => {
   const [selectedMembership, setSelectedMembership] = useState('individual')
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [ninErrors, setNinErrors] = useState({})
+  const [photoFiles, setPhotoFiles] = useState({ individual: [], signatory1: [], signatory2: [], signatory3: [] })
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     // Common fields
     branch: '',
     reasonForJoining: '',
-    
-    // Personal Information
-    name: '',
+    district: '',
     village: '',
     subParish: '',
     parish: '',
+    referrerName: '',
+    referrerContact: '',
+
+    // Individual (and applicant-level) personal information
+    name: '',
     nin: '',
     gender: '',
     maritalStatus: '',
@@ -33,44 +63,31 @@ const Membership = () => {
     dependents: '',
     occupation: '',
     educationLevel: '',
-    seminarsAttended: '',
     otherSociety: '',
 
     // Joint Account specific
     jointAccountName: '',
-    jointTelephone1: '',
-    jointTelephone2: '',
-    
+
     // Group Account specific
     registrationNumber: '',
     formationDate: '',
     membersCount: '',
     maleCount: '',
     femaleCount: '',
-    mainOccupation: '',
-    groupEducationLevel: '',
-    groupSeminarsAttended: '',
-    groupOtherSociety: '',
 
-    // Signatories
-    signatory1Name: '',
-    signatory1Signature: '',
-    signatory1Contact: '',
-    signatory1NIN: '',
-    signatory1Email: '',
+    // Signatories (joint uses 1 & 2 with full personal details; group uses 1-3 with the simpler set)
+    signatory1Name: '', signatory1Contact: '', signatory1NIN: '', signatory1Email: '',
+    signatory1Gender: '', signatory1MaritalStatus: '', signatory1DateOfBirth: '', signatory1Religion: '',
+    signatory1Occupation: '', signatory1Whatsapp: '', signatory1Dependents: '', signatory1EducationLevel: '',
 
-    signatory2Name: '',
-    signatory2Signature: '',
-    signatory2Contact: '',
-    signatory2NIN: '',
-    signatory2Email: '',
+    signatory2Name: '', signatory2Contact: '', signatory2NIN: '', signatory2Email: '',
+    signatory2Gender: '', signatory2MaritalStatus: '', signatory2DateOfBirth: '', signatory2Religion: '',
+    signatory2Occupation: '', signatory2Whatsapp: '', signatory2Dependents: '', signatory2EducationLevel: '',
 
-    signatory3Name: '',
-    signatory3Signature: '',
-    signatory3Contact: '',
-    signatory3NIN: '',
-    signatory3Email: ''
-  })
+    signatory3Name: '', signatory3Contact: '', signatory3NIN: '', signatory3Email: ''
+  }
+
+  const [formData, setFormData] = useState(initialFormData)
 
   const membershipOptions = [
     {
@@ -130,14 +147,54 @@ const Membership = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  const handleNINBlur = (fieldName) => {
+    const value = (formData[fieldName] || '').trim().toUpperCase()
+    setFormData(prev => ({ ...prev, [fieldName]: value }))
+    setNinErrors(prev => ({ ...prev, [fieldName]: value.length > 0 && !NIN_REGEX.test(value) }))
+  }
+
+  const handlePhotoChange = (key, e) => {
+    const files = Array.from(e.target.files || [])
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) {
+        toast.error('Please upload image files only for passport photos.')
+        e.target.value = ''
+        return
+      }
+      if (file.size > MAX_PHOTO_BYTES) {
+        toast.error(`${file.name} is larger than 800KB. Please upload a smaller passport photo.`)
+        e.target.value = ''
+        return
+      }
+    }
+    setPhotoFiles(prev => ({ ...prev, [key]: files.slice(0, 2) }))
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // Validate NIN format for every NIN field relevant to the selected form type
+    const relevantNinFields = NIN_FIELDS_BY_TYPE[selectedMembership] || []
+    const newNinErrors = {}
+    let hasNinError = false
+    relevantNinFields.forEach(field => {
+      const value = (formData[field] || '').trim().toUpperCase()
+      const invalid = !NIN_REGEX.test(value)
+      newNinErrors[field] = invalid
+      if (invalid) hasNinError = true
+    })
+    if (hasNinError) {
+      setNinErrors(prev => ({ ...prev, ...newNinErrors }))
+      toast.error('Please enter a valid National ID Number (2 letters followed by 12 letters/numbers) for all required fields.')
+      return
+    }
+
     setIsLoading(true)
 
     try {
       const currentMembership = membershipOptions.find(opt => opt.id === selectedMembership)
-      
-      // Prepare submission data
+
+      // Prepare submission data (photo files are sent separately by email, see below)
       const submissionData = {
         formType: currentMembership.formType,
         timestamp: new Date().toISOString(),
@@ -156,65 +213,60 @@ const Membership = () => {
 
       const result = await response.json()
 
-      if (result.success) {
-        setIsSubmitted(true)
-        toast.success('Application submitted successfully!')
-
-        // Reset form after 3 seconds
-        setTimeout(() => {
-          setIsSubmitted(false)
-          setFormData({
-            branch: '',
-            reasonForJoining: '',
-            name: '',
-            village: '',
-            subParish: '',
-            parish: '',
-            nin: '',
-            gender: '',
-            maritalStatus: '',
-            dateOfBirth: '',
-            religion: '',
-            telephone: '',
-            whatsapp: '',
-            email: '',
-            dependents: '',
-            occupation: '',
-            educationLevel: '',
-            seminarsAttended: '',
-            otherSociety: '',
-            jointAccountName: '',
-            jointTelephone1: '',
-            jointTelephone2: '',
-            registrationNumber: '',
-            formationDate: '',
-            membersCount: '',
-            maleCount: '',
-            femaleCount: '',
-            mainOccupation: '',
-            groupEducationLevel: '',
-            groupSeminarsAttended: '',
-            groupOtherSociety: '',
-            signatory1Name: '',
-            signatory1Signature: '',
-            signatory1Contact: '',
-            signatory1NIN: '',
-            signatory1Email: '',
-            signatory2Name: '',
-            signatory2Signature: '',
-            signatory2Contact: '',
-            signatory2NIN: '',
-            signatory2Email: '',
-            signatory3Name: '',
-            signatory3Signature: '',
-            signatory3Contact: '',
-            signatory3NIN: '',
-            signatory3Email: ''
-          })
-        }, 3000)
-      } else {
+      if (!result.success) {
         throw new Error(result.error || 'Failed to submit application')
       }
+
+      // Passport photos can't go through the text-only sheet submission above
+      // (base64 image data would blow past Google Sheets' cell size limit),
+      // so they're emailed separately if any were attached.
+      const relevantPhotoKeys = PHOTO_KEYS_BY_TYPE[selectedMembership] || []
+      const allPhotos = relevantPhotoKeys.flatMap(key => (photoFiles[key] || []).map(file => ({ key, file })))
+
+      if (allPhotos.length > 0) {
+        try {
+          const attachments = await Promise.all(allPhotos.map(({ key, file }) => new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = () => resolve({ fileName: `${key}_${file.name}`, fileData: reader.result })
+            reader.onerror = reject
+            reader.readAsDataURL(file)
+          })))
+
+          const applicantName = selectedMembership === 'group'
+            ? (formData.registrationNumber || 'Group application')
+            : (formData.name || formData.jointAccountName || 'Applicant')
+
+          const photoResponse = await fetch('/api/send-membership-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              formType: currentMembership.formType,
+              applicantName,
+              branch: formData.branch,
+              attachments
+            })
+          })
+
+          if (!photoResponse.ok) {
+            console.warn('Passport photo email failed, application data was still submitted')
+            toast('Application submitted, but passport photos could not be emailed. Please send them to admin@kadcoslubaga.co.ug.', { icon: '⚠️' })
+          }
+        } catch (photoError) {
+          console.error('Passport photo submission error:', photoError)
+          toast('Application submitted, but passport photos could not be emailed. Please send them to admin@kadcoslubaga.co.ug.', { icon: '⚠️' })
+        }
+      }
+
+      setIsSubmitted(true)
+      toast.success('Application submitted successfully!')
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setIsSubmitted(false)
+        setFormData(initialFormData)
+        setPhotoFiles({ individual: [], signatory1: [], signatory2: [], signatory3: [] })
+        setNinErrors({})
+      }, 3000)
 
     } catch (error) {
       console.error('Error submitting application:', error)
@@ -224,6 +276,50 @@ const Membership = () => {
     }
   }
 
+  const renderNINInput = (fieldName, label = 'National ID Number (NIN) *') => (
+    <div>
+      <label className="block text-gray-700 font-marcellus mb-2">
+        {label}
+      </label>
+      <input
+        type="text"
+        name={fieldName}
+        value={formData[fieldName]}
+        onChange={handleChange}
+        onBlur={() => handleNINBlur(fieldName)}
+        required
+        maxLength={14}
+        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus ${ninErrors[fieldName] ? 'border-red-400' : 'border-gray-300'}`}
+        placeholder="e.g. CM12345678AB"
+      />
+      {ninErrors[fieldName] && (
+        <p className="text-xs text-red-500 mt-1">
+          Enter a valid 14-character Ugandan NIN (2 letters followed by 12 letters/numbers). This checks the format only.
+        </p>
+      )}
+    </div>
+  )
+
+  const renderPassportPhotoInput = (key, label = 'Passport Photo(s)') => (
+    <div>
+      <label className="block text-gray-700 font-marcellus mb-2">
+        {label} <span className="text-gray-400 font-normal">(JPEG/PNG, max 800KB each, up to 2 photos)</span>
+      </label>
+      <input
+        type="file"
+        accept="image/jpeg,image/png"
+        multiple
+        onChange={(e) => handlePhotoChange(key, e)}
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-secondary"
+      />
+      {photoFiles[key]?.length > 0 && (
+        <p className="text-xs text-green-600 mt-1">
+          ✓ {photoFiles[key].map(f => f.name).join(', ')}
+        </p>
+      )}
+    </div>
+  )
+
   const renderFormFields = () => {
     const commonFields = (
       <>
@@ -232,15 +328,18 @@ const Membership = () => {
             <label className="block text-gray-700 font-marcellus mb-2">
               Name of the branch you're joining *
             </label>
-            <input
-              type="text"
+            <select
               name="branch"
               value={formData.branch}
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-              placeholder="Enter branch name"
-            />
+            >
+              <option value="">Select a branch</option>
+              {BRANCHES.map((branch) => (
+                <option key={branch} value={branch}>{branch}</option>
+              ))}
+            </select>
           </div>
 
           <div>
@@ -355,42 +454,25 @@ const Membership = () => {
                 />
               </div>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-gray-700 font-marcellus mb-2">
-                  Main Occupation *
-                </label>
-                <input
-                  type="text"
-                  name="mainOccupation"
-                  value={formData.mainOccupation}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                  placeholder="Main occupation"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-700 font-marcellus mb-2">
-                  Education Level (Most Members) *
-                </label>
-                <input
-                  type="text"
-                  name="groupEducationLevel"
-                  value={formData.groupEducationLevel}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                  placeholder="Education level"
-                />
-              </div>
-            </div>
           </>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div>
+            <label className="block text-gray-700 font-marcellus mb-2">
+              District *
+            </label>
+            <input
+              type="text"
+              name="district"
+              value={formData.district}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+              placeholder="Enter district"
+            />
+          </div>
+
           <div>
             <label className="block text-gray-700 font-marcellus mb-2">
               Village *
@@ -437,12 +519,42 @@ const Membership = () => {
           </div>
         </div>
 
-        {(selectedMembership === 'individual' || selectedMembership === 'joint') && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-gray-700 font-marcellus mb-2">
+              Who introduced you to KADCOS? (Name)
+            </label>
+            <input
+              type="text"
+              name="referrerName"
+              value={formData.referrerName}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+              placeholder="Name of the person who introduced you"
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-marcellus mb-2">
+              Their Contact
+            </label>
+            <input
+              type="tel"
+              name="referrerContact"
+              value={formData.referrerContact}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+              placeholder="Their phone number"
+            />
+          </div>
+        </div>
+
+        {selectedMembership === 'individual' && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-gray-700 font-marcellus mb-2">
-                  Full Name {selectedMembership === 'joint' ? '(Primary)' : ''} *
+                  Full Name *
                 </label>
                 <input
                   type="text"
@@ -455,20 +567,7 @@ const Membership = () => {
                 />
               </div>
 
-              <div>
-                <label className="block text-gray-700 font-marcellus mb-2">
-                  National ID Number (NIN) *
-                </label>
-                <input
-                  type="text"
-                  name="nin"
-                  value={formData.nin}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                  placeholder="Enter NIN"
-                />
-              </div>
+              {renderNINInput('nin')}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -631,123 +730,290 @@ const Membership = () => {
                 />
               </div>
             </div>
+
+            {renderPassportPhotoInput('individual')}
+
+            <div>
+              <label className="block text-gray-700 font-marcellus mb-2">
+                Other Society Memberships
+              </label>
+              <textarea
+                name="otherSociety"
+                value={formData.otherSociety}
+                onChange={handleChange}
+                rows={2}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                placeholder="List any other societies you're a member of"
+              />
+            </div>
           </>
         )}
-
-        <div>
-          <label className="block text-gray-700 font-marcellus mb-2">
-            Development Seminars Attended
-          </label>
-          <textarea
-            name={selectedMembership === 'group' ? 'groupSeminarsAttended' : 'seminarsAttended'}
-            value={selectedMembership === 'group' ? formData.groupSeminarsAttended : formData.seminarsAttended}
-            onChange={handleChange}
-            rows={3}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-            placeholder="List development seminars attended and when"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 font-marcellus mb-2">
-            Other Society Memberships
-          </label>
-          <textarea
-            name={selectedMembership === 'group' ? 'groupOtherSociety' : 'otherSociety'}
-            value={selectedMembership === 'group' ? formData.groupOtherSociety : formData.otherSociety}
-            onChange={handleChange}
-            rows={2}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-            placeholder="List any other societies you're a member of"
-          />
-        </div>
       </>
     )
 
-    const renderSignatories = () => {
-      if (selectedMembership === 'individual') return null
+    const renderJointSignatories = () => (
+      <div className="border-t pt-6 mt-6">
+        <h3 className="text-xl font-bold text-dark mb-2 font-marcellus">
+          Account Signatories
+        </h3>
+        <p className="text-sm text-gray-500 mb-4 font-marcellus">
+          Each signatory's personal details are captured individually below, since signatories may differ in gender, marital status, and other details.
+        </p>
+        <div className="space-y-6">
+          {[1, 2].map((index) => (
+            <div key={index} className="border border-gray-200 p-4 rounded-lg space-y-4">
+              <h4 className="text-lg font-semibold text-dark font-marcellus">
+                Signatory {index}
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    name={`signatory${index}Name`}
+                    value={formData[`signatory${index}Name`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Full name"
+                  />
+                </div>
+                {renderNINInput(`signatory${index}NIN`)}
+              </div>
 
-      const signatoryCount = selectedMembership === 'joint' ? 2 : 3
-      
-      return (
-        <div className="border-t pt-6 mt-6">
-          <h3 className="text-xl font-bold text-dark mb-4 font-marcellus">
-            Account Signatories
-          </h3>
-          <div className="space-y-6">
-            {Array.from({ length: signatoryCount }, (_, index) => (
-              <div key={index} className="border border-gray-200 p-4 rounded-lg">
-                <h4 className="text-lg font-semibold text-dark mb-3 font-marcellus">
-                  Signatory {index + 1}
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-gray-700 font-marcellus mb-2">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      name={`signatory${index + 1}Name`}
-                      value={formData[`signatory${index + 1}Name`]}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                      placeholder="Full name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 font-marcellus mb-2">
-                      National ID Number (NIN) *
-                    </label>
-                    <input
-                      type="text"
-                      name={`signatory${index + 1}NIN`}
-                      value={formData[`signatory${index + 1}NIN`]}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                      placeholder="NIN"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 font-marcellus mb-2">
-                      Contact Number *
-                    </label>
-                    <input
-                      type="tel"
-                      name={`signatory${index + 1}Contact`}
-                      value={formData[`signatory${index + 1}Contact`]}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                      placeholder="Contact number"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 font-marcellus mb-2">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      name={`signatory${index + 1}Email`}
-                      value={formData[`signatory${index + 1}Email`]}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
-                      placeholder="Email address"
-                    />
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Gender *
+                  </label>
+                  <select
+                    name={`signatory${index}Gender`}
+                    value={formData[`signatory${index}Gender`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Marital Status *
+                  </label>
+                  <select
+                    name={`signatory${index}MaritalStatus`}
+                    value={formData[`signatory${index}MaritalStatus`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  >
+                    <option value="">Select Status</option>
+                    <option value="Married">Married</option>
+                    <option value="Single">Single</option>
+                    <option value="Divorced">Divorced</option>
+                    <option value="Widowed">Widowed</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Date of Birth *
+                  </label>
+                  <input
+                    type="date"
+                    name={`signatory${index}DateOfBirth`}
+                    value={formData[`signatory${index}DateOfBirth`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  />
                 </div>
               </div>
-            ))}
-          </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Religion *
+                  </label>
+                  <input
+                    type="text"
+                    name={`signatory${index}Religion`}
+                    value={formData[`signatory${index}Religion`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Religion"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Occupation *
+                  </label>
+                  <input
+                    type="text"
+                    name={`signatory${index}Occupation`}
+                    value={formData[`signatory${index}Occupation`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Occupation"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Contact Number *
+                  </label>
+                  <input
+                    type="tel"
+                    name={`signatory${index}Contact`}
+                    value={formData[`signatory${index}Contact`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Contact number"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    WhatsApp Number
+                  </label>
+                  <input
+                    type="tel"
+                    name={`signatory${index}Whatsapp`}
+                    value={formData[`signatory${index}Whatsapp`]}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="WhatsApp number"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name={`signatory${index}Email`}
+                    value={formData[`signatory${index}Email`]}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Email address"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Number of Dependents *
+                  </label>
+                  <input
+                    type="number"
+                    name={`signatory${index}Dependents`}
+                    value={formData[`signatory${index}Dependents`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Number of dependents"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Education Level *
+                  </label>
+                  <input
+                    type="text"
+                    name={`signatory${index}EducationLevel`}
+                    value={formData[`signatory${index}EducationLevel`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Education level"
+                  />
+                </div>
+              </div>
+
+              {renderPassportPhotoInput(`signatory${index}`, `Signatory ${index} Passport Photo(s)`)}
+            </div>
+          ))}
         </div>
-      )
-    }
+      </div>
+    )
+
+    const renderGroupSignatories = () => (
+      <div className="border-t pt-6 mt-6">
+        <h3 className="text-xl font-bold text-dark mb-4 font-marcellus">
+          Account Signatories
+        </h3>
+        <div className="space-y-6">
+          {[1, 2, 3].map((index) => (
+            <div key={index} className="border border-gray-200 p-4 rounded-lg space-y-4">
+              <h4 className="text-lg font-semibold text-dark mb-3 font-marcellus">
+                Signatory {index}
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    name={`signatory${index}Name`}
+                    value={formData[`signatory${index}Name`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Full name"
+                  />
+                </div>
+                {renderNINInput(`signatory${index}NIN`)}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Contact Number *
+                  </label>
+                  <input
+                    type="tel"
+                    name={`signatory${index}Contact`}
+                    value={formData[`signatory${index}Contact`]}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Contact number"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-marcellus mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name={`signatory${index}Email`}
+                    value={formData[`signatory${index}Email`]}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Email address"
+                  />
+                </div>
+              </div>
+              {renderPassportPhotoInput(`signatory${index}`, `Signatory ${index} Passport Photo(s)`)}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
 
     return (
       <>
         {commonFields}
-        {renderSignatories()}
+        {selectedMembership === 'joint' && renderJointSignatories()}
+        {selectedMembership === 'group' && renderGroupSignatories()}
       </>
     )
   }
@@ -842,15 +1108,15 @@ const Membership = () => {
                 onClick={() => setSelectedMembership(option.id)}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <SafeIcon 
-                    icon={option.icon} 
+                  <SafeIcon
+                    icon={option.icon}
                     className={`text-2xl ${
                       selectedMembership === option.id ? 'text-dark' : 'text-primary'
-                    }`} 
+                    }`}
                   />
                   <div className={`w-6 h-6 rounded-full border-2 ${
-                    selectedMembership === option.id 
-                      ? 'bg-dark border-dark' 
+                    selectedMembership === option.id
+                      ? 'bg-dark border-dark'
                       : 'border-gray-300'
                   } flex items-center justify-center`}>
                     {selectedMembership === option.id && (
@@ -899,7 +1165,7 @@ const Membership = () => {
                   </h3>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {renderFormFields()}
-                    
+
                     <button
                       type="submit"
                       disabled={isLoading}
@@ -976,9 +1242,9 @@ const Membership = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex justify-center"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                alt="Community Members" 
+              <img
+                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="Community Members"
                 className="rounded-lg shadow-lg w-full h-96 object-cover"
               />
             </motion.div>

@@ -15,6 +15,7 @@ const Contact = () => {
     message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -23,16 +24,32 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Create mailto link
-    const mailtoLink = `mailto:kadcoslubaga.sacco@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`)}`;
-    
-    window.location.href = mailtoLink;
-    
+    setIsSending(true);
+
+    try {
+      const response = await fetch('/api/send-contact-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Contact form send failed, falling back to mailto:', error);
+      // Fallback: open the user's own email client so the message is never lost
+      const mailtoLink = `mailto:admin@kadcoslubaga.co.ug?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`)}`;
+      window.location.href = mailtoLink;
+    } finally {
+      setIsSending(false);
+    }
+
     setIsSubmitted(true);
-    
+
     // Reset form after 3 seconds
     setTimeout(() => {
       setIsSubmitted(false);
@@ -56,14 +73,8 @@ const Contact = () => {
     {
       icon: FiMail,
       title: 'Email Address',
-      details: ['kadcoslubaga.sacco@gmail.com'],
-      link: 'mailto:kadcoslubaga.sacco@gmail.com'
-    },
-    {
-      icon: FiMapPin,
-      title: 'Lubaga Cathedral',
-      details: ['Administrative building', '+256 200 959838', '+256 783 077661', '+256 701 763688'],
-      link: '#'
+      details: ['admin@kadcoslubaga.co.ug', 'kadcoslubaga.sacco@gmail.com'],
+      link: 'mailto:admin@kadcoslubaga.co.ug'
     },
     {
       icon: FiClock,
@@ -129,30 +140,34 @@ const Contact = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            {contactInfo.map((info, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-gray-50 p-8 rounded-lg shadow-lg card-hover text-center"
-              >
-                <div className="bg-primary bg-opacity-10 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                  <SafeIcon icon={info.icon} className="text-primary text-2xl" />
-                </div>
-                <h3 className="text-xl font-semibold text-dark mb-4 font-marcellus">
-                  {info.title}
-                </h3>
-                <div className="space-y-2">
-                  {info.details.map((detail, idx) => (
-                    <p key={idx} className="text-gray-600 font-marcellus">
-                      {detail}
-                    </p>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {contactInfo.map((info, index) => {
+              const badgeColors = ['bg-primary bg-opacity-10 text-primary', 'bg-secondary bg-opacity-10 text-secondary', 'bg-amber-500 bg-opacity-10 text-amber-600'];
+              const badgeClass = badgeColors[index % badgeColors.length];
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-gray-50 p-8 rounded-lg shadow-lg card-hover text-center"
+                >
+                  <div className={`${badgeClass} p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6`}>
+                    <SafeIcon icon={info.icon} className="text-2xl" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-dark mb-4 font-marcellus">
+                    {info.title}
+                  </h3>
+                  <div className="space-y-2">
+                    {info.details.map((detail, idx) => (
+                      <p key={idx} className="text-gray-600 font-marcellus">
+                        {detail}
+                      </p>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Branch Locations */}
@@ -304,9 +319,10 @@ const Contact = () => {
 
                   <button
                     type="submit"
-                    className="w-full bg-primary text-dark py-4 rounded-lg font-marcellus font-semibold hover:bg-yellow-600 transition-colors duration-300 flex items-center justify-center space-x-2"
+                    disabled={isSending}
+                    className="w-full bg-primary text-dark py-4 rounded-lg font-marcellus font-semibold hover:bg-yellow-600 transition-colors duration-300 flex items-center justify-center space-x-2 disabled:opacity-50"
                   >
-                    <span>Send Message</span>
+                    <span>{isSending ? 'Sending...' : 'Send Message'}</span>
                     <SafeIcon icon={FiSend} />
                   </button>
                 </form>
@@ -329,44 +345,19 @@ const Contact = () => {
               )}
             </motion.div>
 
-            {/* Manager Info and Map */}
+            {/* Office Location */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-8"
             >
-              {/* Manager Info */}
-              <div className="bg-white p-8 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-bold text-dark mb-6 font-marcellus">
-                  Society Manager
-                </h3>
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="bg-primary bg-opacity-10 p-3 rounded-full">
-                    <SafeIcon icon={FiUser} className="text-primary text-xl" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-dark font-marcellus">Ddumba Patrick</h4>
-                    <p className="text-gray-600 font-marcellus">Manager</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <SafeIcon icon={FiPhone} className="text-primary" />
-                    <span className="text-gray-600 font-marcellus">+256 783 077661</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <SafeIcon icon={FiMail} className="text-primary" />
-                    <span className="text-gray-600 font-marcellus">kadcoslubaga.sacco@gmail.com</span>
-                  </div>
-                </div>
-              </div>
 
               {/* Office Image */}
               <div className="bg-white p-4 rounded-lg shadow-lg">
-                <img 
-                  src="/images/kadcos_lubaga_co_operative_society_cover.jpeg" 
-                  alt="KADCOS Office" 
+                <img
+                  src="/images/kadcos_office_meeting_1.jpg"
+                  alt="KADCOS Office"
                   className="w-full h-64 object-cover rounded-lg"
                 />
                 <p className="text-center text-gray-600 font-marcellus mt-4">

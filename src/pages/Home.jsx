@@ -23,7 +23,19 @@ const Home = () => {
       src: "/videos/KADCOS MEMBERSHIP.mp4",
       title: "Membership Benefits",
       description: "Learn about the advantages of joining KADCOS"
+    },
+    {
+      src: "/videos/KADCOS NEWS STORY.mp4",
+      title: "KADCOS News Story",
+      description: "See KADCOS in the news and in the community"
     }
+  ];
+
+  const communityPhotos = [
+    { src: '/images/kadcos_community_1.jpg', caption: 'Annual General Meeting' },
+    { src: '/images/kadcos_office_meeting_2.jpg', caption: 'Community outreach' },
+    { src: '/images/kadcos_office_meeting_5.jpg', caption: 'Partner events' },
+    { src: '/images/kadcos_community_3.jpg', caption: 'Member engagement' }
   ];
 
   const keyBenefits = [
@@ -114,64 +126,87 @@ const Home = () => {
       <SEOHead page="home" />
       <InterestWidget />
 
-      {/* Hero Section - original brand teal with corporate refinements */}
-      <section className="relative bg-[#035D75] pt-36 pb-32 overflow-hidden">
-        {/* Subtle decorative glows for depth */}
-        <div className="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-white opacity-[0.06] rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 left-1/4 w-96 h-96 bg-black opacity-[0.10] rounded-full blur-3xl"></div>
+      {/* Hero Section - full-bleed photographic hero with editorial overlay */}
+      <section className="relative min-h-[100svh] lg:min-h-screen flex items-center overflow-hidden">
+        {/* Full-bleed background photo */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/kadcos_office_meeting_5.jpg"
+            alt="KADCOS Lubaga Cooperative Society members"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04222c] via-[#04222c]/85 to-[#0B3A4A]/50"></div>
+          <div className="absolute inset-0 bg-black/25"></div>
+        </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-20 lg:py-0">
+          <div className="max-w-2xl">
+            <motion.span
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="inline-block text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-white/85 border-b border-primary pb-2 mb-8"
             >
-              <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold tracking-widest uppercase text-white bg-white/10 border border-white/25 rounded-full px-4 py-2 mb-6">
-                Savings &amp; Credit Co-operative &bull; Est. 2007
-              </span>
-              <h1 className="text-4xl lg:text-6xl font-bold text-secondary mb-6 leading-tight">
-                Your Trusted <span className="text-white">Financial Partner</span>
-              </h1>
-              <p className="text-lg lg:text-xl text-gray-100 mb-10 leading-relaxed max-w-xl">
-                Financially empowering people through cooperative effort and a strong savings culture since 2007.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 mb-10">
-                <Link
-                  to="/membership"
-                  className="inline-flex items-center justify-center gap-2 bg-secondary text-white px-8 py-4 rounded-lg font-semibold shadow-lg shadow-black/20 hover:bg-blue-900 transition-colors duration-300 text-center"
-                >
-                  <span>Become a Member</span>
+              Savings &amp; Credit Co-operative &bull; Est. 2007
+            </motion.span>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="text-5xl lg:text-7xl font-bold text-white leading-[1.05] mb-6"
+            >
+              Your Trusted<br />
+              <span className="font-marcellus text-white">Financial Partner</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.45 }}
+              className="text-lg lg:text-xl text-gray-200 mb-10 leading-relaxed max-w-lg"
+            >
+              Financially empowering people through cooperative effort and a strong savings culture since 2007.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 mb-10"
+            >
+              <Link
+                to="/membership"
+                className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-lg bg-secondary px-8 py-4 font-semibold text-white shadow-lg shadow-black/30 text-center"
+              >
+                <span className="absolute inset-0 origin-left scale-x-0 bg-primary transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                <span className="relative flex items-center gap-2">
+                  Become a Member
                   <SafeIcon icon={FiArrowRight} />
-                </Link>
-                <Link
-                  to="/services"
-                  className="inline-flex items-center justify-center border border-white/40 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-300 text-center"
-                >
-                  Explore Our Services
-                </Link>
-              </div>
-              {/* Trust indicators */}
-              <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-white/20 pt-6">
-                {trustPoints.map((point, index) => (
-                  <div key={index} className="flex items-center gap-2 text-gray-100 text-sm">
-                    <SafeIcon icon={point.icon} className="text-white" />
-                    <span>{point.text}</span>
-                  </div>
-                ))}
-              </div>
+                </span>
+              </Link>
+              <Link
+                to="/services"
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded-lg border border-white/40 px-8 py-4 font-semibold text-white text-center"
+              >
+                <span className="absolute inset-0 origin-left scale-x-0 bg-white/15 transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                <span className="relative">Explore Our Services</span>
+              </Link>
             </motion.div>
+
+            {/* Trust indicators */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="hidden lg:flex justify-center"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.75 }}
+              className="flex flex-wrap gap-x-8 gap-y-3 border-t border-white/20 pt-6"
             >
-              <img
-                src="/images/KADCOS-02.png"
-                alt="KADCOS Logo"
-                className="h-[28rem] max-w-full w-auto drop-shadow-2xl"
-              />
+              {trustPoints.map((point, index) => (
+                <div key={index} className="flex items-center gap-2 text-gray-100 text-sm">
+                  <SafeIcon icon={point.icon} className="text-white" />
+                  <span>{point.text}</span>
+                </div>
+              ))}
             </motion.div>
           </div>
         </div>
@@ -180,7 +215,8 @@ const Home = () => {
       {/* Stats Band - elevated card overlapping the hero */}
       <section className="relative z-20 -mt-16 pb-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-gray-100">
+          <div className="relative bg-white rounded-2xl shadow-xl border border-gray-100 grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-gray-100 overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary"></div>
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
@@ -189,7 +225,7 @@ const Home = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="text-center py-10 px-4"
               >
-                <h3 className="text-3xl lg:text-4xl font-bold text-secondary mb-2">
+                <h3 className="font-marcellus text-3xl lg:text-4xl font-bold text-secondary mb-2">
                   {stat.number}
                 </h3>
                 <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-gray-500">{stat.label}</p>
@@ -200,7 +236,7 @@ const Home = () => {
       </section>
 
       {/* Split Section: Video Carousel + Benefits */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 lg:py-28 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -208,11 +244,14 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <span className="text-primary text-sm font-semibold tracking-widest uppercase">Why KADCOS</span>
-            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mt-3 mb-4">
+            <div className="flex items-center justify-center gap-4 mb-5">
+              <span className="hidden sm:block h-px w-10 bg-primary/40"></span>
+              <span className="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-primary">Why KADCOS</span>
+              <span className="hidden sm:block h-px w-10 bg-primary/40"></span>
+            </div>
+            <h2 className="font-marcellus text-3xl lg:text-5xl font-bold text-secondary leading-tight">
               Why Choose KADCOS Lubaga Co-operative Society?
             </h2>
-            <div className="w-16 h-1 bg-primary mx-auto rounded-full"></div>
           </motion.div>
 
           {/* Split Layout */}
@@ -292,27 +331,30 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-6"
             >
-              {keyBenefits.map((benefit, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="flex items-start space-x-5 p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
-                >
-                  <div className="bg-primary/10 p-3.5 rounded-lg flex-shrink-0">
-                    <SafeIcon icon={benefit.icon} className="text-primary text-xl" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-secondary mb-1.5">
-                      {benefit.title}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed text-[15px]">
-                      {benefit.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
+              {keyBenefits.map((benefit, index) => {
+                const badgeColors = ['bg-primary/10 text-primary', 'bg-secondary/10 text-secondary', 'bg-amber-500/10 text-amber-500'];
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.2 }}
+                    className="flex items-start space-x-5 p-7 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-300"
+                  >
+                    <div className={`${badgeColors[index % badgeColors.length]} p-3.5 rounded-lg flex-shrink-0`}>
+                      <SafeIcon icon={benefit.icon} className="text-xl" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-secondary mb-1.5">
+                        {benefit.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed text-[15px]">
+                        {benefit.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
 
               {/* Call to Action */}
               <motion.div
@@ -334,8 +376,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Logo Carousel Section */}
-      <section className="py-16 bg-white border-t border-gray-100">
+      {/* In the Community Section */}
+      <section className="py-20 lg:py-28 bg-secondary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -343,9 +385,56 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <span className="text-sm font-semibold tracking-widest uppercase text-gray-400">
-              Trusted By &amp; Working With Leading Institutions
-            </span>
+            <div className="flex items-center justify-center gap-4 mb-5">
+              <span className="hidden sm:block h-px w-10 bg-white/25"></span>
+              <span className="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-primary">In the Community</span>
+              <span className="hidden sm:block h-px w-10 bg-white/25"></span>
+            </div>
+            <h2 className="font-marcellus text-3xl lg:text-5xl font-bold leading-tight">
+              Real Members, Real Impact
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {communityPhotos.map((photo, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="relative rounded-xl overflow-hidden shadow-lg group h-56"
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.caption}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                <p className="absolute bottom-3 left-3 right-3 text-sm font-semibold text-white">
+                  {photo.caption}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Logo Carousel Section */}
+      <section className="py-16 lg:py-20 bg-white border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <div className="flex items-center justify-center gap-4">
+              <span className="hidden sm:block h-px w-10 bg-gray-300"></span>
+              <span className="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-gray-400">
+                Trusted By &amp; Working With Leading Institutions
+              </span>
+              <span className="hidden sm:block h-px w-10 bg-gray-300"></span>
+            </div>
           </motion.div>
 
           {/* Carousel Container - Fixed for seamless looping */}
@@ -396,7 +485,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-24 bg-secondary text-white overflow-hidden">
+      <section className="relative py-24 lg:py-28 bg-secondary text-white overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-secondary via-[#0F2240] to-[#0A1930]"></div>
         <div className="absolute -top-24 right-1/4 w-96 h-96 bg-primary opacity-10 rounded-full blur-3xl"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -405,7 +494,12 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+            <div className="flex items-center justify-center gap-4 mb-5">
+              <span className="hidden sm:block h-px w-10 bg-white/25"></span>
+              <span className="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-primary">Get Started</span>
+              <span className="hidden sm:block h-px w-10 bg-white/25"></span>
+            </div>
+            <h2 className="font-marcellus text-3xl lg:text-5xl font-bold mb-6 leading-tight">
               Ready to Join Our Community?
             </h2>
             <p className="text-lg lg:text-xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed">
@@ -414,16 +508,20 @@ const Home = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/membership"
-                className="inline-flex items-center justify-center space-x-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold shadow-lg shadow-primary/25 hover:bg-[#1B6E8A] transition-colors duration-300"
+                className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-8 py-4 font-semibold text-white shadow-lg shadow-primary/25"
               >
-                <span>Get Started Today</span>
-                <SafeIcon icon={FiArrowRight} />
+                <span className="absolute inset-0 origin-left scale-x-0 bg-[#1B6E8A] transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                <span className="relative flex items-center gap-2">
+                  Get Started Today
+                  <SafeIcon icon={FiArrowRight} />
+                </span>
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center border border-white/30 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-300"
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded-lg border border-white/30 px-8 py-4 font-semibold text-white"
               >
-                Talk to Our Team
+                <span className="absolute inset-0 origin-left scale-x-0 bg-white/15 transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                <span className="relative">Talk to Our Team</span>
               </Link>
             </div>
           </motion.div>

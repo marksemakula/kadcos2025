@@ -13,7 +13,6 @@ const routeConfig = {
   '/services': { name: 'Services & Products', parent: '/' },
   '/membership': { name: 'Membership', parent: '/' },
   '/blog': { name: 'Blog & Updates', parent: '/' },
-  '/vote': { name: 'Vote', parent: '/' },
   '/contact': { name: 'Contact Us', parent: '/' },
   '/governance': { name: 'Governance', parent: '/about' },
   '/resources-e-lib': { name: 'Resources & E-Library', parent: '/services' },

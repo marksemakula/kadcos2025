@@ -21,7 +21,6 @@ import Governance from './pages/Governance'
 import ResourcesELib from './pages/ResourcesELib'
 import ManagersMessage from './pages/ManagersMessage'
 import BoardChairMessage from './pages/BoardChairMessage'
-import Vote from './pages/Vote'
 import './App.css'
 
 // Main App component wrapped with AuthProvider
@@ -97,7 +96,7 @@ function AppContent() {
                       <Route path="/resources-e-lib" element={<div className="pt-24"><ResourcesELib /></div>} />
                       <Route path="/managers-message" element={<div className="pt-24"><ManagersMessage /></div>} />
                       <Route path="/board-chair-message" element={<div className="pt-24"><BoardChairMessage /></div>} />
-                      <Route path="/vote" element={<div className="pt-24"><Vote /></div>} />
+                      <Route path="/vote" element={<Navigate to="/" replace />} />
                     </Routes>
                   </div>
                   <Footer />

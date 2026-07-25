@@ -32,19 +32,11 @@
     "category": "executive"
   },
   {
-    "id": 5,
-    "name": "Mr. Budde Harry Dominic",
-    "position": "Member",
-    "image": "/images/Mr.Harry Dominic Budde Kigonya.jpeg",
-    "bio": "Committee member contributing to strategic decisions.",
-    "category": "executive"
-  },
-  {
     "id": 6,
     "name": "Mrs. Kalanda Annette Kizza",
     "position": "Member",
     "image": "/images/Mrs.Kizza Annette Kalanda.jpeg",
-    "bio": "Committee member contributing to strategic decisions.",
+    "bio": "Committee member with focus on member welfare.",
     "category": "executive"
   },
   {
@@ -52,7 +44,7 @@
     "name": "Mr. Ssekamatte Patrick",
     "position": "Member",
     "image": "/images/Mr.Ssekamate Patrick.jpeg",
-    "bio": "Committee member contributing to strategic decisions.",
+    "bio": "Committee member providing operational insights.",
     "category": "executive"
   },
   {
@@ -60,7 +52,7 @@
     "name": "Mr. Mutebi Emmanuel",
     "position": "Member",
     "image": "/images/Mr.Mutebi Ronald.jpeg",
-    "bio": "Committee member contributing to strategic decisions.",
+    "bio": "Committee member with community development expertise.",
     "category": "executive"
   },
   {
@@ -68,7 +60,7 @@
     "name": "Mr. Mukalazi Vienny",
     "position": "Member",
     "image": "/images/Mr.Mukalazi John Vianney.jpeg",
-    "bio": "Committee member contributing to strategic decisions.",
+    "bio": "Committee member focused on growth initiatives.",
     "category": "executive"
   },
   {
@@ -80,19 +72,11 @@
     "category": "supervisory"
   },
   {
-    "id": 11,
-    "name": "Mrs. Josephine Sekatuba",
-    "position": "Supervisory Committee",
-    "image": "/images/Mrs.Josephine Ssekatuba.jpeg",
-    "bio": "Oversees compliance and operational integrity.",
-    "category": "supervisory"
-  },
-  {
     "id": 12,
     "name": "Mrs. Rose Ssali",
     "position": "Supervisory Committee",
     "image": "/images/Miss. Rose Ssali.jpeg",
-    "bio": "Oversees compliance and operational integrity.",
+    "bio": "Monitors operational efficiency and member satisfaction.",
     "category": "supervisory"
   },
   {
@@ -100,7 +84,7 @@
     "name": "Mr. Dumba Patrick",
     "position": "Manager",
     "image": "/images/Dumba Patrick.jpg",
-    "bio": "Leads the cooperative's daily operations and strategic implementation.",
+    "bio": "Business development specialist focused on expanding cooperative services.",
     "category": "management"
   },
   {
@@ -108,7 +92,7 @@
     "name": "Ms. Nyago Mary Goretti",
     "position": "Accountant",
     "image": "/images/Nyago Mary Gorreti.jpeg",
-    "bio": "Manages financial records and accounting operations.",
+    "bio": "Manages financial records and reporting.",
     "category": "management"
   },
   {
@@ -116,7 +100,7 @@
     "name": "Ms. Namukasa Proscovia",
     "position": "Credit Officer",
     "image": "/images/Namukasa Proscovia.JPG",
-    "bio": "Handles loan applications and credit assessments.",
+    "bio": "Handles credit assessments and loan management.",
     "category": "management"
   },
   {
@@ -124,7 +108,7 @@
     "name": "Ms. Kansiime Anna",
     "position": "Assistant Credit Officer",
     "image": "/images/Kansiime AnnaMaria.jpg",
-    "bio": "Assists with loan processing and member support.",
+    "bio": "Supports credit operations and member services.",
     "category": "management"
   },
   {
@@ -132,31 +116,25 @@
     "name": "Ms. Namugga Maria",
     "position": "Cashier",
     "image": "/images/Namugga Maria.jpg",
-    "bio": "Handles member transactions and cash management.",
+    "bio": "Manages daily transactions and member accounts.",
     "category": "management"
   },
   {
     "id": 18,
     "name": "Ms. Nanyonga Gladys",
     "position": "Cashier",
-    "image": "/images/Nanyonga Gladys.jpg",
-    "bio": "Handles member transactions and cash management.",
-    "category": "management"
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1783413035428_Ms._Nanyonga_Gladys.jpg",
+    "bio": "Handles financial transactions and customer service.",
+    "category": "management",
+    "updatedAt": "2026-07-07T08:30:46.148Z"
   },
   {
     "id": 19,
     "name": "Ms. Nyago Grace",
     "position": "Support Staff",
-    "image": "/images/Ms.Nyago Grace.JPG",
-    "bio": "Provides operational support for daily activities.",
-    "category": "management"
-  },
-  {
-    "id": 20,
-    "name": "Ms. Nabagereka Victoria",
-    "position": "Office Attendant/Receptionist",
-    "image": "/images/Nabagereka Victoria.jpg",
-    "bio": "Welcomes visitors and manages front office operations.",
-    "category": "management"
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1783413302613_Ms._Nyago_Grace.webp",
+    "bio": "Provides operational support and maintenance.",
+    "category": "management",
+    "updatedAt": "2026-07-07T08:35:04.951Z"
   }
 ]

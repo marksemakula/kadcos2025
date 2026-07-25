@@ -4,7 +4,7 @@ import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import SEOHead from '../components/SEOHead';
 
-const { FiTarget, FiEye, FiUsers, FiTrendingUp } = FiIcons;
+const { FiTarget, FiEye, FiUsers, FiTrendingUp, FiDollarSign } = FiIcons;
 
 const About = () => {
   const objectives = [
@@ -18,9 +18,9 @@ const About = () => {
 
   const carouselImages = [
     '/images/kadcos_lubaga_co_operative_society_cover.jpeg',
-    '/images/kadcos_office_1.jpg',
-    '/images/kadcos_office_2.jpg',
-    '/images/kadcos_meeting_1.jpg'
+    '/images/kadcos_office_meeting_1.jpg',
+    '/images/kadcos_community_1.jpg',
+    '/images/kadcos_office_meeting_5.jpg'
   ];
 
   const [currentImage, setCurrentImage] = useState(0);
@@ -167,19 +167,35 @@ const About = () => {
         </div>
       </section>
 
-      {/* Mission Only */}
+      {/* Vision & Mission */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full"
+              className="bg-white p-8 rounded-lg shadow-lg w-full"
             >
               <div className="flex items-center mb-6">
                 <div className="bg-primary bg-opacity-10 p-3 rounded-full mr-4">
-                  <SafeIcon icon={FiTarget} className="text-primary text-2xl" />
+                  <SafeIcon icon={FiEye} className="text-primary text-2xl" />
+                </div>
+                <h3 className="text-2xl font-bold text-secondary font-marcellus">Our Vision</h3>
+              </div>
+              <p className="text-gray-600 font-marcellus leading-relaxed">
+                To be the leading Cooperative in Kampala Archdiocese providing quality and dynamic services to the members.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="bg-white p-8 rounded-lg shadow-lg w-full"
+            >
+              <div className="flex items-center mb-6">
+                <div className="bg-secondary bg-opacity-10 p-3 rounded-full mr-4">
+                  <SafeIcon icon={FiTarget} className="text-secondary text-2xl" />
                 </div>
                 <h3 className="text-2xl font-bold text-secondary font-marcellus">Our Mission</h3>
               </div>
@@ -191,8 +207,38 @@ const About = () => {
         </div>
       </section>
 
-      {/* Objectives */}
+      {/* Principles of Cooperation Video */}
       <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-marcellus">
+              Principles of Cooperation
+            </h2>
+            <p className="text-xl text-gray-600 font-marcellus max-w-3xl mx-auto">
+              Understand the cooperative principles that guide how KADCOS serves its members.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="rounded-2xl overflow-hidden shadow-lg bg-black ring-1 ring-gray-200"
+          >
+            <video controls playsInline className="w-full h-auto max-h-[480px]" preload="metadata">
+              <source src="/videos/Principles of Cooperative.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Objectives */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -215,20 +261,26 @@ const About = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {objectives.map((objective, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="flex items-start space-x-4 p-6 bg-gray-50 rounded-lg"
-              >
-                <div className="bg-accent bg-opacity-10 p-2 rounded-full flex-shrink-0">
-                  <SafeIcon icon={FiTrendingUp} className="text-accent" />
-                </div>
-                <p className="text-gray-700 font-marcellus leading-relaxed">{objective}</p>
-              </motion.div>
-            ))}
+            {objectives.map((objective, index) => {
+              const objectiveIcons = [FiTrendingUp, FiUsers, FiDollarSign, FiUsers, FiTarget, FiTrendingUp];
+              const objectiveColors = ['bg-accent bg-opacity-10 text-accent', 'bg-primary bg-opacity-10 text-primary', 'bg-secondary bg-opacity-10 text-secondary'];
+              const ObjIcon = objectiveIcons[index % objectiveIcons.length];
+              const colorClass = objectiveColors[index % objectiveColors.length];
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="flex items-start space-x-4 p-6 bg-white rounded-lg"
+                >
+                  <div className={`${colorClass} p-2 rounded-full flex-shrink-0`}>
+                    <SafeIcon icon={ObjIcon} />
+                  </div>
+                  <p className="text-gray-700 font-marcellus leading-relaxed">{objective}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
