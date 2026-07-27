@@ -83,11 +83,12 @@
   },
   {
     "id": 11,
-    "name": "Mrs. Josephine Sekatuba",
+    "name": "Ms. Yiga Juliet Joanita",
     "position": "Supervisory Committee",
-    "image": "/images/Mrs.Josephine Ssekatuba.jpeg",
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785155910663_Ms._Yiga_Juliet_Joanita.jpg",
     "bio": "Ensures regulatory compliance and best practices.",
-    "category": "supervisory"
+    "category": "supervisory",
+    "updatedAt": "2026-07-27T12:38:32.756Z"
   },
   {
     "id": 12,
