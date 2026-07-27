@@ -270,7 +270,24 @@ const Membership = () => {
 
     } catch (error) {
       console.error('Error submitting application:', error)
-      toast.error('Failed to submit application. Please try again.')
+
+      // The Google Sheet proxy can fail (e.g. the Apps Script deployment
+      // rejecting the request) independently of anything the applicant did.
+      // Fall back to a pre-filled email so the application is never lost.
+      try {
+        const currentMembership = membershipOptions.find(opt => opt.id === selectedMembership)
+        const summaryLines = Object.entries(formData)
+          .filter(([, value]) => value !== '' && value !== null && value !== undefined)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join('\n')
+        const mailBody = `${currentMembership?.title || 'Membership'} application (auto-submission failed, sent via fallback):\n\n${summaryLines}`
+        const mailtoLink = `mailto:admin@kadcoslubaga.co.ug?subject=${encodeURIComponent(`KADCOS ${currentMembership?.title || 'Membership'} Application - ${formData.name || formData.jointAccountName || 'Applicant'}`)}&body=${encodeURIComponent(mailBody)}`
+        window.location.href = mailtoLink
+        toast('Our online form is temporarily having trouble. We\'ve opened an email with your details pre-filled — please hit send so your application isn\'t lost.', { icon: '⚠️', duration: 8000 })
+      } catch (fallbackError) {
+        console.error('Mailto fallback also failed:', fallbackError)
+        toast.error('Failed to submit application. Please email your details directly to admin@kadcoslubaga.co.ug.')
+      }
     } finally {
       setIsLoading(false)
     }

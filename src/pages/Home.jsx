@@ -212,27 +212,21 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Stats Band - elevated card overlapping the hero */}
-      <section className="relative z-20 -mt-16 pb-6 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative bg-white rounded-2xl shadow-xl border border-gray-100 grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-gray-100 overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary"></div>
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center py-10 px-4"
-              >
-                <h3 className="font-marcellus text-3xl lg:text-4xl font-bold text-secondary mb-2">
-                  {stat.number}
-                </h3>
-                <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-gray-500">{stat.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+      {/* Stats strip - quiet transition below the hero, not meant to compete for attention */}
+      <section className="bg-white border-b border-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-y-5 lg:gap-4 lg:divide-x divide-gray-200"
+        >
+          {stats.map((stat, index) => (
+            <div key={index} className="text-center lg:px-4">
+              <p className="text-xl lg:text-2xl font-bold text-secondary">{stat.number}</p>
+              <p className="text-[11px] uppercase tracking-wider text-gray-400 mt-0.5">{stat.label}</p>
+            </div>
+          ))}
+        </motion.div>
       </section>
 
       {/* Split Section: Video Carousel + Benefits */}
@@ -265,6 +259,10 @@ const Home = () => {
             >
               {/* Video Player */}
               <div className="relative rounded-2xl overflow-hidden shadow-lg bg-black ring-1 ring-gray-200">
+                <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-secondary/90 text-white text-[11px] font-semibold tracking-[0.15em] uppercase px-3 py-1.5 rounded">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                  Featured
+                </div>
                 <video
                   ref={videoRef}
                   key={videos[currentVideoIndex].src}
@@ -329,39 +327,44 @@ const Home = () => {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-6"
+              className="space-y-8"
             >
-              {keyBenefits.map((benefit, index) => {
-                const badgeColors = ['bg-primary/10 text-primary', 'bg-secondary/10 text-secondary', 'bg-amber-500/10 text-amber-500'];
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.2 }}
-                    className="flex items-start space-x-5 p-7 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-300"
-                  >
-                    <div className={`${badgeColors[index % badgeColors.length]} p-3.5 rounded-lg flex-shrink-0`}>
-                      <SafeIcon icon={benefit.icon} className="text-xl" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-secondary mb-1.5">
-                        {benefit.title}
-                      </h3>
-                      <p className="text-gray-600 leading-relaxed text-[15px]">
-                        {benefit.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-100 overflow-hidden">
+                {keyBenefits.map((benefit, index) => {
+                  const accentColors = ['border-primary text-primary', 'border-secondary text-secondary', 'border-amber-500 text-amber-500'];
+                  const accent = accentColors[index % accentColors.length];
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.2 }}
+                      className={`flex items-start gap-5 p-6 border-l-4 ${accent.split(' ')[0]} hover:bg-gray-50 transition-colors duration-300`}
+                    >
+                      <div className="flex-shrink-0">
+                        <span className={`block text-xs font-mono tracking-widest ${accent.split(' ')[1]} mb-2`}>
+                          0{index + 1}
+                        </span>
+                        <SafeIcon icon={benefit.icon} className={`text-2xl ${accent.split(' ')[1]}`} />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-secondary mb-1.5">
+                          {benefit.title}
+                        </h3>
+                        <p className="text-gray-600 leading-relaxed text-[15px]">
+                          {benefit.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
 
               {/* Call to Action */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="pt-2"
               >
                 <Link
                   to="/about"
