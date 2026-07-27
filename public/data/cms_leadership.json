@@ -32,6 +32,14 @@
     "category": "executive"
   },
   {
+    "id": 5,
+    "name": "Mr. Budde Harry Dominic",
+    "position": "Member",
+    "image": "/images/Mr.Harry Dominic Budde Kigonya.jpeg",
+    "bio": "Committee member contributing to strategic decisions.",
+    "category": "executive"
+  },
+  {
     "id": 6,
     "name": "Mrs. Kalanda Annette Kizza",
     "position": "Member",
@@ -69,6 +77,14 @@
     "position": "Supervisory Committee",
     "image": "/images/Mr. Gerald Katusabe.jpeg",
     "bio": "Oversees compliance and operational integrity.",
+    "category": "supervisory"
+  },
+  {
+    "id": 11,
+    "name": "Mrs. Josephine Sekatuba",
+    "position": "Supervisory Committee",
+    "image": "/images/Mrs.Josephine Ssekatuba.jpeg",
+    "bio": "Ensures regulatory compliance and best practices.",
     "category": "supervisory"
   },
   {
@@ -123,18 +139,16 @@
     "id": 18,
     "name": "Ms. Nanyonga Gladys",
     "position": "Cashier",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1783413035428_Ms._Nanyonga_Gladys.jpg",
+    "image": "/images/Nanyonga Gladys.jpg",
     "bio": "Handles financial transactions and customer service.",
-    "category": "management",
-    "updatedAt": "2026-07-07T08:30:46.148Z"
+    "category": "management"
   },
   {
     "id": 19,
     "name": "Ms. Nyago Grace",
     "position": "Support Staff",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1783413302613_Ms._Nyago_Grace.webp",
+    "image": "/images/Ms.Nyago Grace.JPG",
     "bio": "Provides operational support and maintenance.",
-    "category": "management",
-    "updatedAt": "2026-07-07T08:35:04.951Z"
+    "category": "management"
   }
 ]
