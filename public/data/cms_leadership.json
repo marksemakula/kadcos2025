@@ -150,5 +150,15 @@
     "image": "/images/Ms.Nyago Grace.JPG",
     "bio": "Provides operational support and maintenance.",
     "category": "management"
+  },
+  {
+    "name": "Ms. Nambatya Florence",
+    "position": "Cashier",
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785154227222_Ms._Nambatya_Florence.jpg",
+    "bio": "",
+    "category": "management",
+    "id": "1785154229061",
+    "createdAt": "2026-07-27T12:10:29.061Z",
+    "updatedAt": "2026-07-27T12:10:29.061Z"
   }
 ]
