@@ -130,10 +130,11 @@
   {
     "id": 17,
     "name": "Ms. Namugga Maria",
-    "position": "Cashier",
+    "position": "Customer Care Executive / Book keeper",
     "image": "/images/Namugga Maria.jpg",
-    "bio": "Manages daily transactions and member accounts.",
-    "category": "management"
+    "bio": "Maintains accurate, timely and complete books for head office and respective branches. Also ensures customer/member satisfication and feedback collection",
+    "category": "management",
+    "updatedAt": "2026-07-27T12:26:07.850Z"
   },
   {
     "id": 18,
