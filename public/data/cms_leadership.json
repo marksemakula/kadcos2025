@@ -110,10 +110,11 @@
   {
     "id": 14,
     "name": "Ms. Nyago Mary Goretti",
-    "position": "Accountant",
+    "position": "Senior Accountant",
     "image": "/images/Nyago Mary Gorreti.jpeg",
     "bio": "Manages financial records and reporting.",
-    "category": "management"
+    "category": "management",
+    "updatedAt": "2026-07-27T12:49:39.509Z"
   },
   {
     "id": 15,
