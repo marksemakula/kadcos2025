@@ -118,10 +118,11 @@
   {
     "id": 15,
     "name": "Ms. Namukasa Proscovia",
-    "position": "Credit Officer",
+    "position": "Credit Manager",
     "image": "/images/Namukasa Proscovia.JPG",
     "bio": "Handles credit assessments and loan management.",
-    "category": "management"
+    "category": "management",
+    "updatedAt": "2026-07-27T12:49:18.414Z"
   },
   {
     "id": 16,
