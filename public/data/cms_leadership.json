@@ -18,11 +18,12 @@
   },
   {
     "id": 3,
-    "name": "Ms. Namaganda Justine",
+    "name": "Ms. Nakakeeto Immaculate",
     "position": "Secretary",
-    "image": "/images/Miss.Namaganda Justine.jpeg",
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785155758186_Ms._Nakakeeto_Immaculate.jpg",
     "bio": "Responsible for documentation and official communications.",
-    "category": "executive"
+    "category": "executive",
+    "updatedAt": "2026-07-27T12:35:59.681Z"
   },
   {
     "id": 4,
