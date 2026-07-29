@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import InterestWidget from '../components/InterestWidget';
@@ -12,6 +12,21 @@ const Home = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef(null);
+
+  const heroImages = [
+    '/images/kadcos_office_meeting_5.jpg',
+    '/images/kadcos_community_1.jpg',
+    '/images/kadcos_office_meeting_2.jpg',
+    '/images/kadcos_community_3.jpg'
+  ];
+  const [currentHeroImage, setCurrentHeroImage] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeroImage((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
 
   const videos = [
     {
@@ -128,15 +143,36 @@ const Home = () => {
 
       {/* Hero Section - full-bleed photographic hero with editorial overlay */}
       <section className="relative min-h-[100svh] lg:min-h-screen flex items-center overflow-hidden">
-        {/* Full-bleed background photo */}
+        {/* Full-bleed background photo slideshow */}
         <div className="absolute inset-0">
-          <img
-            src="/images/kadcos_office_meeting_5.jpg"
-            alt="KADCOS Lubaga Cooperative Society members"
-            className="w-full h-full object-cover"
-          />
+          <AnimatePresence mode="sync">
+            <motion.img
+              key={heroImages[currentHeroImage]}
+              src={heroImages[currentHeroImage]}
+              alt="KADCOS Lubaga Cooperative Society members"
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
+            />
+          </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-r from-[#04222c] via-[#04222c]/85 to-[#0B3A4A]/50"></div>
           <div className="absolute inset-0 bg-black/25"></div>
+        </div>
+
+        {/* Slideshow indicators */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex space-x-2">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentHeroImage(index)}
+              aria-label={`Show hero image ${index + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === currentHeroImage ? 'w-6 bg-white' : 'w-2 bg-white/50'
+              }`}
+            />
+          ))}
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-20 lg:py-0">
