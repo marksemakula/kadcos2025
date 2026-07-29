@@ -76,11 +76,21 @@ const AdminDashboard = () => {
     }
   }
 
-  const SHEET_ID = '1eOm6v1MKMzjUJePU0yHEoNRs-8GEZ38Ldvq9uPoiMaQ';
+  // Each membership form type posts to its own Apps Script deployment, which
+  // writes to its own Google Sheet (see api/submit-membership.js). All three
+  // must be read and merged for the Members list to reflect real applications.
+  const APPLICATION_SHEETS = [
+    { membershipType: 'individual', sheetId: '1Stl2ujtOZF0mkIAJuvefOknp7DC2-JXIMahKQXzdhXc' },
+    { membershipType: 'joint', sheetId: '1KQiI9U3xZ4-MkpVJsBxHgVh0qjtRcyJac2Q825RxLyo' },
+    { membershipType: 'group', sheetId: '17lqnhPqSf7UKHyFT2UcKpXHwHfWAF9qOO90t2WV8noI' }
+  ];
 
-  const fetchMembersFromSheet = async () => {
-    // GViz endpoint (works for public sheets)
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+  // GViz endpoint (works for public sheets) - returns rows as {label, value} cell
+  // lists. These are raw Google Forms response sheets, so headers are full question
+  // text (e.g. "Name in Full (As it appears on your legal documents)") rather than
+  // clean field names - field lookup below matches by keyword, not exact key.
+  const fetchSheetRows = async (sheetId) => {
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Sheet fetch failed: ${res.status}`);
     const text = await res.text();
@@ -89,15 +99,64 @@ const AdminDashboard = () => {
     const data = JSON.parse(jsonText);
     const cols = data.table.cols.map(c => (c.label || c.id || '').trim());
     const rows = data.table.rows || [];
-    const members = rows.map((r, idx) => {
-      const obj = { id: `sheet-${idx + 1}` };
-      (r.c || []).forEach((cell, i) => {
-        const keyRaw = cols[i] || `col${i}`;
-        const key = keyRaw.toLowerCase().replace(/\s+/g, '_');
-        obj[key] = cell && cell.v !== null ? cell.v : '';
-      });
-      return obj;
+    return rows.map((r) => (r.c || []).map((cell, i) => ({
+      label: cols[i] || `col${i}`,
+      value: cell && cell.v !== null ? cell.v : ''
+    })));
+  };
+
+  // Finds the first cell whose column header contains any of the given keywords
+  const findField = (cells, keywords) => {
+    const match = cells.find(({ label }) => {
+      const lower = label.toLowerCase();
+      return keywords.some(kw => lower.includes(kw));
     });
+    return match ? match.value : '';
+  };
+
+  const EMAIL_REGEX = /[\w.+-]+@[\w-]+\.[\w.-]+/;
+  const findEmail = (cells) => {
+    const candidate = findField(cells, ['email']);
+    const match = String(candidate).match(EMAIL_REGEX);
+    if (match) return match[0];
+    for (const { value } of cells) {
+      const m = typeof value === 'string' && value.match(EMAIL_REGEX);
+      if (m) return m[0];
+    }
+    return '';
+  };
+
+  const fetchMembersFromSheet = async () => {
+    const results = await Promise.allSettled(
+      APPLICATION_SHEETS.map(({ sheetId }) => fetchSheetRows(sheetId))
+    );
+
+    const failedTypes = [];
+    const members = [];
+    results.forEach((result, idx) => {
+      const { membershipType } = APPLICATION_SHEETS[idx];
+      if (result.status === 'rejected') {
+        failedTypes.push(membershipType);
+        console.warn(`Could not read ${membershipType} application sheet:`, result.reason);
+        return;
+      }
+      result.value.forEach((cells, rowIdx) => {
+        members.push({
+          id: `${membershipType}-${rowIdx + 1}`,
+          membershipType,
+          timestamp: findField(cells, ['timestamp']),
+          branch: findField(cells, ['branch']),
+          name: findField(cells, ['name in full', 'name of the joint account']) || findField(cells, ['registration number']),
+          email: findEmail(cells),
+          phone: findField(cells, ['telephone', 'contact number'])
+        });
+      });
+    });
+
+    if (failedTypes.length === APPLICATION_SHEETS.length) {
+      throw new Error('All application sheets are unreachable (check sharing settings)');
+    }
+
     // Persist to localStorage for dashboard use
     try { localStorage.setItem('cms_members', JSON.stringify(members)); } catch (e) { console.warn('Could not persist members', e); }
     return members;
@@ -357,6 +416,7 @@ const MembersSection = ({
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Membership #</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -368,6 +428,7 @@ const MembersSection = ({
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{member.name}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.email}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.phone}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{member.membershipType || ''}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.membershipNumber || member.membership_number || ''}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${member.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
