@@ -9,11 +9,12 @@
   },
   {
     "id": 2,
-    "name": "Council Jude Mbabaali",
+    "name": "Mr. Mukalazi John Vianney",
     "position": "Vice Chairperson",
-    "image": "/images/Counsel Jude Mbabaali.jpeg",
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785417117461_Mr._Mukalazi_John_Vianney.webp",
     "bio": "Supports the chairperson in governance and strategic planning.",
-    "category": "executive"
+    "category": "executive",
+    "updatedAt": "2026-07-30T13:11:59.677Z"
   },
   {
     "id": 3,
