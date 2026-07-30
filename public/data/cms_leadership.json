@@ -125,10 +125,11 @@
   {
     "id": 17,
     "name": "Ms. Namugga Maria",
-    "position": "Cashier",
+    "position": "Customer Care Executive / Book keeper",
     "image": "/images/Namugga Maria.jpg",
-    "bio": "Manages daily transactions and member accounts.",
-    "category": "management"
+    "bio": " Manages client inquiries, and ensures high levels of customer satisfaction within the cooperative. Also ensures safe storage of all member and cooperative resources ",
+    "category": "management",
+    "updatedAt": "2026-07-30T13:00:46.240Z"
   },
   {
     "id": 18,
