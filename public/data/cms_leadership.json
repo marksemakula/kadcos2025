@@ -35,11 +35,12 @@
   },
   {
     "id": 5,
-    "name": "Mr. Budde Harry Dominic",
+    "name": "Mr. Baseka Joseph",
     "position": "Member",
-    "image": "/images/Mr.Harry Dominic Budde Kigonya.jpeg",
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785417415315_Mr._Baseka_Joseph.webp",
     "bio": "Committee member contributing to strategic decisions.",
-    "category": "executive"
+    "category": "executive",
+    "updatedAt": "2026-07-30T13:16:57.014Z"
   },
   {
     "id": 6,
