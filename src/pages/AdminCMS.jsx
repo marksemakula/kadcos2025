@@ -45,19 +45,47 @@ const AdminCMS = () => {
       } catch (e) {
         // fall back to localStorage silently
       }
-  const savedResources = JSON.parse(localStorage.getItem('cms_resources') || '[]');
+  let savedResources = JSON.parse(localStorage.getItem('cms_resources') || '[]');
   let savedLeadership = JSON.parse(localStorage.getItem('cms_leadership') || '[]');
-  const savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
-  const savedSavings = JSON.parse(localStorage.getItem('cms_savingsFeatures') || '[]');
+  let savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
+  let savedSavings = JSON.parse(localStorage.getItem('cms_savingsFeatures') || '[]');
 
-      // Prefer the committed leadership JSON from the deployed site so all admins/devices
-      // see (and edit on top of) the same real data instead of this browser's localStorage.
+      // Prefer the committed JSON from the deployed site over this browser's localStorage
+      // for every CMS-managed section, so edits build on the same real data everyone sees
+      // instead of silently resetting on a fresh browser/device with empty localStorage.
       try {
         const leadershipResp = await fetch('/data/cms_leadership.json', { cache: 'no-store' });
         if (leadershipResp.ok) {
           const remoteLeadership = await leadershipResp.json();
           if (Array.isArray(remoteLeadership) && remoteLeadership.length > 0) {
             savedLeadership = remoteLeadership;
+          }
+        }
+      } catch (e) {
+        // fall back to localStorage silently
+      }
+
+      try {
+        const resourcesResp = await fetch('/data/cms_resources.json', { cache: 'no-store' });
+        if (resourcesResp.ok) {
+          const remoteResources = await resourcesResp.json();
+          if (Array.isArray(remoteResources) && remoteResources.length > 0) {
+            savedResources = remoteResources;
+          }
+        }
+      } catch (e) {
+        // fall back to localStorage silently
+      }
+
+      try {
+        const servicesResp = await fetch('/data/cms_services.json', { cache: 'no-store' });
+        if (servicesResp.ok) {
+          const remoteServices = await servicesResp.json();
+          if (remoteServices && Array.isArray(remoteServices.loanProducts) && remoteServices.loanProducts.length > 0) {
+            savedServices = remoteServices.loanProducts;
+          }
+          if (remoteServices && Array.isArray(remoteServices.savingsFeatures) && remoteServices.savingsFeatures.length > 0) {
+            savedSavings = remoteServices.savingsFeatures;
           }
         }
       } catch (e) {
