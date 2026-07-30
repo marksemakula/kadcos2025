@@ -40,9 +40,9 @@ const Footer = () => {
           <div className="col-span-1">
             <div className="flex flex-col items-start mb-4">
               <div className="flex items-center space-x-4 mb-3">
-                <img 
+                <img
                   src="/images/KADCOS-02.png"
-                  alt="KADCOS Logo" 
+                  alt="KADCOS Logo"
                   className="h-40 w-auto"
                 />
                 <div className="pt-1">
@@ -93,7 +93,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* App Download Section */}
             <div className="pt-3 border-t border-gray-700">
               <p className="text-gray-400 text-sm font-marcellus mb-2 text-justify">
@@ -131,33 +131,33 @@ const Footer = () => {
           <p className="text-gray-400 font-marcellus text-justify text-sm">
             © 2026 KADCOS Lubaga Cooperative Society Ltd. All rights reserved.
           </p>
-          
+
           {/* ISO Certification - moved to footer row */}
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <div className="flex items-center space-x-2">
-              <img 
-                src="/images/ISO-27001.png" 
-                alt="ISO 27001 Certified" 
-                className="h-8 w-auto" 
+              <img
+                src="/images/ISO-27001.png"
+                alt="ISO 27001 Certified"
+                className="h-8 w-auto"
               />
               <span className="text-gray-400 text-xs font-marcellus">ISO 27001</span>
             </div>
             <div className="flex items-center space-x-2">
-              <img 
-                src="/images/ISO22301.png" 
-                alt="ISO 22301 Certified" 
-                className="h-8 w-auto" 
+              <img
+                src="/images/ISO22301.png"
+                alt="ISO 22301 Certified"
+                className="h-8 w-auto"
               />
               <span className="text-gray-400 text-xs font-marcellus">ISO 22301</span>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <span className="text-gray-400 text-xs font-marcellus">Powered by</span>
-            <img 
-              src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1749836650782-inzozi.png" 
-              alt="Inzozi Logo" 
-              className="h-8 w-auto brightness-0 invert" 
+            <span className="text-gray-400 text-xs font-marcellus">Powered by inzozi.co</span>
+            <img
+              src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1749836650782-inzozi.png"
+              alt="Inzozi Logo"
+              className="h-8 w-auto brightness-0 invert"
             />
           </div>
         </div>
