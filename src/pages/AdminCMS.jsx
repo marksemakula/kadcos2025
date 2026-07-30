@@ -6,13 +6,14 @@ import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
-const { FiFileText, FiUsers, FiSettings, FiBookOpen, FiEdit, FiSave, FiX, FiImage, FiPlus, FiTrash2 } = FiIcons;
+const { FiFileText, FiUsers, FiSettings, FiBookOpen, FiEdit, FiSave, FiX, FiImage, FiPlus, FiTrash2, FiBriefcase } = FiIcons;
 
 const AdminCMS = () => {
   const [activeSection, setActiveSection] = useState('resources');
   const [blogPosts, setBlogPosts] = useState([]);
   const [resources, setResources] = useState([]);
   const [leadership, setLeadership] = useState([]);
+  const [careers, setCareers] = useState([]);
   const [services, setServices] = useState([]);
   // Services are split into loan products (used by public Services page) and savings features
   const [loanProducts, setLoanProducts] = useState([]);
@@ -47,6 +48,7 @@ const AdminCMS = () => {
       }
   let savedResources = JSON.parse(localStorage.getItem('cms_resources') || '[]');
   let savedLeadership = JSON.parse(localStorage.getItem('cms_leadership') || '[]');
+  let savedCareers = JSON.parse(localStorage.getItem('cms_careers') || '[]');
   let savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
   let savedSavings = JSON.parse(localStorage.getItem('cms_savingsFeatures') || '[]');
 
@@ -78,6 +80,18 @@ const AdminCMS = () => {
       }
 
       try {
+        const careersResp = await fetch('/data/cms_careers.json', { cache: 'no-store' });
+        if (careersResp.ok) {
+          const remoteCareers = await careersResp.json();
+          if (Array.isArray(remoteCareers) && remoteCareers.length > 0) {
+            savedCareers = remoteCareers;
+          }
+        }
+      } catch (e) {
+        // fall back to localStorage silently
+      }
+
+      try {
         const servicesResp = await fetch('/data/cms_services.json', { cache: 'no-store' });
         if (servicesResp.ok) {
           const remoteServices = await servicesResp.json();
@@ -90,6 +104,30 @@ const AdminCMS = () => {
         }
       } catch (e) {
         // fall back to localStorage silently
+      }
+
+      // Seed a single "Credit Officer" posting the first time Careers is used;
+      // never overwrite real postings just because this browser's cache was empty.
+      if (savedCareers.length === 0) {
+        savedCareers = [
+          {
+            id: 1,
+            title: 'Credit Officer',
+            type: 'Full-time',
+            location: 'KADCOS Lubaga - Head Office',
+            description: "KADCOS Lubaga Cooperative Society Ltd is looking for a dedicated Credit Officer to assess loan applications, manage credit risk, and support members through the borrowing process.",
+            requirements: [
+              "Bachelor's degree in Finance, Accounting, Business Administration or a related field",
+              "At least 2 years' experience in credit or loan administration, preferably in a SACCO or financial institution",
+              'Strong analytical and communication skills',
+              'Proficiency in MS Office and financial software',
+              'High level of integrity and confidentiality'
+            ],
+            deadline: '',
+            howToApply: 'Send your CV, academic documents, and a cover letter to admin@kadcoslubaga.co.ug',
+            datePosted: new Date().toISOString().split('T')[0]
+          }
+        ];
       }
 
       // Only fall back to the hardcoded default roster if there is truly no data anywhere
@@ -241,6 +279,7 @@ const AdminCMS = () => {
       setBlogPosts(savedBlogPosts);
       setResources(savedResources);
       setLeadership(savedLeadership);
+      setCareers(savedCareers);
       setLoanProducts(finalLoanProducts);
       setSavingsFeatures(finalSavings);
     } catch (error) {
@@ -407,6 +446,7 @@ const AdminCMS = () => {
       case 'blog': return blogPosts;
       case 'resources': return resources;
       case 'leadership': return leadership;
+      case 'careers': return careers;
       case 'services':
         return servicesSubSection === 'savingsFeatures' ? savingsFeatures : loanProducts;
       default: return [];
@@ -427,6 +467,10 @@ const AdminCMS = () => {
       case 'leadership':
         setLeadership(updatedData);
         saveData('cms_leadership', updatedData);
+        break;
+      case 'careers':
+        setCareers(updatedData);
+        saveData('cms_careers', updatedData);
         break;
       case 'services':
         if (servicesSubSection === 'savingsFeatures') {
@@ -548,6 +592,16 @@ const AdminCMS = () => {
         bio: '',
         category: 'executive'
       },
+      careers: {
+        title: '',
+        type: 'Full-time',
+        location: '',
+        description: '',
+        requirements: [],
+        deadline: '',
+        howToApply: '',
+        datePosted: new Date().toISOString().split('T')[0]
+      },
       services: {
         title: '',
         description: '',
@@ -573,6 +627,7 @@ const AdminCMS = () => {
   const sections = [
     { id: 'resources', name: 'Resources', icon: FiBookOpen, description: 'Manage resources and documents' },
     { id: 'leadership', name: 'Leadership', icon: FiUsers, description: 'Manage leadership team information' },
+    { id: 'careers', name: 'Careers', icon: FiBriefcase, description: 'Manage job postings' },
     { id: 'services', name: 'Services', icon: FiSettings, description: 'Manage services and loan products' },
     { id: 'blog', name: 'Blog', icon: FiFileText, description: 'Manage blog posts and articles' }
   ];
@@ -739,6 +794,21 @@ const AdminCMS = () => {
                   );
                 })}
               </div>
+            )}
+
+            {activeSection === 'careers' && (
+              <ContentList
+                items={careers}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                columns={['Title', 'Type', 'Location', 'Deadline']}
+                renderItem={(item) => ({
+                  title: item.title,
+                  type: item.type,
+                  location: item.location,
+                  deadline: item.deadline ? new Date(item.deadline).toLocaleDateString() : '—'
+                })}
+              />
             )}
 
             {activeSection === 'services' && (
@@ -1235,6 +1305,132 @@ const ContentForm = ({ section, item, onSave, onCancel, isSavings = false }) => 
               </select>
             </div>
             {commonFields}
+          </>
+        );
+
+      case 'careers':
+        return (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                Job Title *
+              </label>
+              <input
+                type="text"
+                value={formData.title || ''}
+                onChange={(e) => handleChange('title', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                required
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                  Employment Type
+                </label>
+                <select
+                  value={formData.type || 'Full-time'}
+                  onChange={(e) => handleChange('type', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                >
+                  <option value="Full-time">Full-time</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Contract">Contract</option>
+                  <option value="Internship">Internship</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  value={formData.location || ''}
+                  onChange={(e) => handleChange('location', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                  placeholder="e.g., KADCOS Lubaga - Head Office"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                Description *
+              </label>
+              <textarea
+                value={formData.description || ''}
+                onChange={(e) => handleChange('description', e.target.value)}
+                rows={4}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                Requirements
+              </label>
+              {(formData.requirements || []).map((req, index) => (
+                <div key={index} className="flex space-x-2 mb-2">
+                  <input
+                    type="text"
+                    value={req}
+                    onChange={(e) => handleArrayChange('requirements', index, e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                    placeholder="Enter requirement"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveArrayItem('requirements', index)}
+                    className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-marcellus"
+                  >
+                    <SafeIcon icon={FiTrash2} />
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => handleAddArrayItem('requirements')}
+                className="mt-2 flex items-center space-x-2 text-primary hover:text-secondary font-marcellus"
+              >
+                <SafeIcon icon={FiPlus} />
+                <span>Add Requirement</span>
+              </button>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                  Application Deadline
+                </label>
+                <input
+                  type="date"
+                  value={formData.deadline || ''}
+                  onChange={(e) => handleChange('deadline', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                  Date Posted
+                </label>
+                <input
+                  type="date"
+                  value={formData.datePosted || new Date().toISOString().split('T')[0]}
+                  onChange={(e) => handleChange('datePosted', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 font-marcellus mb-2">
+                How to Apply
+              </label>
+              <textarea
+                value={formData.howToApply || ''}
+                onChange={(e) => handleChange('howToApply', e.target.value)}
+                rows={2}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-marcellus"
+                placeholder="e.g., Send your CV to admin@kadcoslubaga.co.ug"
+              />
+            </div>
           </>
         );
 

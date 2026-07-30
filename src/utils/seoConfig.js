@@ -96,6 +96,12 @@ export const pageSEO = {
     keywords: 'KADCOS chairman, SACCO board chair, cooperative chairman message Uganda',
     canonicalPath: '/board-chair-message'
   },
+  careers: {
+    title: 'Careers | Job Opportunities at KADCOS SACCO Uganda',
+    description: 'View current job openings at KADCOS Lubaga Cooperative Society Ltd. Explore career opportunities and apply to join our team in Kampala, Uganda.',
+    keywords: 'KADCOS careers, SACCO jobs Uganda, cooperative society jobs Kampala, credit officer job Uganda, KADCOS job openings',
+    canonicalPath: '/careers'
+  },
 };
 
 /**

@@ -18,6 +18,7 @@ const routeConfig = {
   '/resources-e-lib': { name: 'Resources & E-Library', parent: '/services' },
   '/managers-message': { name: "Manager's Message", parent: '/about' },
   '/board-chair-message': { name: "Board Chair's Message", parent: '/about' },
+  '/careers': { name: 'Careers', parent: '/' },
 }
 
 const Breadcrumb = ({ customItems = null }) => {
