@@ -90,10 +90,11 @@
   {
     "id": 13,
     "name": "Mr. Dumba Patrick",
-    "position": "Manager",
+    "position": "General Manager",
     "image": "/images/Dumba Patrick.jpg",
     "bio": "Business development specialist focused on expanding cooperative services.",
-    "category": "management"
+    "category": "management",
+    "updatedAt": "2026-07-30T06:59:52.785Z"
   },
   {
     "id": 14,
