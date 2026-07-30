@@ -151,13 +151,5 @@
     "image": "/images/Ms.Nyago Grace.JPG",
     "bio": "Provides operational support and maintenance.",
     "category": "management"
-  },
-  {
-    "id": 20,
-    "name": "Ms. Nabagereka Victoria",
-    "position": "Office Attendant/Receptionist",
-    "image": "/images/Nabagereka Victoria.jpg",
-    "bio": "Dedicated to providing exceptional service and support to our members.",
-    "category": "management"
   }
 ]
