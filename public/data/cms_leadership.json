@@ -9,21 +9,19 @@
   },
   {
     "id": 2,
-    "name": "Mr. Mukalazi John Vianney",
+    "name": "Council Jude Mbabaali",
     "position": "Vice Chairperson",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785155713760_Mr._Mukalazi_John_Vianney.jpg",
+    "image": "/images/Counsel Jude Mbabaali.jpeg",
     "bio": "Supports the chairperson in governance and strategic planning.",
-    "category": "executive",
-    "updatedAt": "2026-07-27T12:35:15.528Z"
+    "category": "executive"
   },
   {
     "id": 3,
-    "name": "Ms. Nakakeeto Immaculate",
+    "name": "Ms. Namaganda Justine",
     "position": "Secretary",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785155758186_Ms._Nakakeeto_Immaculate.jpg",
+    "image": "/images/Miss.Namaganda Justine.jpeg",
     "bio": "Responsible for documentation and official communications.",
-    "category": "executive",
-    "updatedAt": "2026-07-27T12:35:59.681Z"
+    "category": "executive"
   },
   {
     "id": 4,
@@ -35,12 +33,11 @@
   },
   {
     "id": 5,
-    "name": "Mr. Baseka Joseph",
+    "name": "Mr. Budde Harry Dominic",
     "position": "Member",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785156081243_Mr._Baseka_Joseph.jpg",
+    "image": "/images/Mr.Harry Dominic Budde Kigonya.jpeg",
     "bio": "Committee member contributing to strategic decisions.",
-    "category": "executive",
-    "updatedAt": "2026-07-27T12:41:23.017Z"
+    "category": "executive"
   },
   {
     "id": 6,
@@ -84,12 +81,11 @@
   },
   {
     "id": 11,
-    "name": "Ms. Yiga Juliet Joanita",
+    "name": "Mrs. Josephine Sekatuba",
     "position": "Supervisory Committee",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785155910663_Ms._Yiga_Juliet_Joanita.jpg",
+    "image": "/images/Mrs.Josephine Ssekatuba.jpeg",
     "bio": "Ensures regulatory compliance and best practices.",
-    "category": "supervisory",
-    "updatedAt": "2026-07-27T12:38:32.756Z"
+    "category": "supervisory"
   },
   {
     "id": 12,
@@ -102,29 +98,27 @@
   {
     "id": 13,
     "name": "Mr. Dumba Patrick",
-    "position": "General Manager",
+    "position": "Manager",
     "image": "/images/Dumba Patrick.jpg",
     "bio": "Business development specialist focused on expanding cooperative services.",
-    "category": "management",
-    "updatedAt": "2026-07-27T12:50:07.227Z"
+    "category": "management"
   },
   {
     "id": 14,
-    "name": "Ms. Nyago Mary Goretti",
+    "name": "Ms. Nyago Mary Gorreti",
     "position": "Senior Accountant",
     "image": "/images/Nyago Mary Gorreti.jpeg",
     "bio": "Manages financial records and reporting.",
     "category": "management",
-    "updatedAt": "2026-07-27T12:49:39.509Z"
+    "updatedAt": "2026-07-30T06:51:44.212Z"
   },
   {
     "id": 15,
     "name": "Ms. Namukasa Proscovia",
-    "position": "Credit Manager",
+    "position": "Credit Officer",
     "image": "/images/Namukasa Proscovia.JPG",
     "bio": "Handles credit assessments and loan management.",
-    "category": "management",
-    "updatedAt": "2026-07-27T12:49:18.414Z"
+    "category": "management"
   },
   {
     "id": 16,
@@ -137,11 +131,10 @@
   {
     "id": 17,
     "name": "Ms. Namugga Maria",
-    "position": "Customer Care Executive / Book keeper",
+    "position": "Cashier",
     "image": "/images/Namugga Maria.jpg",
-    "bio": "Maintains accurate, timely and complete books for head office and respective branches. Also ensures customer/member satisfication and feedback collection",
-    "category": "management",
-    "updatedAt": "2026-07-27T12:26:07.850Z"
+    "bio": "Manages daily transactions and member accounts.",
+    "category": "management"
   },
   {
     "id": 18,
@@ -155,49 +148,16 @@
     "id": 19,
     "name": "Ms. Nyago Grace",
     "position": "Support Staff",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785154415116_Ms._Nyago_Grace.jpg",
+    "image": "/images/Ms.Nyago Grace.JPG",
     "bio": "Provides operational support and maintenance.",
-    "category": "management",
-    "updatedAt": "2026-07-27T12:13:36.827Z"
+    "category": "management"
   },
   {
-    "name": "Ms. Nambatya Florence",
-    "position": "Cashier",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785170973034_Ms._Nambatya_Florence.png",
-    "bio": "Handles daily transactions and member guidance",
-    "category": "management",
-    "id": "1785154229061",
-    "createdAt": "2026-07-27T12:10:29.061Z",
-    "updatedAt": "2026-07-27T16:50:02.145Z"
-  },
-  {
-    "name": "Mr. Kajoba Deogratius",
-    "position": "Chief Cashier",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785171668568_Mr._Kajoba_Deogratius.png",
-    "bio": "Receives money and looks after other cashiers in all branches  ",
-    "category": "management",
-    "id": "1785154664415",
-    "createdAt": "2026-07-27T12:17:44.415Z",
-    "updatedAt": "2026-07-27T18:33:26.149Z"
-  },
-  {
-    "name": "Mr. Muhanguzi Amos",
-    "position": "IT / Marketing Officer",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785170858472_Mr._Muhanguzi_Amos.png",
-    "bio": "Creates marketing content, and manages social media to drive brand awarenes, maintains website infrastructure, troubleshooting Hardware components",
-    "category": "management",
-    "id": "1785155622616",
-    "createdAt": "2026-07-27T12:33:42.616Z",
-    "updatedAt": "2026-07-27T18:34:03.653Z"
-  },
-  {
-    "name": "Mrs. Sempa Margaret Nakirigya",
-    "position": "Member",
-    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785156440243_Mrs._Sempa_Margaret_Nakirigya.jpg",
-    "bio": "Committee member focused on the expansion and growth of KADCOS Lubaga",
-    "category": "executive",
-    "id": "1785156442117",
-    "createdAt": "2026-07-27T12:47:22.117Z",
-    "updatedAt": "2026-07-27T12:47:22.117Z"
+    "id": 20,
+    "name": "Ms. Nabagereka Victoria",
+    "position": "Office Attendant/Receptionist",
+    "image": "/images/Nabagereka Victoria.jpg",
+    "bio": "Dedicated to providing exceptional service and support to our members.",
+    "category": "management"
   }
 ]
