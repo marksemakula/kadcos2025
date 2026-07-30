@@ -28,14 +28,6 @@ const AdminCMS = () => {
     loadData();
   }, []);
 
-  // Auto-restore leadership defaults if missing when switching to Leadership section
-  useEffect(() => {
-    if (activeSection === 'leadership' && leadership.length === 0) {
-      handleRestoreLeadership();
-    }
-    // eslint-disable-next-line
-  }, [activeSection]);
-
   const loadData = async () => {
     setLoading(true);
     try {
@@ -58,11 +50,23 @@ const AdminCMS = () => {
   const savedServices = JSON.parse(localStorage.getItem('cms_services') || '[]');
   const savedSavings = JSON.parse(localStorage.getItem('cms_savingsFeatures') || '[]');
 
-      // If no leadership in localStorage, or missing any category, use the full default set
-      const hasExec = savedLeadership.some(l => l.category === 'executive');
-      const hasSuper = savedLeadership.some(l => l.category === 'supervisory');
-      const hasMgmt = savedLeadership.some(l => l.category === 'management');
-      if (savedLeadership.length === 0 || !hasExec || !hasSuper || !hasMgmt) {
+      // Prefer the committed leadership JSON from the deployed site so all admins/devices
+      // see (and edit on top of) the same real data instead of this browser's localStorage.
+      try {
+        const leadershipResp = await fetch('/data/cms_leadership.json', { cache: 'no-store' });
+        if (leadershipResp.ok) {
+          const remoteLeadership = await leadershipResp.json();
+          if (Array.isArray(remoteLeadership) && remoteLeadership.length > 0) {
+            savedLeadership = remoteLeadership;
+          }
+        }
+      } catch (e) {
+        // fall back to localStorage silently
+      }
+
+      // Only fall back to the hardcoded default roster if there is truly no data anywhere
+      // (never silently overwrite real edits just because one category looks empty).
+      if (savedLeadership.length === 0) {
         savedLeadership = [
           // Executive Committee
           { id: 1, name: "Mrs. Nseerikomawa Josephine", position: "Board Chairperson", image: "/images/Mrs.Nseerikomawa Josephine.jpeg", bio: "Experienced leader providing strategic direction and oversight.", category: "executive" },
