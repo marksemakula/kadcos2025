@@ -9,7 +9,7 @@ const URLS = ['http://localhost:5173', 'http://localhost:5174', 'http://localhos
 const commonRequirements = [
   'Full membership',
   '3+ months regular savings',
-  'At least one guarantor',
+  'At least two guarantors',
   'Application letter & form',
   'Collateral for loans above 2.5m'
 ];
