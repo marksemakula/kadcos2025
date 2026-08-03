@@ -3,9 +3,10 @@
     "id": 1,
     "name": "Mrs. Nseerikomawa Josephine",
     "position": "Board Chairperson",
-    "image": "/images/Mrs.Nseerikomawa Josephine.jpeg",
+    "image": "https://raw.githubusercontent.com/marksemakula/kadcos2025/main/public/images/1785785681495_Mrs._Nseerikomawa_Josephine.jpg",
     "bio": "Experienced leader providing strategic direction and oversight.",
-    "category": "executive"
+    "category": "executive",
+    "updatedAt": "2026-08-03T19:34:45.932Z"
   },
   {
     "id": 2,
