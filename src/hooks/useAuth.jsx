@@ -12,32 +12,23 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Hardcoded credentials
-  const ADMIN_CREDENTIALS = {
-    email: 'admin@kadcoslubaga.co.ug',
-    password: '@Student1705'
-  };
-
   const signIn = async (email, password) => {
     setLoading(true);
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Check against hardcoded credentials
-      if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-        const userData = { 
-          id: 1, 
-          email: email,
-          name: 'KADCOS Admin',
-          role: 'admin'
-        };
-        setUser(userData);
-        localStorage.setItem('admin_user', JSON.stringify(userData));
-        return { error: null, user: userData };
-      } else {
-        return { error: { message: 'Invalid email or password' } };
+      const res = await fetch('/api/admin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        return { error: data.error || { message: 'Login failed. Please try again.' } };
       }
+
+      setUser(data.user);
+      localStorage.setItem('admin_user', JSON.stringify(data.user));
+      return { error: null, user: data.user };
     } catch (error) {
       return { error: { message: 'Login failed. Please try again.' } };
     } finally {
