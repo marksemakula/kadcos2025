@@ -8,6 +8,22 @@ import toast from 'react-hot-toast';
 
 const { FiFileText, FiUsers, FiSettings, FiBookOpen, FiEdit, FiSave, FiX, FiImage, FiPlus, FiTrash2, FiBriefcase } = FiIcons;
 
+// Splits a FileReader data URL into { mime, base64 }. A plain regex here broke on
+// multi-parameter data URLs (e.g. "data:...;charset=utf-8;base64,...") and returned
+// undefined instead of failing loudly, which is what produced the confusing
+// "Missing filename or content" 400 from /api/upload-image.
+const parseDataUrl = (dataUrl) => {
+  const commaIndex = dataUrl.indexOf(',');
+  if (commaIndex === -1) return null;
+  const header = dataUrl.slice(5, commaIndex); // strip leading "data:"
+  const parts = header.split(';');
+  if (parts[parts.length - 1] !== 'base64') return null;
+  const mime = parts[0]; // drop any params (e.g. ";charset=...") between mime and ";base64"
+  const base64 = dataUrl.slice(commaIndex + 1);
+  if (!mime || !base64) return null;
+  return { mime, base64 };
+};
+
 const AdminCMS = () => {
   const [activeSection, setActiveSection] = useState('resources');
   const [blogPosts, setBlogPosts] = useState([]);
@@ -318,11 +334,12 @@ const AdminCMS = () => {
 
     // If resource fileData is a data URL, upload it to the repo via Netlify Function
     if (activeSection === 'resources' && formData.fileData && typeof formData.fileData === 'string' && formData.fileData.startsWith('data:')) {
-      try {
-        const matches = formData.fileData.match(/^data:([^;]+);base64,(.*)$/);
-        if (matches) {
-          const mime = matches[1];
-          const base64 = matches[2];
+      const parsed = parseDataUrl(formData.fileData);
+      if (!parsed) {
+        toast.error('Selected file could not be read. Please choose a different file.');
+      } else {
+        try {
+          const { mime, base64 } = parsed;
           let ext = mime.split('/')[1] || 'bin';
           if (ext === 'jpeg') ext = 'jpg';
           const safeName = (formData.fileName || 'resource').replace(/[^a-z0-9-_\.]/gi, '_');
@@ -343,19 +360,20 @@ const AdminCMS = () => {
             console.error('Resource file upload failed', text);
             toast.error(`Failed to upload resource file: ${text.substring(0,200)}`);
           }
+        } catch (e) {
+          console.error('Error uploading resource file', e);
+          toast.error('Resource file upload error');
         }
-      } catch (e) {
-        console.error('Error uploading resource file', e);
-        toast.error('Resource file upload error');
       }
     }
     // If blog image is a data URL, upload it to the repo first
     if (activeSection === 'blog' && formData.image && typeof formData.image === 'string' && formData.image.startsWith('data:')) {
-      try {
-        const matches = formData.image.match(/^data:(image\/[^;]+);base64,(.*)$/);
-        if (matches) {
-          const mime = matches[1];
-          const base64 = matches[2];
+      const parsed = parseDataUrl(formData.image);
+      if (!parsed || !parsed.mime.startsWith('image/')) {
+        toast.error('Selected image could not be read. Please choose a different file.');
+      } else {
+        try {
+          const { mime, base64 } = parsed;
           let ext = mime.split('/')[1] || 'png';
           if (ext === 'jpeg') ext = 'jpg';
           const safeName = (formData.title || 'blog').replace(/[^a-z0-9-_\.]/gi, '_').substring(0, 40);
@@ -375,20 +393,21 @@ const AdminCMS = () => {
             console.error('Blog image upload failed', text);
             toast.error(`Failed to upload blog image: ${text.substring(0, 200)}`);
           }
+        } catch (e) {
+          console.error('Error uploading blog image', e);
+          toast.error('Blog image upload error');
         }
-      } catch (e) {
-        console.error('Error uploading blog image', e);
-        toast.error('Blog image upload error');
       }
     }
 
     // If leadership image is a data URL, upload it to the repo via Netlify Function
     if (activeSection === 'leadership' && formData.image && typeof formData.image === 'string' && formData.image.startsWith('data:')) {
-      try {
-        const matches = formData.image.match(/^data:(image\/[^;]+);base64,(.*)$/);
-        if (matches) {
-          const mime = matches[1];
-          const base64 = matches[2];
+      const parsed = parseDataUrl(formData.image);
+      if (!parsed || !parsed.mime.startsWith('image/')) {
+        toast.error('Selected image could not be read. Please choose a different file.');
+      } else {
+        try {
+          const { mime, base64 } = parsed;
           let ext = mime.split('/')[1] || 'png';
           if (ext === 'jpeg') ext = 'jpg';
           const safeName = (formData.name || 'profile').replace(/[^a-z0-9-_\.]/gi, '_');
@@ -408,10 +427,10 @@ const AdminCMS = () => {
             console.error('Image upload failed', text);
             toast.error(`Failed to upload image: ${text.substring(0,200)}`);
           }
+        } catch (e) {
+          console.error('Error uploading image', e);
+          toast.error('Image upload error');
         }
-      } catch (e) {
-        console.error('Error uploading image', e);
-        toast.error('Image upload error');
       }
     }
 
