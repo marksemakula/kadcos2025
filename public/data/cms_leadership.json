@@ -86,11 +86,11 @@
   {
     "id": 13,
     "name": "Mr. Dumba Patrick",
-    "position": "General Manager  KDCSLUB/001",
+    "position": "General Manager   |     KDCSLUB/001",
     "image": "/images/Dumba Patrick.jpg",
     "bio": "Business development specialist focused on expanding cooperative services.",
     "category": "management",
-    "updatedAt": "2026-08-04T07:00:20.248Z"
+    "updatedAt": "2026-08-04T07:02:00.674Z"
   },
   {
     "id": 14,
