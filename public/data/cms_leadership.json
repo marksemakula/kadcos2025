@@ -122,10 +122,11 @@
   {
     "id": 18,
     "name": "Ms. Nanyonga Gladys",
-    "position": "Cashier",
+    "position": "Cashier   |   KDCSLUB/009",
     "image": "/images/Nanyonga Gladys.jpg",
     "bio": "Handles financial transactions and customer service.",
-    "category": "management"
+    "category": "management",
+    "updatedAt": "2026-08-04T07:06:30.408Z"
   },
   {
     "id": 19,
