@@ -38,7 +38,7 @@ const Services = () => {
       const commonRequirements = [
         'Full membership',
         'Regular savings for at least a period of 3 months',
-        'At least one guarantor who is fully registered and in good standing with the cooperative',
+        'At least two guarantors who are fully registered and in good standing with the cooperative',
         'Loan application letter and a fully filled loan application form',
         'Collateral on loans above 2.5 million'
       ];
@@ -169,7 +169,7 @@ const Services = () => {
   const loanRequirements = [
     'Full membership',
     'Regular savings for at least a period of 3 months',
-    'At least one guarantor who is fully registered and in good standing with the cooperative',
+    'At least two guarantors who are fully registered and in good standing with the cooperative',
     'Loan application letter and a fully filled loan application form',
     'Collateral on loans above 2.5 million'
   ];
@@ -259,7 +259,7 @@ const Services = () => {
               className="max-w-4xl mx-auto"
             >
               <h3 className="text-2xl font-bold text-dark mb-4 font-marcellus text-center">
-                Saving Advice from KADCOS
+                New Members inducted being provided Saving Advice from General Manager-KADCOS
               </h3>
               <div className="rounded-2xl overflow-hidden shadow-lg bg-black ring-1 ring-gray-200">
                 <video controls playsInline className="w-full h-auto max-h-[420px]" preload="metadata">
@@ -325,9 +325,11 @@ const Services = () => {
                     <ul className="text-xs text-gray-600 space-y-1 font-marcellus">
                       <li>• Full membership</li>
                       <li>• 3+ months regular savings</li>
-                      <li>• At least one guarantor</li>
+                      <li>• At least two guarantors</li>
                       <li>• Application letter & form</li>
                       <li>• Collateral for loans above 2.5m</li>
+                      <li>• LC 1 Introductory Letter</li>
+                      <li>• Additional requirements may apply based on loan type</li>
                     </ul>
                   </div>
                 </motion.div>
@@ -418,7 +420,7 @@ const Services = () => {
               { title: 'Executive Board', frequency: 'Once a month', icon: FiUsers },
               { title: 'Management', frequency: 'Weekly', icon: FiUserCheck },
               { title: 'Supervisory Board', frequency: 'Quarterly', icon: FiShield },
-              { title: 'Committees', frequency: 'Once a month', icon: FiBriefcase }
+              { title: 'Sub-Committees', frequency: 'Once a month', icon: FiBriefcase }
             ].map((meeting, index) => {
               const badgeColors = ['bg-primary bg-opacity-10 text-primary', 'bg-secondary bg-opacity-10 text-secondary', 'bg-amber-500 bg-opacity-10 text-amber-500', 'bg-emerald-500 bg-opacity-10 text-emerald-500', 'bg-purple-500 bg-opacity-10 text-purple-500'];
               return (
