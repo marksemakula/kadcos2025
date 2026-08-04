@@ -51,7 +51,7 @@ const Footer = () => {
                 </div>
               </div>
               <p className="text-white-400 mb-3 font-marcellus leading-relaxed text-justify text-sm">
-                Financially empowering people through cooperative effort and savings culture since 2007.
+                Empowering Communities through faith-based financial services since 2007.
               </p>
               <p className="text-sm text-gray-500 font-marcellus text-justify">ACTS 2:45-47</p>
             </div>
@@ -83,7 +83,10 @@ const Footer = () => {
             <div className="space-y-3 mb-4">
               <div className="flex items-center space-x-3">
                 <SafeIcon icon={FiMail} className="text-primary" />
-                <span className="text-gray-400 font-marcellus text-justify text-sm">admin@kadcoslubaga.co.ug</span>
+                {/*<span className="text-gray-400 font-marcellus text-justify text-sm">admin@kadcoslubaga.co.ug</span>*/}
+                <a href="mailto:admin@kadcoslubaga.co.ug" className="text-gray-400 font-marcellus text-justify text-sm hover:text-primary">
+                  admin@kadcoslubaga.co.ug
+                </a>
               </div>
               <div className="flex items-start space-x-3">
                 <SafeIcon icon={FiClock} className="text-primary mt-1" />
