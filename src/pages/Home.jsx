@@ -62,7 +62,7 @@ const Home = () => {
     {
       icon: FiShield,
       title: 'Secure & Regulated',
-      description: 'Fully protected under Uganda\'s cooperative society regulatory framework.',
+      description: 'Fully protected under Uganda\'s cooperative society regulatory framework. REG No : 9838/RCS',
     },
     {
       icon: FiTrendingUp,
@@ -72,7 +72,7 @@ const Home = () => {
   ];
 
   const stats = [
-    { number: '1,700+', label: 'Active Members' },
+    { number: '2,000+', label: 'Active Members' },
     { number: '17+', label: 'Years of Service' },
     { number: '4', label: 'Parish Branches' },
     { number: '2%', label: 'Monthly Interest' },
@@ -80,7 +80,7 @@ const Home = () => {
 
   const trustPoints = [
     { icon: FiShield, text: 'Regulated SACCO' },
-    { icon: FiUsers, text: '1,700+ Members' },
+    { icon: FiUsers, text: '2,000+ Members' },
     { icon: FiMapPin, text: '4 Parish Branches' },
   ];
 
@@ -183,7 +183,7 @@ const Home = () => {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="inline-block text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-white/85 border-b border-primary pb-2 mb-8"
             >
-              Savings &amp; Credit Co-operative &bull; Est. 2007
+              Multi-Purpose Co-operative &bull; Est. 2007
             </motion.span>
 
             <motion.h1
@@ -192,7 +192,7 @@ const Home = () => {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-5xl lg:text-7xl font-bold text-white leading-[1.05] mb-6"
             >
-              Your Trusted<br />
+              KADCOS LUBAGA, Your Trusted<br />
               <span className="font-marcellus text-white">Financial Partner</span>
             </motion.h1>
 
@@ -542,7 +542,7 @@ const Home = () => {
               Ready to Join Our Community?
             </h2>
             <p className="text-lg lg:text-xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-              Start your journey towards financial empowerment with KADCOS. Join over 1,700 members who trust us with their financial future.
+              Start your journey towards financial empowerment with KADCOS. Join over 2,000 members who trust us with their financial future.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

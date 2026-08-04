@@ -64,7 +64,7 @@ const ManagersMessage = () => {
               
               <p className="text-gray-700 mb-6 font-marcellus text-l leading-relaxed text-justify">
                 Our journey has been remarkable, growing from a small initiative to a thriving cooperative with over 
-                1,700 members. This growth is a testament to your trust in our services and the dedication of our team 
+                2,000 members. This growth is a testament to your trust in our services and the dedication of our team 
                 to provide exceptional financial solutions.
               </p>
               
