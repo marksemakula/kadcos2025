@@ -6,7 +6,7 @@ import * as FiIcons from 'react-icons/fi';
 import SEOHead from '../components/SEOHead';
 
 const { FiCalendar, FiUser, FiArrowRight, FiEdit, FiX, FiSend } = FiIcons;
-
+const [expandedPost, setExpandedPost] = useState(null);
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -277,11 +277,22 @@ const Blog = () => {
                   <h3 className="text-xl font-bold text-dark mb-3 font-marcellus line-clamp-2">
                     {post.title}
                   </h3>
-                  <p className="text-gray-600 mb-4 font-marcellus leading-relaxed line-clamp-3">
-                    {post.excerpt}
-                  </p>
-                  <button className="inline-flex items-center space-x-2 text-primary hover:text-yellow-600 transition-colors duration-300 font-marcellus">
-                    <span>Read More</span>
+                  {expandedPost === post.id ? (
+                    <p className="text-gray-600 mb-4 font-marcellus leading-relaxed whitespace-pre-line">
+                      {post.content}
+                    </p>
+                  ) : (
+                    <p className="text-gray-600 mb-4 font-marcellus leading-relaxed line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                  )}
+                  
+              
+                  <button
+                    onClick={() => setExpandedPost(expandedPost === post.id ? null : post.id)}
+                    className="inline-flex items-center space-x-2 text-primary hover:text-yellow-600 transition-colors duration-300 font-marcellus"
+                  >
+                    <span>{expandedPost === post.id ? "Read Less" : "Read More"}</span>
                     <SafeIcon icon={FiArrowRight} />
                   </button>
                 </div>
