@@ -101,7 +101,7 @@ const AdminDashboard = () => {
     const rows = data.table.rows || [];
     return rows.map((r) => (r.c || []).map((cell, i) => ({
       label: cols[i] || `col${i}`,
-      value: cell && cell.v !== null ? cell.v : ''
+      value: cell && cell.v !== null && cell.v !== undefined ? String(cell.v) : ''
     })));
   };
 
