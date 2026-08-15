@@ -218,11 +218,12 @@ const Blog = () => {
                   <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
                     {posts[0].excerpt}
                   </p>
-                  <button 
-                    className="inline-flex items-center space-x-2 bg-primary text-dark px-6 py-3 rounded-full font-marcellus hover:bg-yellow-600 transition-colors duration-300"
-                    onClick={() => setExpandedPost(expandedPost === posts[0].id ? null : posts[0].id)}
+                  
+                  <button
+                    onClick={() => setExpandedPost(expandedPost === post.id ? null : post.id)}
+                    className="inline-flex items-center space-x-2 text-primary hover:text-yellow-600 transition-colors duration-300 font-marcellus"
                   >
-                    <span>Read More</span>
+                    <span>{expandedPost === post.id ? "Read Less" : "Read More"}</span>
                     <SafeIcon icon={FiArrowRight} />
                   </button>
                 </div>
