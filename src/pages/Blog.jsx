@@ -6,7 +6,7 @@ import * as FiIcons from 'react-icons/fi';
 import SEOHead from '../components/SEOHead';
 
 const { FiCalendar, FiUser, FiArrowRight, FiEdit, FiX, FiSend } = FiIcons;
-const [expandedPost, setExpandedPost] = useState(null);
+
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +19,7 @@ const Blog = () => {
     topic: '',
     summary: ''
   });
+  const [expandedPost, setExpandedPost] = useState(null);
 
   const handleContributionChange = (field, value) => {
     setContribution(prev => ({ ...prev, [field]: value }));
@@ -217,7 +218,10 @@ const Blog = () => {
                   <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
                     {posts[0].excerpt}
                   </p>
-                  <button className="inline-flex items-center space-x-2 bg-primary text-dark px-6 py-3 rounded-full font-marcellus hover:bg-yellow-600 transition-colors duration-300">
+                  <button 
+                    className="inline-flex items-center space-x-2 bg-primary text-dark px-6 py-3 rounded-full font-marcellus hover:bg-yellow-600 transition-colors duration-300"
+                    onClick={() => setExpandedPost(expandedPost === posts[0].id ? null : posts[0].id)}
+                  >
                     <span>Read More</span>
                     <SafeIcon icon={FiArrowRight} />
                   </button>
