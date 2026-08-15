@@ -215,17 +215,28 @@ const Blog = () => {
                   <h3 className="text-3xl font-bold text-dark mb-4 font-marcellus">
                     {posts[0].title}
                   </h3>
-                  <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
-                    {posts[0].excerpt}
-                  </p>
+                  {expandedPost === posts[0].id ? (
+                    <p className="text-gray-600 mb-6 font-marcellus leading-relaxed whitespace-pre-line">
+                      {posts[0].content}
+                    </p>
+                  ) : (
+                    <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
+                      {posts[0].excerpt}
+                    </p>
+                  )}
                   
                   <button
-                    onClick={() => setExpandedPost(expandedPost === post.id ? null : post.id)}
+                    onClick={() =>
+                      setExpandedPost(expandedPost === posts[0].id ? null : posts[0].id)
+                    }
                     className="inline-flex items-center space-x-2 text-primary hover:text-yellow-600 transition-colors duration-300 font-marcellus"
                   >
-                    <span>{expandedPost === post.id ? "Read Less" : "Read More"}</span>
+                    <span>
+                      {expandedPost === posts[0].id ? "Read Less" : "Read More"}
+                    </span>
                     <SafeIcon icon={FiArrowRight} />
                   </button>
+                
                 </div>
               </div>
             </motion.div>
