@@ -141,7 +141,7 @@ const About = () => {
                 KADCOS Lubaga Cooperative Society Ltd was established in 2007 by Kampala Archdiocese Cooperative office to financially empower people of God in Kampala Archdiocese by opening up branches in all its Parishes, Lubaga Parish being one of them.
               </p>
               <p className="text-gray-600 mb-6 font-marcellus leading-relaxed">
-                KADCOS has now spread to other parishes in Kampala Archdiocese namely, Nsambya, Kamwokya, Naddangira, Kisubi, Busega, among others. This Society has a membership of over 1700 people of different economic capacities.
+                KADCOS has now spread to other parishes in Kampala Archdiocese namely, Nsambya, Kamwokya, Naddangira, Kisubi, Busega, among others. This Society has a membership of over 2000 people of different economic capacities.
               </p>
               <p className="text-gray-600 font-marcellus leading-relaxed">
                 The Society has a series of community financial empowerment schemes that are tailored towards raising capital through cooperative effort and saving culture.

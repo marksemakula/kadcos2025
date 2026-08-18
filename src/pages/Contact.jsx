@@ -361,7 +361,7 @@ const Contact = () => {
                   className="w-full h-64 object-cover rounded-lg"
                 />
                 <p className="text-center text-gray-600 font-marcellus mt-4">
-                  Lubaga Cathedral, King Mutesa 1 Memorial Building
+                  Lubaga, Kabaka Mutesa 1 Memorial Block
                 </p>
               </div>
             </motion.div>

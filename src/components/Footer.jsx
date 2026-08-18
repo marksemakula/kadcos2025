@@ -11,8 +11,8 @@ const Footer = () => {
   // Office locations data
   const offices = [
     {
-      name: "Lubaga Cathedral, Head Office",
-      address: "King Mutesa 1 Memorial Building",
+      name: "Lubaga, Head Office",
+      address: "Kabaka Mutesa 1 Memorial Block",
       phone: "0783-077661 | 0200959838"
     
     },

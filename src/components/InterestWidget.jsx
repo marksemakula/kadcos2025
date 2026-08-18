@@ -30,7 +30,7 @@ const InterestWidget = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="bg-black text-white p-2 rounded-r-lg shadow-lg font-marcellus flex items-center"
       >
-        <span className="writing-mode-vertical mr-1">2% Monthly Interest</span>
+        <span className="writing-mode-vertical mr-1">2% Monthly Interest Reducing Balance Method</span>
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
           className={`h-4 w-4 transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
