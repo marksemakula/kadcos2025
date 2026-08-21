@@ -98,7 +98,7 @@ const Membership = () => {
         'Photocopy of a valid National ID /Passport',
         'Three passport sized photos',
         'Completion of member application forms',
-        'Paying entry fees of shs.16,000',
+        'Paying entry fees of shs.19,000',
         'Mandatory share purchase of shs.100,000'
       ],
       formUrl: 'https://script.google.com/macros/s/AKfycbxkZiuIzfyDdKgyTUCX3kNffyANvRPJY7Za0q7YJKKJye-ISC6la20y_bCiFo30VfmV7A/exec',
@@ -112,7 +112,7 @@ const Membership = () => {
         'Photocopy of a valid National ID/ Passport for the two account signatories',
         'Three passport sized photos for each signatory',
         'Completion of joint account application forms',
-        'Paying entry fees of shs.26,000',
+        'Paying entry fees of shs.29,000',
         'Mandatory share purchase of shs.100,000'
       ],
       formUrl: 'https://script.google.com/macros/s/AKfycbyleByh_jNzu5y1f6bApnJb7238Rwe2YWtGdOtXZNhY8cyLW-br0tFp8ppOCWYjNwP3cA/exec',
@@ -126,7 +126,7 @@ const Membership = () => {
         'Photocopy of a valid National ID/ Passport for the three account signatories',
         'Three passport sized photos for each signatory',
         'Completion of group application forms',
-        'Paying entry fees of shs.56,000',
+        'Paying entry fees of shs.59,000',
         'Mandatory share purchase of shs.100,000'
       ],
       formUrl: 'https://script.google.com/macros/s/AKfycbxjQdo4azDlnTw9NCQcJtCbPxpPYqETMGhJFzMqetThlXwurXmO1hIL4xIbxqlYenTGAQ/exec',
