@@ -301,7 +301,7 @@ const About = () => {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <SafeIcon icon={FiUsers} className="text-primary" />
-                  <span className="font-marcellus">Manager: Dumba Patrick</span>
+                  <span className="font-marcellus">Office line: 0200959838</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <SafeIcon icon={FiTarget} className="text-primary" />
